@@ -6,16 +6,6 @@
   <title>Sentinel Wallet</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-  <style>
-    @layer base {
-      html, body { margin: 0; padding: 0; }
-      body { overscroll-behavior: none; }
-      ::-webkit-scrollbar { width: 8px; height: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #c4c5d7; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #a8aab9; }
-    }
-  </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
     tailwind.config = {
@@ -23,90 +13,393 @@
       theme: {
         extend: {
           colors: {
-            surface: "#f9f9ff",
-            "surface-dim": "#d4dae9",
-            "surface-bright": "#f9f9ff",
-            "surface-container-lowest": "#ffffff",
-            "surface-container-low": "#f0f3ff",
-            "surface-container": "#e8eefd",
-            "surface-container-high": "#e3e8f7",
-            "surface-container-highest": "#dde2f1",
-            "on-surface": "#161c26",
-            "on-surface-variant": "#444654",
-            "inverse-surface": "#2b313c",
-            outline: "#747686",
-            "outline-variant": "#c4c5d7",
-            "surface-tint": "#2c50d9",
-            primary: "#2248d1",
-            "on-primary": "#ffffff",
-            "primary-container": "#e8eefd",
-            "on-primary-container": "#161c26",
-            secondary: "#555f6d",
-            "secondary-container": "#d6e0f1",
-            "on-secondary-container": "#596372",
-            tertiary: "#923e00",
-            error: "#ba1a1a",
-            "on-error": "#ffffff",
-            "error-container": "#ffdad6",
-            "on-error-container": "#93000a",
-            success: "#24845b",
-            "on-success": "#ffffff",
-            "success-container": "rgba(36,132,91,0.08)",
+            surface: "#F7F8FC",
+            "surface-dim": "#E5E9F2",
+            "surface-bright": "#FFFFFF",
+            "surface-container-lowest": "#FFFFFF",
+            "surface-container-low": "#F0F3FA",
+            "surface-container": "#E8EDF7",
+            "surface-container-high": "#DDE4F0",
+            "surface-container-highest": "#D2DAE9",
+            "on-surface": "#172033",
+            "on-surface-variant": "#687386",
+            "inverse-surface": "#2B3548",
+            outline: "#9AA3B2",
+            "outline-variant": "#E5E9F2",
+            "surface-tint": "#4F46E5",
+            primary: "#4F46E5",
+            "on-primary": "#FFFFFF",
+            "primary-container": "#EEF2FF",
+            "on-primary-container": "#3730A3",
+            secondary: "#64748B",
+            "secondary-container": "#F1F5F9",
+            "on-secondary-container": "#475569",
+            tertiary: "#B45309",
+            error: "#DC4545",
+            "on-error": "#FFFFFF",
+            "error-container": "#FEF2F2",
+            "on-error-container": "#991B1B",
+            success: "#0F8A69",
+            "on-success": "#FFFFFF",
+            "success-container": "#F0FDF4",
+            "on-success-container": "#065F46",
           },
-          borderRadius: { DEFAULT: "8px", lg: "12px", xl: "16px", full: "9999px" },
+          borderRadius: {
+            DEFAULT: "6px", sm: "4px", md: "8px", lg: "10px", xl: "14px", "2xl": "18px", full: "9999px"
+          },
           spacing: {
-            gutter: "24px", "gutter-mobile": "16px",
-            "space-xs": "4px", "space-sm": "8px", "space-md": "16px", "space-lg": "24px", "space-xl": "40px",
+            gutter: "28px", "gutter-mobile": "16px",
+            "space-xs": "4px", "space-sm": "8px", "space-md": "16px", "space-lg": "24px", "space-xl": "48px",
           },
           fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"] },
-          fontWeight: { medium: "500", semibold: "600" },
-          animation: { ping: "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite" },
+          fontWeight: { medium: "500", semibold: "600", bold: "700" },
+          boxShadow: {
+            xs: "0 1px 2px 0 rgba(0,0,0,0.04)",
+            sm: "0 1px 4px 0 rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.03)",
+            DEFAULT: "0 2px 8px 0 rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.03)",
+            md: "0 4px 16px 0 rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.03)",
+            lg: "0 8px 32px 0 rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.03)",
+            xl: "0 16px 48px 0 rgba(0,0,0,0.15)",
+          },
+          animation: {
+            ping: "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
+            pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+            fadein: "fadein 0.2s ease",
+          },
+          keyframes: {
+            fadein: { from: { opacity: "0", transform: "translateY(4px)" }, to: { opacity: "1", transform: "translateY(0)" } },
+          },
         },
       },
     }
   </script>
+  <style>
+    /* ── Base resets ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      overscroll-behavior: none;
+      font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+      background-color: #F7F8FC;
+      color: #172033;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #C8CDD8; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #9AA3B2; }
+
+    /* ── Navigation ── */
+    .nav-item {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #687386;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+    .nav-item:hover { color: #172033; background: #F0F3FA; }
+    .nav-item.active { color: #4F46E5; background: #EEF2FF; font-weight: 600; }
+    .nav-item:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+
+    /* ── Cards ── */
+    .card {
+      background: #FFFFFF;
+      border: 1px solid #E5E9F2;
+      border-radius: 14px;
+      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.05);
+    }
+    .card-section {
+      background: #FFFFFF;
+      border: 1px solid #E5E9F2;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      line-height: 1.25;
+    }
+    .btn:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    .btn-primary { background: #4F46E5; color: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+    .btn-primary:hover { background: #4338CA; }
+    .btn-primary:active { background: #3730A3; }
+    .btn-outline {
+      background: transparent;
+      color: #172033;
+      border: 1px solid #E5E9F2;
+    }
+    .btn-outline:hover { background: #F0F3FA; border-color: #9AA3B2; }
+    .btn-outline:active { background: #E8EDF7; }
+    .btn-ghost { background: transparent; color: #687386; border: none; }
+    .btn-ghost:hover { color: #172033; background: #F0F3FA; }
+    .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 6px; }
+    .btn-danger { background: #FEF2F2; color: #DC4545; border: 1px solid rgba(220,69,69,0.2); }
+    .btn-danger:hover { background: #DC4545; color: #FFFFFF; }
+
+    /* ── Chips / badges ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+    .chip-ok { background: #F0FDF4; color: #0F8A69; border: 1px solid rgba(15,138,105,0.2); }
+    .chip-error { background: #FEF2F2; color: #DC4545; border: 1px solid rgba(220,69,69,0.2); }
+    .chip-neutral { background: #E8EDF7; color: #687386; border: 1px solid #E5E9F2; }
+    .chip-primary { background: #EEF2FF; color: #4F46E5; border: 1px solid rgba(79,70,229,0.2); }
+    .chip-warning { background: #FFFBEB; color: #B45309; border: 1px solid rgba(180,83,9,0.2); }
+
+    /* ── Status chips (header) ── */
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      background: #F0F3FA;
+      color: #687386;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid #E5E9F2;
+    }
+
+    /* ── Scenario chips ── */
+    .scenario-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid #E5E9F2;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: #FFFFFF;
+      color: #687386;
+    }
+    .scenario-chip:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .scenario-chip:active { transform: scale(0.98); }
+    .scenario-chip:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+    .scenario-chip.chip-primary { background: #EEF2FF; color: #4F46E5; border-color: rgba(79,70,229,0.25); }
+    .scenario-chip.chip-primary:hover { background: #E0E7FF; }
+    .scenario-chip.chip-error { background: #FFFFFF; color: #687386; border-color: #E5E9F2; }
+    .scenario-chip.chip-error:hover { background: #FEF2F2; color: #DC4545; border-color: rgba(220,69,69,0.3); }
+
+    /* ── Filter tabs ── */
+    .filter-tab {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #687386;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-tab:hover { background: #F0F3FA; color: #172033; }
+    .filter-tab.active {
+      background: #FFFFFF;
+      color: #172033;
+      border-color: #E5E9F2;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      font-weight: 600;
+    }
+    .filter-tab:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+
+    /* ── Modal ── */
+    .modal {
+      background: #FFFFFF;
+      border: 1px solid #E5E9F2;
+      border-radius: 18px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+      padding: 0;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal::backdrop {
+      background: rgba(23, 32, 51, 0.35);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── View spacing ── */
+    .view { padding-top: 28px; padding-bottom: 56px; }
+
+    /* ── Textarea ── */
+    .prompt-textarea {
+      width: 100%;
+      min-height: 88px;
+      padding: 12px 14px;
+      background: #FFFFFF;
+      border: 1px solid #E5E9F2;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      color: #172033;
+      resize: vertical;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      line-height: 1.6;
+    }
+    .prompt-textarea:focus {
+      border-color: #4F46E5;
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+    }
+    .prompt-textarea::placeholder { color: #9AA3B2; }
+
+    /* ── Table ── */
+    .data-table { width: 100%; border-collapse: collapse; }
+    .data-table thead tr { background: #F0F3FA; }
+    .data-table thead th {
+      padding: 10px 16px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #9AA3B2;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: left;
+      border-bottom: 1px solid #E5E9F2;
+    }
+    .data-table tbody td {
+      padding: 13px 16px;
+      font-size: 0.8125rem;
+      color: #172033;
+      vertical-align: middle;
+    }
+    .data-table tbody tr {
+      border-bottom: 1px solid #F0F3FA;
+      transition: background 0.1s;
+    }
+    .data-table tbody tr:last-child { border-bottom: none; }
+    .data-table tbody tr:hover { background: #F7F8FC; }
+
+    /* ── Section label ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #9AA3B2;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ── Dividers ── */
+    .divider { height: 1px; background: #E5E9F2; width: 100%; }
+
+    /* ── Stat cards footer ── */
+    .stat-footer {
+      margin-top: 16px;
+      padding: 10px 24px;
+      background: rgba(240,243,250,0.6);
+      margin-left: -24px;
+      margin-right: -24px;
+      margin-bottom: -24px;
+      border-top: 1px solid #E5E9F2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Terminal console ── */
+    .terminal-body {
+      background: #0D1117;
+      color: #C9D1D9;
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, monospace;
+      font-size: 11.5px;
+      line-height: 1.65;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 240px;
+      padding: 14px 16px;
+    }
+
+    /* ── Fade in animation ── */
+    .animate-fadein { animation: fadein 0.2s ease; }
+    @keyframes fadein { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── Focus ring ── */
+    :focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+  </style>
 </head>
 <body class="bg-surface text-on-surface antialiased selection:bg-primary selection:text-on-primary">
 
   <div class="min-h-screen flex flex-col">
     <!-- ─── Header ─── -->
-    <header class="sticky top-0 z-20 bg-surface-container-lowest border-b border-outline-variant/60 backdrop-blur-sm">
-      <div class="max-w-7xl mx-auto px-gutter py-space-md flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-sm">
-        <div class="flex items-center gap-space-sm">
-          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-on-primary font-semibold text-xs tracking-tight">S</div>
-          <div class="flex flex-col">
-            <span class="font-semibold text-on-surface tracking-tight">Sentinel Wallet</span>
-            <span class="text-xs text-on-surface-variant">Policy-Governed AI Agent Wallet • Base Sepolia</span>
+    <header class="sticky top-0 z-20 bg-white border-b border-outline-variant" style="box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+      <!-- Primary nav row -->
+      <div class="max-w-6xl mx-auto px-gutter h-14 flex items-center gap-4">
+        <!-- Logo + brand -->
+        <div class="flex items-center gap-2.5 shrink-0">
+          <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs tracking-tight">S</div>
+          <div class="flex flex-col leading-none">
+            <span class="font-semibold text-on-surface text-sm tracking-tight">Sentinel Wallet</span>
+            <span class="text-[11px] text-on-surface-variant hidden sm:block">Policy-Governed AI Agent • Base Sepolia</span>
           </div>
         </div>
-        <nav class="flex items-center gap-1 px-1 rounded-lg">
+        <!-- Nav (centered on desktop) -->
+        <nav class="flex items-center gap-1 ml-6">
           <button class="nav-item active" data-view="wallet" aria-current="page">Wallet</button>
           <button class="nav-item" data-view="security">Security</button>
           <button class="nav-item" data-view="activity">Activity</button>
         </nav>
-        <div class="ml-auto flex items-center gap-2 lg:ml-0">
+        <!-- Right cluster -->
+        <div class="ml-auto flex items-center gap-2">
+          <button id="btn-toggle-proofs" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border cursor-pointer transition-all" style="color:#4F46E5;border-color:rgba(79,70,229,0.25);background:#EEF2FF;" type="button">
+            <span class="material-symbols-outlined" style="font-size:13px;">verified</span>
+            <span>On-Chain Proofs</span>
+            <span class="material-symbols-outlined transition-transform" style="font-size:12px;" id="proofs-icon">expand_more</span>
+          </button>
           <button class="settings-btn flex items-center justify-center w-8 h-8 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors" aria-label="Settings" title="Settings">
-            <span class="material-symbols-outlined text-xs">settings</span>
+            <span class="material-symbols-outlined" style="font-size:18px;">settings</span>
           </button>
         </div>
       </div>
       <!-- Status strip -->
-      <div class="max-w-7xl mx-auto px-gutter mt-space-sm flex flex-wrap items-center justify-between gap-space-sm border-b border-outline-variant/40 pb-space-sm">
-        <div class="flex items-center gap-space-sm flex-wrap">
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-success-container text-success text-xs font-semibold">
-            <span class="w-1.5 h-1.5 rounded-full bg-success"></span> Wallet connected
+      <div class="max-w-6xl mx-auto px-gutter pb-2 flex flex-wrap items-center justify-between gap-2" style="border-top:1px solid #F0F3FA;">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#F0FDF4;color:#0F8A69;">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Connected
           </span>
           <span class="status-chip" id="chip-network">Base Sepolia</span>
           <span class="status-chip" id="chip-guardian">Guardian active</span>
           <span class="status-chip" id="chip-llm">LLM planner</span>
-          <button id="btn-toggle-proofs" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors text-xs font-medium cursor-pointer" type="button">
-            <span class="material-symbols-outlined text-[13px]">verified</span> On-Chain Proofs (BaseScan) <span class="material-symbols-outlined text-[12px] transition-transform" id="proofs-icon">expand_more</span>
+          <!-- Mobile proofs button -->
+          <button id="btn-toggle-proofs-mobile" class="sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border cursor-pointer" style="color:#4F46E5;border-color:rgba(79,70,229,0.25);background:#EEF2FF;" type="button">
+            <span class="material-symbols-outlined" style="font-size:12px;">verified</span> Proofs
           </button>
         </div>
-        <div class="text-xs text-on-surface-variant flex items-center gap-3">
-          <span id="chip-limit">Daily limit: loading…</span>
-          <span class="text-outline">•</span>
-          <span id="chip-ceiling" class="text-outline">Per-tx: $50.00 USDC</span>
+        <div class="text-xs text-on-surface-variant flex items-center gap-2.5">
+          <span id="chip-limit">Daily: $100 USDC</span>
+          <span class="text-outline-variant">|</span>
+          <span id="chip-ceiling" style="color:#9AA3B2;">Per-tx: $50 USDC</span>
         </div>
       </div>
 
@@ -189,348 +482,401 @@
     </header>
 
     <!-- ─── Connection error banner ─── -->
-    <div id="conn-banner" class="hidden max-w-7xl mx-auto px-gutter py-space-sm border-b border-error/30 bg-error-container text-on-error-container">
-      <div class="flex items-center gap-space-sm text-xs font-medium">
-        <span class="material-symbols-outlined text-error">error</span>
-        <span id="conn-message">Unable to reach the backend.</span>
+    <div id="conn-banner" class="hidden px-gutter py-2 border-b" style="background:#FEF2F2;border-color:rgba(220,69,69,0.2);">
+      <div class="max-w-6xl mx-auto flex items-center gap-2 text-xs font-medium" style="color:#DC4545;">
+        <span class="material-symbols-outlined" style="font-size:16px;">error</span>
+        <span id="conn-message">Unable to reach the backend. Start the API server (npm start).</span>
       </div>
     </div>
 
     <!-- ─── Main ─── -->
-    <main class="max-w-7xl mx-auto px-gutter pb-space-xl flex-grow">
+    <main class="max-w-6xl mx-auto w-full px-gutter pb-12 flex-grow">
       <!-- Wallet view -->
-      <section id="view-wallet" class="view space-y-space-lg">
+      <section id="view-wallet" class="view space-y-5">
         <!-- Main action card -->
-        <div class="card rounded-xl bg-surface-container-lowest shadow-sm p-space-lg flex flex-col gap-space-md">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
-            <div class="flex flex-col gap-0.5">
-              <h2 class="text-headline-sm text-on-surface font-semibold">New transaction</h2>
-              <p class="text-body-sm text-on-surface-variant">Enter a natural-language payment request. The Guardian reviews it before anything is signed.</p>
+        <div class="card p-6 flex flex-col gap-5">
+          <!-- Card header -->
+          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-on-surface">New transaction</h2>
+              <p class="text-sm text-on-surface-variant mt-0.5">Enter a natural-language payment request. The Guardian reviews it before anything is signed.</p>
             </div>
-            <div class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low text-on-surface-variant text-xs font-medium self-start sm:self-auto">
-              <span class="material-symbols-outlined text-primary">psychology</span>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium shrink-0 self-start" style="background:#F0F3FA;color:#687386;border:1px solid #E5E9F2;">
+              <span class="material-symbols-outlined text-primary" style="font-size:14px;">psychology</span>
               <span id="wallet-planner-chip">LLM planner</span>
             </div>
           </div>
 
-          <div class="rounded-xl bg-surface-container p-space-md shadow-xs space-y-space-md">
+          <!-- Input area -->
+          <div class="flex flex-col gap-3">
             <label class="sr-only" for="wallet-prompt">Transaction instruction</label>
-            <textarea id="wallet-prompt" class="w-full min-h-[96px] rounded-lg border border-outline-variant bg-surface-container-lowest text-on-surface p-3 text-body-sm focus:border-primary focus:outline-none transition-colors resize-y" placeholder="e.g. Send 1 USDC to my approved recipient for invoice 481."></textarea>
+            <textarea id="wallet-prompt" class="prompt-textarea" placeholder="e.g. Send 1 USDC to my approved recipient for invoice 481." rows="3"></textarea>
+            <!-- Policy badges + action row -->
             <div class="flex items-center justify-between flex-wrap gap-2">
-              <div class="flex flex-wrap gap-2">
-                <span class="chip chip-ok">Strict whitelist active</span>
-                <span class="chip chip-neutral" id="wallet-limit-chip">Daily cap: $100.00 USDC</span>
-                <span class="chip chip-neutral" id="wallet-ceiling-chip">Max per-tx: $50.00 USDC</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="chip chip-ok">
+                  <span class="material-symbols-outlined" style="font-size:12px;">lock</span> Whitelist active
+                </span>
+                <span class="chip chip-neutral" id="wallet-limit-chip">Daily cap: $100 USDC</span>
+                <span class="chip chip-neutral" id="wallet-ceiling-chip">Per-tx: $50 USDC</span>
               </div>
-              <button id="wallet-analyze-btn" class="btn btn-primary">Analyze request</button>
+              <button id="wallet-analyze-btn" class="btn btn-primary">
+                <span class="material-symbols-outlined" style="font-size:16px;">shield</span>
+                Analyze request
+              </button>
             </div>
           </div>
 
-          <!-- Scenario chips -->
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 flex-wrap">
-            <span class="text-xs text-on-surface-variant self-center sm:self-auto font-medium">Demo scenarios:</span>
-            <button class="scenario-chip chip-primary" data-scenario="valid">✓ Valid transfer (1 USDC)</button>
-            <button class="scenario-chip chip-error" data-scenario="overlimit">• Limit breach (150 USDC)</button>
-            <button class="scenario-chip chip-error" data-scenario="ceiling">• Per-tx ceiling (60 USDC)</button>
-            <button class="scenario-chip chip-error" data-scenario="blocked">• Unapproved recipient</button>
-            <button class="scenario-chip chip-error" data-scenario="tampered">• Calldata tampering</button>
+          <!-- Demo scenario chips -->
+          <div>
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="section-label">Demo scenarios</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button class="scenario-chip chip-primary" data-scenario="valid">
+                <span class="material-symbols-outlined" style="font-size:13px;">check_circle</span> Valid transfer (1 USDC)
+              </button>
+              <button class="scenario-chip chip-error" data-scenario="overlimit">
+                <span class="material-symbols-outlined" style="font-size:13px;">block</span> Limit breach (150 USDC)
+              </button>
+              <button class="scenario-chip chip-error" data-scenario="ceiling">
+                <span class="material-symbols-outlined" style="font-size:13px;">block</span> Per-tx ceiling (60 USDC)
+              </button>
+              <button class="scenario-chip chip-error" data-scenario="blocked">
+                <span class="material-symbols-outlined" style="font-size:13px;">person_off</span> Unapproved recipient
+              </button>
+              <button class="scenario-chip chip-error" data-scenario="tampered">
+                <span class="material-symbols-outlined" style="font-size:13px;">warning</span> Calldata tampering
+              </button>
+            </div>
           </div>
 
-          <!-- ─── AI Execution Trace & Terminal Console (Toggle) ─── -->
-          <div class="mt-space-sm border border-outline-variant/60 rounded-xl overflow-hidden bg-[#0c1017] shadow-inner text-slate-200">
-            <div class="flex items-center justify-between px-3.5 py-2 bg-[#141b26] border-b border-slate-800/80 cursor-pointer select-none" id="terminal-header">
-              <div class="flex items-center gap-2.5">
+          <!-- ─── AI Execution Trace Console ─── -->
+          <div class="rounded-xl overflow-hidden border" style="border-color:#30363D;background:#0D1117;">
+            <!-- Console header -->
+            <div class="flex items-center justify-between px-4 py-2.5 border-b cursor-pointer select-none" style="background:#161B22;border-color:#30363D;" id="terminal-header">
+              <div class="flex items-center gap-3">
+                <!-- Traffic lights -->
                 <div class="flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/80"></span>
+                  <span class="w-2.5 h-2.5 rounded-full" style="background:#FF5F57;"></span>
+                  <span class="w-2.5 h-2.5 rounded-full" style="background:#FEBC2E;"></span>
+                  <span class="w-2.5 h-2.5 rounded-full" style="background:#28C840;"></span>
                 </div>
-                <span class="text-xs font-mono font-semibold text-slate-300 flex items-center gap-1.5">
-                  <span class="material-symbols-outlined text-[15px] text-emerald-400">terminal</span>
-                  AI Execution Trace &amp; Reasoning Console
+                <span class="text-xs font-semibold flex items-center gap-1.5" style="font-family:ui-monospace,monospace;color:#8B949E;">
+                  <span class="material-symbols-outlined" style="font-size:14px;color:#3FB950;">terminal</span>
+                  Guardian Execution Trace
                 </span>
-                <span id="terminal-badge" class="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-slate-400">IDLE</span>
+                <span id="terminal-badge" class="px-2 py-0.5 rounded text-[10px] font-mono" style="background:#21262D;color:#8B949E;">IDLE</span>
               </div>
               <div class="flex items-center gap-2">
-                <button id="terminal-clear" class="text-[11px] text-slate-400 hover:text-slate-200 font-mono flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-slate-800 transition-colors" title="Clear log" type="button">Clear</button>
-                <button id="terminal-copy" class="text-[11px] text-slate-400 hover:text-slate-200 font-mono flex items-center gap-1 px-1.5 py-0.5 rounded hover:bg-slate-800 transition-colors" title="Copy logs" type="button">Copy</button>
-                <div class="h-3 w-px bg-slate-700"></div>
-                <button id="terminal-toggle-btn" class="text-xs font-medium flex items-center gap-1 text-emerald-400 hover:text-emerald-300" type="button">
+                <button id="terminal-clear" class="text-[11px] font-mono px-2 py-0.5 rounded transition-colors" style="color:#8B949E;" onmouseover="this.style.color='#C9D1D9';this.style.background='#21262D';" onmouseout="this.style.color='#8B949E';this.style.background='transparent';" title="Clear log" type="button">Clear</button>
+                <button id="terminal-copy" class="text-[11px] font-mono px-2 py-0.5 rounded transition-colors" style="color:#8B949E;" onmouseover="this.style.color='#C9D1D9';this.style.background='#21262D';" onmouseout="this.style.color='#8B949E';this.style.background='transparent';" title="Copy logs" type="button">Copy</button>
+                <div class="w-px h-3" style="background:#30363D;"></div>
+                <button id="terminal-toggle-btn" class="text-xs font-medium flex items-center gap-0.5 transition-colors" style="color:#3FB950;" type="button">
                   <span id="terminal-toggle-text">View trace</span>
-                  <span class="material-symbols-outlined text-[16px] transition-transform" id="terminal-toggle-icon">expand_more</span>
+                  <span class="material-symbols-outlined transition-transform" style="font-size:15px;" id="terminal-toggle-icon">expand_more</span>
                 </button>
               </div>
             </div>
-            <div id="terminal-body" class="hidden p-3.5 font-mono text-[11px] overflow-x-auto max-h-64 space-y-1 selection:bg-emerald-500/30 selection:text-emerald-200 leading-relaxed">
-              <div class="text-slate-500 flex items-center gap-2">
-                <span class="text-emerald-500 font-bold">&gt;_</span>
-                <span>Sentinel Guardian execution tracer active. All operations logged deterministically.</span>
+            <!-- Console body -->
+            <div id="terminal-body" class="hidden terminal-body">
+              <div style="color:#484F58;">
+                <span style="color:#3FB950;font-weight:700;">$</span> Sentinel Guardian execution tracer active. All operations logged deterministically.
               </div>
-              <div id="terminal-logs" class="space-y-1"></div>
+              <div id="terminal-logs" class="mt-1.5 space-y-0.5"></div>
             </div>
           </div>
         </div>
 
         <!-- Decision surface (shown after analysis) -->
-        <div id="wallet-decision" class="hidden space-y-space-lg">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-lg">
+        <div id="wallet-decision" class="hidden space-y-4 animate-fadein">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <!-- Parsed intent -->
-            <div class="card rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md p-space-lg">
-              <h3 class="text-label-lg text-on-surface-variant uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-primary text-[12px]">data_object</span> Parsed intent
+            <div class="card p-5 flex flex-col gap-4">
+              <h3 class="section-label flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary" style="font-size:14px;">data_object</span> Parsed Intent
               </h3>
-              <div class="space-y-3" id="wallet-intent-fields"></div>
-              <div class="mt-space-sm pt-space-sm border-t border-outline-variant/40">
-                <button id="wallet-toggle-calldata" class="text-primary text-xs font-semibold flex items-center gap-1 hover:text-on-primary-fixed-variant">Show calldata <span class="material-symbols-outlined text-[10px]">expand_more</span></button>
-                <pre id="wallet-calldata" class="hidden mt-space-sm rounded-lg bg-surface-container-low border border-outline-variant/40 p-2.5 text-[11px] font-mono text-on-surface-variant overflow-x-auto"></pre>
+              <div class="space-y-2" id="wallet-intent-fields"></div>
+              <div class="pt-3 border-t border-outline-variant">
+                <button id="wallet-toggle-calldata" class="text-primary text-xs font-semibold flex items-center gap-1 hover:text-indigo-700 transition-colors">
+                  Show raw calldata <span class="material-symbols-outlined" style="font-size:13px;">expand_more</span>
+                </button>
+                <pre id="wallet-calldata" class="hidden mt-2 rounded-lg p-3 text-[11px] font-mono overflow-x-auto" style="background:#F0F3FA;color:#687386;border:1px solid #E5E9F2;"></pre>
               </div>
             </div>
 
             <!-- Guardian decision -->
-            <div class="card rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md p-space-lg">
-              <h3 class="text-label-lg text-on-surface-variant uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-primary text-[12px]">gavel</span> Guardian decision
+            <div class="card p-5 flex flex-col gap-4">
+              <h3 class="section-label flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-primary" style="font-size:14px;">gavel</span> Guardian Decision
               </h3>
-              <div id="wallet-decision-banner" class="p-3 rounded-xl"></div>
-              <p id="wallet-decision-reason" class="text-body-sm text-on-surface-variant"></p>
+              <div id="wallet-decision-banner" class="p-3 rounded-lg"></div>
+              <p id="wallet-decision-reason" class="text-sm text-on-surface-variant"></p>
               <div class="flex flex-col sm:flex-row gap-2">
                 <button id="wallet-execute-btn" class="btn btn-primary flex-1">Execute on-chain</button>
                 <button id="wallet-analyze-again" class="btn btn-outline flex-1">New request</button>
               </div>
-              <div id="wallet-result" class="hidden p-3 rounded-xl border"></div>
-              <p class="text-[11px] text-on-surface-variant">Execution requires guardian co-signature on Base Sepolia.</p>
+              <div id="wallet-result" class="hidden p-3 rounded-lg border"></div>
+              <p class="text-xs text-on-surface-variant">Execution requires guardian co-signature on Base Sepolia.</p>
             </div>
           </div>
 
           <!-- Security checks collapsible -->
-          <div class="card rounded-xl bg-surface-container-lowest shadow-sm p-space-lg space-y-space-md">
+          <div class="card p-5 space-y-3">
             <div class="flex items-center justify-between">
-              <h3 class="text-label-lg text-on-surface-variant uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-success text-[12px]">check_circle</span> Security checks
+              <h3 class="section-label flex items-center gap-1.5">
+                <span class="material-symbols-outlined" style="font-size:14px;color:#0F8A69;">check_circle</span> Policy Checks
               </h3>
-              <button id="wallet-toggle-checks" class="text-primary text-xs font-semibold flex items-center gap-1 hover:text-on-primary-fixed-variant">View details <span class="material-symbols-outlined text-[10px]">expand_more</span></button>
+              <button id="wallet-toggle-checks" class="text-primary text-xs font-semibold flex items-center gap-1 hover:text-indigo-700">
+                View details <span class="material-symbols-outlined" style="font-size:13px;">expand_more</span>
+              </button>
             </div>
-            <div id="wallet-checks-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-space-sm space-y-space-sm"></div>
+            <div id="wallet-checks-list" class="hidden grid grid-cols-1 md:grid-cols-2 gap-2"></div>
           </div>
         </div>
       </section>
 
       <!-- Security view -->
-      <section id="view-security" class="view hidden space-y-space-lg">
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
-          <div class="flex flex-col gap-0.5">
-            <h2 class="text-headline-sm text-on-surface font-semibold">Security &amp; invariants</h2>
-            <p class="text-body-sm text-on-surface-variant">Deterministic off-chain policy evaluation. Every agent action is checked against strict invariants before calldata is broadcast.</p>
+      <section id="view-security" class="view hidden space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-base font-semibold text-on-surface">Security &amp; invariants</h2>
+            <p class="text-sm text-on-surface-variant mt-0.5">Deterministic off-chain policy evaluation. Every agent action is checked against strict invariants before calldata is broadcast.</p>
           </div>
-          <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-success-container text-success text-xs font-semibold">
-            <span class="material-symbols-outlined text-[12px]">verified</span> Enclave Guard active
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold shrink-0 self-start sm:self-auto" style="background:#F0FDF4;color:#0F8A69;border:1px solid rgba(15,138,105,0.2);">
+            <span class="material-symbols-outlined" style="font-size:13px;">verified</span> Enclave Guard active
           </div>
         </div>
 
         <!-- Top status cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-          <div class="card rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md p-space-lg group hover:shadow-md transition-shadow">
-            <div class="flex flex-col gap-1">
-              <span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Guardian status</span>
-              <span class="text-headline-sm text-on-surface font-semibold" id="sec-guardian-status">Active</span>
-              <span class="text-body-sm text-on-surface-variant">Zero-gas pre-flight engaged</span>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="card p-5 flex flex-col justify-between gap-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="section-label">Guardian status</div>
+                <div class="text-xl font-semibold text-on-surface mt-1" id="sec-guardian-status">Active</div>
+                <div class="text-sm text-on-surface-variant mt-0.5">Zero-gas pre-flight engaged</div>
+              </div>
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#F0F3FA;color:#4F46E5;">
+                <span class="material-symbols-outlined" style="font-size:20px;">security</span>
+              </div>
             </div>
-            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
-              <span class="material-symbols-outlined text-[20px]">security</span>
-            </div>
-            <div class="mt-space-md pt-space-sm bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg pb-space-sm flex items-center justify-between border-t border-outline-variant/40">
-              <span class="text-label-sm text-on-surface-variant flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-success"></span> Zero-gas pre-flight hook engaged
+            <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
+              <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Pre-flight hook engaged
               </span>
-              <span class="text-label-sm text-on-surface font-mono" id="sec-latency">— ms latency</span>
+              <span class="text-xs font-mono text-on-surface-variant" id="sec-latency">— ms</span>
             </div>
           </div>
-          <div class="card rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md p-space-lg group hover:shadow-md transition-shadow">
-            <div class="flex flex-col gap-1">
-              <span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Policy compliance</span>
-              <span class="text-headline-sm text-on-surface font-semibold" id="sec-policy-status">11 / 11 active</span>
-              <span class="text-body-sm text-on-surface-variant">All deterministic checks enabled</span>
+          <div class="card p-5 flex flex-col justify-between gap-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="section-label">Policy compliance</div>
+                <div class="text-xl font-semibold text-on-surface mt-1" id="sec-policy-status">11 / 11 active</div>
+                <div class="text-sm text-on-surface-variant mt-0.5">All deterministic checks enabled</div>
+              </div>
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#EEF2FF;color:#4F46E5;">
+                <span class="material-symbols-outlined" style="font-size:20px;">policy</span>
+              </div>
             </div>
-            <div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container">
-              <span class="material-symbols-outlined text-[20px]">policy</span>
-            </div>
-            <div class="mt-space-md pt-space-sm bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg pb-space-sm flex items-center justify-between border-t border-outline-variant/40">
-              <span class="text-label-sm text-on-surface-variant flex items-center gap-1">
-                <span class="material-symbols-outlined text-[12px] text-success">task_alt</span> 0 anomalies detected
+            <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
+              <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
+                <span class="material-symbols-outlined" style="font-size:12px;color:#0F8A69;">task_alt</span> 0 anomalies
               </span>
-              <span class="text-label-sm text-on-surface">All checks clean</span>
+              <span class="text-xs text-on-surface-variant">All checks clean</span>
             </div>
           </div>
-          <div class="card rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md p-space-lg group hover:shadow-md transition-shadow">
-            <div class="flex flex-col gap-1">
-              <span class="text-label-sm text-on-surface-variant uppercase tracking-wider font-semibold">Emergency circuit breaker</span>
-              <span class="text-headline-sm text-on-surface font-semibold" id="sec-pause-status">Normal / unpaused</span>
-              <span class="text-body-sm text-on-surface-variant">All execution channels operational</span>
+          <div class="card p-5 flex flex-col justify-between gap-3">
+            <div class="flex items-start justify-between">
+              <div>
+                <div class="section-label">Circuit breaker</div>
+                <div class="text-xl font-semibold text-on-surface mt-1" id="sec-pause-status">Normal / unpaused</div>
+                <div class="text-sm text-on-surface-variant mt-0.5">All execution channels operational</div>
+              </div>
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#F0F3FA;color:#687386;">
+                <span class="material-symbols-outlined" style="font-size:20px;">power_settings_new</span>
+              </div>
             </div>
-            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
-              <span class="material-symbols-outlined text-[20px]">power_settings_new</span>
-            </div>
-            <div class="mt-space-md pt-space-sm bg-surface-container-low/60 -mx-space-lg -mb-space-lg px-space-lg pb-space-sm flex items-center justify-between border-t border-outline-variant/40">
-              <span class="text-label-sm text-on-surface-variant flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-success"></span> Mempool routing nominal
+            <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
+              <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Routing nominal
               </span>
-              <button id="sec-pause-btn" class="text-error text-xs font-semibold flex items-center gap-1 hover:underline cursor-pointer" type="button">Trigger pause <span class="material-symbols-outlined text-[10px]">arrow_forward</span></button>
+              <button id="sec-pause-btn" class="text-xs font-semibold flex items-center gap-1 transition-colors" style="color:#DC4545;background:none;border:none;cursor:pointer;" type="button">
+                Trigger pause <span class="material-symbols-outlined" style="font-size:12px;">arrow_forward</span>
+              </button>
             </div>
           </div>
         </div>
-
         <!-- Latest blocked alert (conditional) -->
-        <div id="sec-alert-banner" class="hidden card rounded-xl bg-surface-container-lowest shadow-sm p-space-lg relative overflow-hidden border-l-4 border-error">
-          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-md">
-            <div class="flex items-start gap-space-md">
-              <div class="w-10 h-10 rounded-lg bg-error/10 text-error flex items-center justify-center shrink-0 mt-0.5">
-                <span class="material-symbols-outlined text-[20px]">block</span>
+        <div id="sec-alert-banner" class="hidden card p-5 relative overflow-hidden border-l-4" style="border-left-color:#DC4545;">
+          <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="flex items-start gap-3.5">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#FEF2F2;color:#DC4545;">
+                <span class="material-symbols-outlined" style="font-size:20px;">block</span>
               </div>
               <div class="flex flex-col">
-                <div class="flex items-center gap-1 flex-wrap">
-                  <span class="text-label-md text-error font-bold uppercase tracking-wider">Latest blocked request</span>
-                  <span class="text-numeric-data text-body-sm font-mono text-on-surface bg-surface-container px-2 py-0.5 rounded">#INT-pending</span>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error/10 text-error text-xs font-semibold">
-                    <span class="material-symbols-outlined text-[12px]">block</span> Off-chain pre-flight block
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-xs font-bold uppercase tracking-wider" style="color:#DC4545;">Latest blocked request</span>
+                  <span class="text-xs font-mono px-2 py-0.5 rounded" style="background:#F0F3FA;color:#172033;">#INT-pending</span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#FEF2F2;color:#DC4545;">
+                    <span class="material-symbols-outlined" style="font-size:12px;">block</span> Off-chain pre-flight block
                   </span>
                 </div>
-                <p id="sec-alert-detail" class="text-body-sm text-on-surface mt-1 leading-snug"></p>
-                <div class="flex items-center gap-4 mt-2 text-on-surface-variant text-xs font-medium flex-wrap">
-                  <span class="flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[14px] text-success">savings</span> <span id="sec-alert-gas">$0.00 gas spent</span>
+                <p id="sec-alert-detail" class="text-sm text-on-surface mt-1 leading-snug"></p>
+                <div class="flex items-center gap-3 mt-2 text-xs font-medium text-on-surface-variant flex-wrap">
+                  <span class="flex items-center gap-1" style="color:#0F8A69;">
+                    <span class="material-symbols-outlined" style="font-size:14px;">savings</span> <span id="sec-alert-gas">$0.00 gas spent</span>
                   </span>
-                  <span class="hidden sm:inline text-outline">•</span>
-                  <span class="font-mono text-outline">Rule: spending limit</span>
+                  <span style="color:#9AA3B2;">•</span>
+                  <span class="font-mono text-xs" style="color:#9AA3B2;">Rule: spending limit</span>
                 </div>
               </div>
             </div>
             <div class="flex items-center gap-2 self-end lg:self-center shrink-0">
-              <button id="sec-alert-inspect" class="px-3 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer" type="button">
-                <span class="material-symbols-outlined text-[14px]">terminal</span> Inspect payload
+              <button id="sec-alert-inspect" class="btn btn-outline btn-sm" type="button">
+                <span class="material-symbols-outlined" style="font-size:14px;">terminal</span> Inspect payload
               </button>
-              <button id="sec-alert-dismiss" class="p-2 rounded-lg bg-transparent hover:bg-surface-container text-outline hover:text-on-surface transition-colors cursor-pointer" title="Dismiss" type="button">
-                <span class="material-symbols-outlined text-[18px]">close</span>
+              <button id="sec-alert-dismiss" class="p-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container transition-colors cursor-pointer" title="Dismiss" type="button">
+                <span class="material-symbols-outlined" style="font-size:18px;">close</span>
               </button>
             </div>
           </div>
         </div>
 
         <!-- Policy invariants grid -->
-        <div class="card rounded-xl bg-surface-container-lowest shadow-sm p-space-lg">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-space-md mb-space-md border-b border-outline-variant/40 gap-space-xs">
+        <div class="card p-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-outline-variant gap-2">
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="text-headline-sm text-on-surface font-semibold">Deterministic policy invariants</h3>
-                <span class="px-2 py-0.5 rounded-full bg-surface-container text-primary text-xs font-semibold" id="sec-invariants-badge">11 verified</span>
+                <h3 class="text-base font-semibold text-on-surface">Deterministic policy invariants</h3>
+                <span class="px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#EEF2FF;color:#4F46E5;" id="sec-invariants-badge">11 verified</span>
               </div>
-              <p class="text-body-sm text-on-surface-variant mt-0.5">Strict formal safety predicates evaluated off-chain before signature release.</p>
+              <p class="text-sm text-on-surface-variant mt-0.5">Strict formal safety predicates evaluated off-chain before signature release.</p>
             </div>
-            <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-success-container text-success text-xs font-semibold">
-              <span class="material-symbols-outlined text-[12px]">done_all</span> All 11 passing
+            <div class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold self-start sm:self-auto" style="background:#F0FDF4;color:#0F8A69;">
+              <span class="material-symbols-outlined" style="font-size:13px;">done_all</span> All 11 passing
             </div>
           </div>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-space-lg gap-y-space-md" id="sec-invariants"></div>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-3" id="sec-invariants"></div>
         </div>
 
         <!-- TPDR parameter verifier -->
-        <div class="card rounded-xl bg-surface-container-lowest shadow-sm p-space-lg mb-space-lg">
-          <div class="flex flex-col md:flex-row md:items-center justify-between pb-space-md mb-space-md border-b border-outline-variant/40 gap-space-sm">
+        <div class="card p-6 mb-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 mb-4 border-b border-outline-variant gap-3">
             <div class="flex items-start gap-3">
-              <div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-[20px]">compare_arrows</span>
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style="background:#EEF2FF;color:#4F46E5;">
+                <span class="material-symbols-outlined" style="font-size:20px;">compare_arrows</span>
               </div>
               <div>
                 <div class="flex items-center gap-2 flex-wrap">
-                  <h3 class="text-headline-sm text-on-surface font-semibold">TPDR parameter verifier</h3>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-success-container text-success text-xs font-bold">
-                    <span class="material-symbols-outlined text-[12px]">verified</span> Bit-perfect
+                  <h3 class="text-base font-semibold text-on-surface">TPDR parameter verifier</h3>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#F0FDF4;color:#0F8A69;">
+                    <span class="material-symbols-outlined" style="font-size:12px;">verified</span> Bit-perfect
                   </span>
                 </div>
-                <p class="text-body-sm text-on-surface-variant mt-0.5">Verifies execution payload matches approved intent byte-for-byte.</p>
+                <p class="text-sm text-on-surface-variant mt-0.5">Verifies execution payload matches approved intent byte-for-byte.</p>
               </div>
             </div>
-            <button id="sec-tpdr-toggle" class="self-start md:self-auto px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-medium transition-colors" type="button">
+            <button id="sec-tpdr-toggle" class="btn btn-outline btn-sm self-start md:self-auto" type="button">
               <span id="sec-tpdr-text">Collapse details</span>
-              <span class="material-symbols-outlined text-[14px] transition-transform" id="sec-tpdr-icon">expand_less</span>
+              <span class="material-symbols-outlined transition-transform" style="font-size:14px;" id="sec-tpdr-icon">expand_less</span>
             </button>
           </div>
-          <div id="sec-tpdr-content" class="space-y-space-md">
-            <div class="overflow-x-auto rounded-lg border border-outline-variant/40">
-              <table class="w-full text-left border-collapse">
+          <div id="sec-tpdr-content" class="space-y-4">
+            <div class="overflow-x-auto rounded-lg border border-outline-variant">
+              <table class="data-table">
                 <thead>
-                  <tr class="bg-surface-container-low text-outline text-[10px] font-semibold uppercase">
-                    <th class="py-3 px-4">Parameter</th>
-                    <th class="py-3 px-4">Approved intent</th>
-                    <th class="py-3 px-4">EVM calldata payload</th>
-                    <th class="py-3 px-4 text-right">Match</th>
+                  <tr>
+                    <th>Parameter</th>
+                    <th>Approved intent</th>
+                    <th>EVM calldata payload</th>
+                    <th class="text-right">Match</th>
                   </tr>
                 </thead>
-                <tbody id="sec-tpdr-table" class="divide-y divide-outline-variant/40 text-body-sm"></tbody>
+                <tbody id="sec-tpdr-table" class="divide-y divide-outline-variant"></tbody>
               </table>
             </div>
-            <div class="p-3.5 rounded-lg bg-surface-container-low flex items-start gap-2">
-              <span class="material-symbols-outlined text-success text-[18px]">fingerprint</span>
-              <p class="text-body-sm text-on-surface-variant leading-relaxed">Deterministic cryptographic attestation of calldata integrity.</p>
+            <div class="p-3.5 rounded-lg flex items-center gap-2" style="background:#F0F3FA;">
+              <span class="material-symbols-outlined" style="font-size:18px;color:#0F8A69;">fingerprint</span>
+              <p class="text-xs text-on-surface-variant leading-relaxed">Deterministic cryptographic attestation of calldata integrity before mempool broadcast.</p>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Activity view -->
-      <section id="view-activity" class="view space-y-space-lg">
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
-          <div class="flex flex-col gap-0.5">
-            <h2 class="text-headline-sm text-on-surface font-semibold">Activity &amp; audit trail</h2>
-            <p class="text-body-sm text-on-surface-variant">Cryptographic log of AI agent payment intents, Guardian evaluations, and verified receipts.</p>
+      <section id="view-activity" class="view space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+          <div>
+            <h2 class="text-base font-semibold text-on-surface">Activity &amp; audit trail</h2>
+            <p class="text-sm text-on-surface-variant mt-0.5">Cryptographic log of AI agent payment intents, Guardian evaluations, and verified receipts.</p>
           </div>
-          <div class="flex items-center gap-space-sm flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
             <button id="act-filter-all" class="filter-tab active" data-filter="all">All <span class="text-on-surface-variant">(0)</span></button>
             <button id="act-filter-approved" class="filter-tab" data-filter="approved">Approved <span class="text-on-surface-variant">(0)</span></button>
             <button id="act-filter-blocked" class="filter-tab" data-filter="blocked">Blocked <span class="text-on-surface-variant">(0)</span></button>
-            <div class="flex-1 max-w-md relative">
-              <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[16px]">search</span>
-              <input id="act-search" class="w-full bg-surface-container-low pl-9 pr-4 py-2 rounded-lg border border-outline-variant/60 text-on-surface focus:border-primary focus:outline-none transition-colors text-xs" placeholder="Search tx hash, recipient, intent ID…"/>
+            <div class="relative min-w-[220px]">
+              <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size:16px;">search</span>
+              <input id="act-search" class="w-full pl-8 pr-3 py-1.5 rounded-lg text-xs border border-outline-variant bg-white text-on-surface focus:outline-none focus:border-primary transition-colors" placeholder="Search tx hash, recipient, intent…"/>
             </div>
           </div>
         </div>
 
-        <!-- Summary chips -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
-          <div class="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-xs font-medium">
-            <span class="material-symbols-outlined text-[14px]">assessment</span> <span id="act-total">0</span> intents evaluated
+        <!-- Summary metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="card p-4 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#F0F3FA;color:#4F46E5;">
+              <span class="material-symbols-outlined" style="font-size:18px;">assessment</span>
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-on-surface"><span id="act-total">0</span> intents evaluated</div>
+              <div class="text-xs text-on-surface-variant">Total lifecycle requests</div>
+            </div>
           </div>
-          <div class="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-success-container text-success text-xs font-medium">
-            <span class="material-symbols-outlined text-[14px]">check_circle</span> <span id="act-approved">0</span> approved
+          <div class="card p-4 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#F0FDF4;color:#0F8A69;">
+              <span class="material-symbols-outlined" style="font-size:18px;">check_circle</span>
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-on-surface"><span id="act-approved">0</span> approved</div>
+              <div class="text-xs text-on-surface-variant">Safe co-signature authorized</div>
+            </div>
           </div>
-          <div class="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-error-container text-error text-xs font-medium">
-            <span class="material-symbols-outlined text-[14px]">block</span> <span id="act-blocked">0</span> blocked
+          <div class="card p-4 flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#FEF2F2;color:#DC4545;">
+              <span class="material-symbols-outlined" style="font-size:18px;">block</span>
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-on-surface"><span id="act-blocked">0</span> blocked</div>
+              <div class="text-xs text-on-surface-variant">Prevented off-chain (0 gas)</div>
+            </div>
           </div>
         </div>
 
         <!-- Table -->
-        <div class="card rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+        <div class="card overflow-hidden">
           <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+            <table class="data-table">
               <thead>
-                <tr class="bg-surface-container-low text-outline text-[10px] font-semibold uppercase">
-                  <th class="py-3.5 px-4">Time</th>
-                  <th class="py-3.5 px-4">Intent ID</th>
-                  <th class="py-3.5 px-4">Asset &amp; amount</th>
-                  <th class="py-3.5 px-4">Recipient</th>
-                  <th class="py-3.5 px-4">Guardian decision</th>
-                  <th class="py-3.5 px-4">Execution</th>
-                  <th class="py-3.5 px-4 text-right">Evidence</th>
+                <tr>
+                  <th>Time</th>
+                  <th>Intent ID</th>
+                  <th>Asset &amp; amount</th>
+                  <th>Recipient</th>
+                  <th>Guardian decision</th>
+                  <th>Execution</th>
+                  <th class="text-right">Evidence</th>
                 </tr>
               </thead>
-              <tbody id="activity-table" class="divide-y divide-outline-variant/40"></tbody>
+              <tbody id="activity-table"></tbody>
             </table>
           </div>
-          <div id="act-empty" class="hidden flex-col items-center justify-center p-space-xl text-center">
-            <div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-outline mb-space-sm">
-              <span class="material-symbols-outlined text-[24px]">receipt_long</span>
+          <div id="act-empty" class="hidden flex-col items-center justify-center py-12 text-center">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant mb-2" style="background:#F0F3FA;">
+              <span class="material-symbols-outlined" style="font-size:20px;">receipt_long</span>
             </div>
-            <h3 class="text-headline-sm text-on-surface mb-1">No activity yet</h3>
-            <p class="text-body-sm text-on-surface-variant max-w-sm mb-space-md">No transactions have been evaluated. Submit a request from the Wallet screen to get started.</p>
+            <h3 class="text-sm font-semibold text-on-surface mb-0.5">No activity yet</h3>
+            <p class="text-xs text-on-surface-variant max-w-sm">No transactions have been evaluated. Submit a request from the Wallet screen to get started.</p>
           </div>
         </div>
       </section>
