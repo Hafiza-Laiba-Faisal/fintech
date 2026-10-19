@@ -202,13 +202,13 @@ export function setWalletSetupCompleted(userId: string, completed = true): boole
   return false;
 }
 
-// Seed initial default operator user for seamless demo / test access
-(function seedDefaultUser() {
-  const defaultEmail = "operator@sentinel.wallet";
-  const defaultPass = "SentinelDemo2026!";
+// Seed initial default operator user for seamless demo / test access unless explicitly disabled
+if (process.env.ENABLE_DEMO_ACCOUNT !== "false") {
+  const defaultEmail = process.env.DEMO_OPERATOR_EMAIL || "operator@sentinel.wallet";
+  const defaultPass = process.env.DEMO_OPERATOR_PASSWORD || "SentinelDemo2026!";
   registerUser(defaultEmail, defaultPass);
   const u = users.get(defaultEmail);
   if (u) {
     u.walletSetupCompleted = true; // default demo user has setup done
   }
-})();
+}

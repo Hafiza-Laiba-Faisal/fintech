@@ -248,24 +248,51 @@ function readBody(req: IncomingMessage): Promise<unknown> {
   });
 }
 
-// ─── Policy config built from current settings (enforcement-relevant) ────────
+// ─── Policy config built from per-user settings (enforcement-relevant) ────────
 
-function policyConfigFromSettings(walletAddress: Address): PolicyConfig {
+const userSettingsMap: Map<string, AppSettings> = new Map();
+
+function getSettingsForUser(userId?: string): AppSettings {
+  const id = userId || "default";
+  let s = userSettingsMap.get(id);
+  if (!s) {
+    s = {
+      wallet: {
+        dailyLimitUsdc: settings.wallet.dailyLimitUsdc,
+        perTxCeilingUsdc: settings.wallet.perTxCeilingUsdc,
+        allowlist: [...settings.wallet.allowlist],
+        isPaused: settings.wallet.isPaused,
+      },
+      llm: {
+        ...settings.llm,
+      },
+    };
+    userSettingsMap.set(id, s);
+  }
+  return s;
+}
+
+function policyConfigForUser(userId: string, walletAddress: Address): PolicyConfig {
+  const uSettings = getSettingsForUser(userId);
   return {
     chainId: CHAIN_ID,
     walletAddress,
-    approvedRecipients: settings.wallet.allowlist.map((a) => a as Address),
+    approvedRecipients: uSettings.wallet.allowlist.map((a) => a as Address),
     dailyLimitAmount: parseUnits(
-      String(settings.wallet.dailyLimitUsdc),
+      String(uSettings.wallet.dailyLimitUsdc),
       USDC_DECIMALS,
     ),
     perTxCeilingAmount: parseUnits(
-      String(settings.wallet.perTxCeilingUsdc),
+      String(uSettings.wallet.perTxCeilingUsdc),
       USDC_DECIMALS,
     ),
     spentSoFar: manager.getSpentSoFar(),
-    isPaused: settings.wallet.isPaused,
+    isPaused: uSettings.wallet.isPaused,
   };
+}
+
+function policyConfigFromSettings(walletAddress: Address): PolicyConfig {
+  return policyConfigForUser("default", walletAddress);
 }
 
 // ─── API routes ──────────────────────────────────────────────────────────────
@@ -309,6 +336,19 @@ function extractSessionId(req: IncomingMessage): string | undefined {
     if (match) return match[1];
   }
   return undefined;
+}
+
+function requireSession(
+  req: IncomingMessage,
+  res: ServerResponse,
+): { valid: boolean; user?: { id: string; email: string; walletSetupCompleted: boolean } } {
+  const sessionId = extractSessionId(req);
+  const session = validateSession(sessionId);
+  if (!session.valid || !session.user) {
+    sendError(res, "Unauthorized: Authentication required", 401);
+    return { valid: false };
+  }
+  return { valid: true, user: session.user };
 }
 
 // POST /api/auth/register
@@ -375,11 +415,8 @@ addRoute("GET", "/api/auth/session", async (req, res) => {
 
 // POST /api/onboarding/complete
 addRoute("POST", "/api/onboarding/complete", async (req, res, body) => {
-  const sessionId = extractSessionId(req);
-  const session = validateSession(sessionId);
-  if (!session.valid || !session.user) {
-    return sendError(res, "Unauthorized", 401);
-  }
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
 
   const { walletAddress, dailyLimitUsdc, perTxCeilingUsdc, approvedRecipient } = body as {
     walletAddress?: string;
@@ -388,34 +425,29 @@ addRoute("POST", "/api/onboarding/complete", async (req, res, body) => {
     approvedRecipient?: string;
   };
 
+  const uSettings = getSettingsForUser(auth.user.id);
+
   if (walletAddress && walletAddress.startsWith("0x") && walletAddress.length === 42) {
     manager.updatePolicyConfig({ walletAddress: walletAddress as Address });
   }
   if (typeof dailyLimitUsdc === "number" && dailyLimitUsdc > 0) {
-    settings.wallet.dailyLimitUsdc = dailyLimitUsdc;
-    manager.updatePolicyConfig({
-      dailyLimitAmount: parseUnits(String(dailyLimitUsdc), USDC_DECIMALS),
-    });
+    uSettings.wallet.dailyLimitUsdc = dailyLimitUsdc;
   }
   if (typeof perTxCeilingUsdc === "number" && perTxCeilingUsdc > 0) {
-    settings.wallet.perTxCeilingUsdc = perTxCeilingUsdc;
+    uSettings.wallet.perTxCeilingUsdc = perTxCeilingUsdc;
   }
   if (approvedRecipient && approvedRecipient.startsWith("0x") && approvedRecipient.length === 42) {
-    settings.wallet.allowlist = [approvedRecipient];
-    manager.updatePolicyConfig({ approvedRecipients: [approvedRecipient as Address] });
+    uSettings.wallet.allowlist = [approvedRecipient];
   }
 
-  setWalletSetupCompleted(session.user.id, true);
+  setWalletSetupCompleted(auth.user.id, true);
   sendJson(res, { success: true, message: "Onboarding and security setup completed" });
 });
 
 // POST /api/wallet/connect
 addRoute("POST", "/api/wallet/connect", async (req, res, body) => {
-  const sessionId = extractSessionId(req);
-  const session = validateSession(sessionId);
-  if (!session.valid) {
-    return sendError(res, "Unauthorized", 401);
-  }
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
 
   const { address, network } = body as { address?: string; network?: string };
   if (!address || !address.startsWith("0x") || address.length !== 42) {
@@ -474,13 +506,17 @@ addRoute("GET", "/api/status", async (_req, res) => {
 
 // POST /api/plan — parse natural language into an intent + policy decision (no execution)
 addRoute("POST", "/api/plan", async (req, res, body) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+
   const { instruction } = body as { instruction?: string };
   if (!instruction || typeof instruction !== "string") {
     return sendError(res, "instruction is required");
   }
 
   const walletAddress = (manager.getWalletAddress() ?? MOCK_OWNER_ADDR) as Address;
-  const llmConfig = settings.llm.enabled ? llmEnv : null;
+  const userSettings = getSettingsForUser(auth.user.id);
+  const llmConfig = userSettings.llm.enabled ? llmEnv : null;
 
   let planResult: {
     success: boolean;
@@ -523,7 +559,7 @@ addRoute("POST", "/api/plan", async (req, res, body) => {
     );
   }
 
-  const decision = evaluateIntent(planResult.intent, policyConfigFromSettings(walletAddress));
+  const decision = evaluateIntent(planResult.intent, policyConfigForUser(auth.user.id, walletAddress));
 
   sendJson(res, {
     success: true,
@@ -535,7 +571,10 @@ addRoute("POST", "/api/plan", async (req, res, body) => {
 });
 
 // POST /api/execute — run the full pipeline on a previously planned intent
-addRoute("POST", "/api/execute", async (_req, res, body) => {
+addRoute("POST", "/api/execute", async (req, res, body) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+
   const { intent } = body as { intent?: TransactionIntent };
   if (!intent || typeof intent.recipient !== "string") {
     return sendError(res, "intent is required");
@@ -548,7 +587,7 @@ addRoute("POST", "/api/execute", async (_req, res, body) => {
   }
 
   const walletAddress = intent.walletAddress;
-  const preDecision = evaluateIntent(intent, policyConfigFromSettings(walletAddress));
+  const preDecision = evaluateIntent(intent, policyConfigForUser(auth.user.id, walletAddress));
   if (preDecision.status === "rejected") {
     const record: TPDRRecord = {
       intent,
@@ -563,74 +602,76 @@ addRoute("POST", "/api/execute", async (_req, res, body) => {
   sendJson(res, { success: true, record });
 });
 
-// GET /api/tpdr-log — full audit trail
-addRoute("GET", "/api/tpdr-log", async (_req, res) => {
+// GET /api/tpdr-log — full audit trail (requires authenticated session)
+addRoute("GET", "/api/tpdr-log", async (req, res) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid) return;
   sendJson(res, { records: manager.getTPDRLog() });
 });
 
 // POST /api/pause — emergency circuit breaker
-addRoute("POST", "/api/pause", async (_req, res) => {
-  settings.wallet.isPaused = true;
-  manager.updatePolicyConfig({ isPaused: true });
+addRoute("POST", "/api/pause", async (req, res) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+  const userSettings = getSettingsForUser(auth.user.id);
+  userSettings.wallet.isPaused = true;
   manager.setPausedState(true);
   sendJson(res, { ok: true, isPaused: true });
 });
 
 // POST /api/unpause
-addRoute("POST", "/api/unpause", async (_req, res) => {
-  settings.wallet.isPaused = false;
-  manager.updatePolicyConfig({ isPaused: false });
+addRoute("POST", "/api/unpause", async (req, res) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+  const userSettings = getSettingsForUser(auth.user.id);
+  userSettings.wallet.isPaused = false;
   manager.setPausedState(false);
   sendJson(res, { ok: true, isPaused: false });
 });
 
-// GET /api/settings
-addRoute("GET", "/api/settings", async (_req, res) => {
+// GET /api/settings — read runtime settings for authenticated user
+addRoute("GET", "/api/settings", async (req, res) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+  const userSettings = getSettingsForUser(auth.user.id);
   sendJson(res, {
     wallet: {
-      dailyLimitUsdc: settings.wallet.dailyLimitUsdc,
-      perTxCeilingUsdc: settings.wallet.perTxCeilingUsdc,
-      allowlist: settings.wallet.allowlist,
-      isPaused: settings.wallet.isPaused,
+      dailyLimitUsdc: userSettings.wallet.dailyLimitUsdc,
+      perTxCeilingUsdc: userSettings.wallet.perTxCeilingUsdc,
+      allowlist: userSettings.wallet.allowlist,
+      isPaused: userSettings.wallet.isPaused,
     },
     llm: {
-      enabled: settings.llm.enabled,
-      provider: settings.llm.provider,
-      model: settings.llm.model,
-      endpoint: settings.llm.endpoint,
-      apiKeyMasked: maskApiKey(settings.llm.apiKey),
-      regexFallback: settings.llm.regexFallback,
+      enabled: userSettings.llm.enabled,
+      provider: userSettings.llm.provider,
+      model: userSettings.llm.model,
+      endpoint: userSettings.llm.endpoint,
+      apiKeyMasked: maskApiKey(userSettings.llm.apiKey),
+      regexFallback: userSettings.llm.regexFallback,
     },
   });
 });
 
 // POST /api/settings — update runtime settings (enforcement-relevant fields take effect immediately)
-addRoute("POST", "/api/settings", async (_req, res, body) => {
+addRoute("POST", "/api/settings", async (req, res, body) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+  const userSettings = getSettingsForUser(auth.user.id);
   const updates = body as Partial<AppSettings>;
   if (updates.wallet) {
-    if (typeof updates.wallet.dailyLimitUsdc === "number") {
-      settings.wallet.dailyLimitUsdc = updates.wallet.dailyLimitUsdc;
-      manager.updatePolicyConfig({
-        dailyLimitAmount: parseUnits(
-          String(updates.wallet.dailyLimitUsdc),
-          USDC_DECIMALS,
-        ),
-      });
+    if (typeof updates.wallet.dailyLimitUsdc === "number" && updates.wallet.dailyLimitUsdc > 0) {
+      userSettings.wallet.dailyLimitUsdc = updates.wallet.dailyLimitUsdc;
     }
-    if (typeof updates.wallet.perTxCeilingUsdc === "number") {
-      settings.wallet.perTxCeilingUsdc = updates.wallet.perTxCeilingUsdc;
+    if (typeof updates.wallet.perTxCeilingUsdc === "number" && updates.wallet.perTxCeilingUsdc > 0) {
+      userSettings.wallet.perTxCeilingUsdc = updates.wallet.perTxCeilingUsdc;
     }
     if (Array.isArray(updates.wallet.allowlist)) {
-      settings.wallet.allowlist = updates.wallet.allowlist.filter(
-        (a): a is string => typeof a === "string",
+      userSettings.wallet.allowlist = updates.wallet.allowlist.filter(
+        (a): a is string => typeof a === "string" && a.startsWith("0x") && a.length === 42,
       );
-      manager.updatePolicyConfig({
-        approvedRecipients: settings.wallet.allowlist.map((a) => a as Address),
-      });
     }
     if (typeof updates.wallet.isPaused === "boolean") {
-      settings.wallet.isPaused = updates.wallet.isPaused;
-      manager.updatePolicyConfig({ isPaused: updates.wallet.isPaused });
+      userSettings.wallet.isPaused = updates.wallet.isPaused;
       manager.setPausedState(updates.wallet.isPaused);
     }
   }
@@ -638,14 +679,14 @@ addRoute("POST", "/api/settings", async (_req, res, body) => {
     // Masked placeholder values (e.g. "••••4c7d" echoed back by the client)
     // are refused by applyLLMSettingsUpdate — the stored secret survives.
     // An explicit clear is expressed as apiKey: null, not "" or masked text.
-    applyLLMSettingsUpdate(settings.llm, updates.llm as Partial<LLMSettings & { apiKey: string | null }>);
+    applyLLMSettingsUpdate(userSettings.llm, updates.llm as Partial<LLMSettings & { apiKey: string | null }>);
   }
   // SECURITY: never echo the raw LLM apiKey back to the client — same
   // masking contract as GET /api/settings. Any POST path that would
   // expose the key is a leak, not a convenience.
   const safeSettings = {
-    ...settings,
-    llm: sanitizeLLMForClient(settings.llm),
+    ...userSettings,
+    llm: sanitizeLLMForClient(userSettings.llm),
   };
   sendJson(res, { ok: true, settings: safeSettings });
 });
