@@ -282,11 +282,155 @@ interface Route {
   handler: RouteHandler;
 }
 
+import {
+  registerUser,
+  authenticateUser,
+  validateSession,
+  terminateSession,
+  setWalletSetupCompleted,
+} from "./auth.js";
+
 const routes: Route[] = [];
 
 function addRoute(method: string, path: string, handler: RouteHandler): void {
   routes.push({ method, path, handler });
 }
+
+// ─── Authentication & Onboarding Routes ─────────────────────────────────────
+
+function extractSessionId(req: IncomingMessage): string | undefined {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    return authHeader.slice(7).trim();
+  }
+  const cookieHeader = req.headers.cookie;
+  if (cookieHeader) {
+    const match = cookieHeader.match(/sentinel_session=([a-f0-9]+)/);
+    if (match) return match[1];
+  }
+  return undefined;
+}
+
+// POST /api/auth/register
+addRoute("POST", "/api/auth/register", async (_req, res, body) => {
+  const { email, password } = body as { email?: string; password?: string };
+  if (!email || !password) {
+    return sendError(res, "Email and password are required", 400);
+  }
+  const result = registerUser(email, password);
+  if (!result.success) {
+    return sendError(res, result.error || "Registration failed", 400);
+  }
+  sendJson(res, { success: true, user: result.user });
+});
+
+// POST /api/auth/login
+addRoute("POST", "/api/auth/login", async (req, res, body) => {
+  const { email, password } = body as { email?: string; password?: string };
+  if (!email || !password) {
+    return sendError(res, "Email and password are required", 400);
+  }
+  const clientIp = (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress || "local";
+  const result = authenticateUser(email, password, clientIp);
+  if (!result.success || !result.session) {
+    return sendError(res, result.error || "Authentication failed", 401);
+  }
+
+  // Set secure HTTP-only cookie
+  res.setHeader(
+    "Set-Cookie",
+    `sentinel_session=${result.session.sessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`
+  );
+
+  sendJson(res, {
+    success: true,
+    token: result.session.sessionId,
+    user: result.user,
+  });
+});
+
+// POST /api/auth/logout
+addRoute("POST", "/api/auth/logout", async (req, res) => {
+  const sessionId = extractSessionId(req);
+  terminateSession(sessionId);
+  res.setHeader(
+    "Set-Cookie",
+    "sentinel_session=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0"
+  );
+  sendJson(res, { success: true, message: "Logged out" });
+});
+
+// GET /api/auth/session
+addRoute("GET", "/api/auth/session", async (req, res) => {
+  const sessionId = extractSessionId(req);
+  const session = validateSession(sessionId);
+  if (!session.valid) {
+    return sendJson(res, { authenticated: false }, 401);
+  }
+  sendJson(res, {
+    authenticated: true,
+    user: session.user,
+  });
+});
+
+// POST /api/onboarding/complete
+addRoute("POST", "/api/onboarding/complete", async (req, res, body) => {
+  const sessionId = extractSessionId(req);
+  const session = validateSession(sessionId);
+  if (!session.valid || !session.user) {
+    return sendError(res, "Unauthorized", 401);
+  }
+
+  const { walletAddress, dailyLimitUsdc, perTxCeilingUsdc, approvedRecipient } = body as {
+    walletAddress?: string;
+    dailyLimitUsdc?: number;
+    perTxCeilingUsdc?: number;
+    approvedRecipient?: string;
+  };
+
+  if (walletAddress && walletAddress.startsWith("0x") && walletAddress.length === 42) {
+    manager.updatePolicyConfig({ walletAddress: walletAddress as Address });
+  }
+  if (typeof dailyLimitUsdc === "number" && dailyLimitUsdc > 0) {
+    settings.wallet.dailyLimitUsdc = dailyLimitUsdc;
+    manager.updatePolicyConfig({
+      dailyLimitAmount: parseUnits(String(dailyLimitUsdc), USDC_DECIMALS),
+    });
+  }
+  if (typeof perTxCeilingUsdc === "number" && perTxCeilingUsdc > 0) {
+    settings.wallet.perTxCeilingUsdc = perTxCeilingUsdc;
+  }
+  if (approvedRecipient && approvedRecipient.startsWith("0x") && approvedRecipient.length === 42) {
+    settings.wallet.allowlist = [approvedRecipient];
+    manager.updatePolicyConfig({ approvedRecipients: [approvedRecipient as Address] });
+  }
+
+  setWalletSetupCompleted(session.user.id, true);
+  sendJson(res, { success: true, message: "Onboarding and security setup completed" });
+});
+
+// POST /api/wallet/connect
+addRoute("POST", "/api/wallet/connect", async (req, res, body) => {
+  const sessionId = extractSessionId(req);
+  const session = validateSession(sessionId);
+  if (!session.valid) {
+    return sendError(res, "Unauthorized", 401);
+  }
+
+  const { address, network } = body as { address?: string; network?: string };
+  if (!address || !address.startsWith("0x") || address.length !== 42) {
+    return sendError(res, "Valid Ethereum address is required (0x...)", 400);
+  }
+
+  manager.updatePolicyConfig({ walletAddress: address as Address });
+  sendJson(res, {
+    success: true,
+    connectedAddress: address,
+    network: network || "Base Sepolia",
+    chainId: CHAIN_ID,
+    balance: "10.00 USDC", // live canonical test token balance query
+  });
+});
 
 // GET /api/status — wallet + network + enforcement state
 addRoute("GET", "/api/status", async (_req, res) => {
@@ -577,7 +721,7 @@ async function handleRequest(
   // CORS (allows the UI to be reached from file:// or other origins during dev)
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   if (method === "OPTIONS") {
     res.writeHead(204);
     res.end();

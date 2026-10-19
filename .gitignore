@@ -23,3 +23,7 @@ Thumbs.db
 *.tsbuildinfo
 
 freellmapi/
+
+.env_backups_secure/
+.eeenv/
+

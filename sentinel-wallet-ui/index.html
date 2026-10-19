@@ -390,6 +390,17 @@
           <button class="settings-btn flex items-center justify-center w-8 h-8 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container-low transition-colors" aria-label="Settings" title="Settings">
             <span class="material-symbols-outlined" style="font-size:18px;">settings</span>
           </button>
+          <!-- User profile & session controls -->
+          <div id="user-profile-cluster" class="flex items-center gap-2 border-l border-outline-variant/40 pl-3 ml-1 hidden">
+            <div class="flex items-center gap-1.5">
+              <div class="w-6 h-6 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-[11px] font-bold" id="user-avatar">O</div>
+              <span class="text-xs font-medium text-on-surface hidden md:inline-block max-w-[130px] truncate" id="user-email-display">operator@sentinel.wallet</span>
+            </div>
+            <button id="btn-logout" class="px-2 py-1 rounded-md text-xs font-medium text-outline hover:text-error hover:bg-error-container/30 transition-colors flex items-center gap-1 cursor-pointer" title="Log out" type="button">
+              <span class="material-symbols-outlined" style="font-size:16px;">logout</span>
+              <span class="hidden sm:inline">Logout</span>
+            </button>
+          </div>
         </div>
       </div>
       <!-- Status strip -->
@@ -1141,6 +1152,173 @@
     </div>
   </dialog>
 
+  <!-- ─── Authentication Modal (Login / Register) ─── -->
+  <dialog id="auth-modal" class="modal w-full max-w-md p-0" style="margin: auto;">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <!-- Header -->
+      <div class="p-6 pb-4 border-b border-outline-variant/30 bg-surface-container-low/40">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-on-primary font-bold text-sm tracking-tight shadow-sm">S</div>
+          <div>
+            <h2 class="font-semibold text-on-surface text-base tracking-tight leading-tight">Sentinel Wallet</h2>
+            <p class="text-xs text-on-surface-variant">Autonomous On-Chain Vault • Base Sepolia</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 mt-4 p-1 bg-surface-container-low rounded-lg border border-outline-variant/30">
+          <button id="auth-tab-login" class="flex-1 py-1.5 rounded-md text-xs font-semibold text-primary bg-white shadow-xs transition-all cursor-pointer" type="button">Sign In</button>
+          <button id="auth-tab-register" class="flex-1 py-1.5 rounded-md text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all cursor-pointer" type="button">Create Account</button>
+        </div>
+      </div>
+
+      <!-- Body / Form -->
+      <form id="auth-form" class="p-6 flex flex-col gap-4">
+        <div id="auth-error-box" class="hidden p-3 rounded-lg bg-error-container text-on-error-container text-xs flex items-start gap-2">
+          <span class="material-symbols-outlined text-[16px] text-error shrink-0 mt-0.5">error</span>
+          <span id="auth-error-msg">Authentication failed</span>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-semibold text-on-surface" for="auth-email">Operator Email</label>
+          <input id="auth-email" type="email" placeholder="operator@sentinel.wallet" required class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface text-sm focus:border-primary focus:outline-none transition-colors" />
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-semibold text-on-surface" for="auth-password">Password</label>
+            <span class="text-[10px] text-outline font-mono" id="auth-pw-hint">PBKDF2-SHA512 (100k)</span>
+          </div>
+          <div class="relative flex items-center">
+            <input id="auth-password" type="password" placeholder="••••••••••••" required class="w-full h-10 pl-3 pr-10 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-on-surface text-sm focus:border-primary focus:outline-none transition-colors" />
+            <button id="auth-toggle-pw" type="button" class="absolute right-2.5 p-1 text-outline hover:text-on-surface cursor-pointer" title="Toggle visibility">
+              <span class="material-symbols-outlined text-[16px]" id="auth-pw-icon">visibility_off</span>
+            </button>
+          </div>
+        </div>
+
+        <button id="auth-submit-btn" type="submit" class="btn btn-primary w-full py-2.5 mt-1 font-semibold text-sm cursor-pointer">
+          <span id="auth-btn-text">Sign In to Sentinel</span>
+        </button>
+
+        <!-- Hackathon Quick Demo Button -->
+        <button id="auth-quick-demo-btn" type="button" class="w-full py-2 px-3 rounded-lg border border-primary/30 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-medium transition-colors flex items-center justify-center gap-1.5 cursor-pointer">
+          <span class="material-symbols-outlined text-[15px]">bolt</span>
+          <span>Quick Demo Login (Operator Safe)</span>
+        </button>
+
+        <!-- Security notes -->
+        <div class="pt-2 border-t border-outline-variant/30 flex items-start gap-2 text-[11px] text-on-surface-variant">
+          <span class="material-symbols-outlined text-[15px] text-success shrink-0 mt-0.5">verified_user</span>
+          <span>Security Enforced: Constant-time comparison, cryptographically secure 256-bit sessions, and IP-lockout protection active.</span>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- ─── Wallet Onboarding & Security Setup Modal ─── -->
+  <dialog id="onboarding-modal" class="modal w-full max-w-xl p-0" style="margin: auto;">
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <!-- Header -->
+      <div class="p-6 pb-4 border-b border-outline-variant/30 bg-surface-container-low/40 flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-primary">Onboarding &amp; Security Baseline</span>
+          <h2 class="font-semibold text-on-surface text-base tracking-tight">Wallet Account &amp; Guardian Policy</h2>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-fixed text-primary">Zero Custody</span>
+      </div>
+
+      <div class="p-6 flex flex-col gap-5 max-h-[75vh] overflow-y-auto">
+        <!-- Step 1: Wallet Connection -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-5 h-5 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center">1</span>
+            <span class="text-xs font-semibold text-on-surface uppercase tracking-wider">Connect Execution Account</span>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Option A: Browser Injected Wallet -->
+            <button id="onboard-btn-browser-wallet" type="button" class="p-3.5 rounded-xl border border-outline-variant/60 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer bg-white">
+              <div class="flex items-center justify-between w-full">
+                <span class="material-symbols-outlined text-primary text-[22px]">account_balance_wallet</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-semibold">Web3 Provider</span>
+              </div>
+              <div>
+                <div class="font-semibold text-xs text-on-surface">Browser Wallet</div>
+                <div class="text-[11px] text-on-surface-variant">Connect MetaMask, Rabby, or Injected</div>
+              </div>
+            </button>
+
+            <!-- Option B: Pre-Verified Operator Safe Account -->
+            <button id="onboard-btn-safe-wallet" type="button" class="p-3.5 rounded-xl border-2 border-primary/40 bg-primary/5 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer">
+              <div class="flex items-center justify-between w-full">
+                <span class="material-symbols-outlined text-success text-[22px]">shield_person</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded bg-success-container text-success font-semibold">Verified Safe</span>
+              </div>
+              <div>
+                <div class="font-semibold text-xs text-on-surface">Operator Safe Smart Account</div>
+                <div class="text-[11px] text-on-surface-variant font-mono">0x6cDE0…D5123 (Base Sepolia)</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Connected Wallet Status Pill -->
+          <div id="onboard-wallet-status-box" class="mt-3 p-3 rounded-lg bg-surface-container-low border border-outline-variant/30 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-success"></span>
+              <span class="text-xs font-medium text-on-surface" id="onboard-selected-addr">0x6cDE0BB1A5fb957d0e55c6E2dcd0a466c06D5123</span>
+            </div>
+            <span class="text-[11px] font-mono text-on-surface-variant" id="onboard-selected-net">Base Sepolia (84532)</span>
+          </div>
+
+          <!-- Security note on Seed Phrase Import -->
+          <div class="mt-2 text-[11px] text-on-surface-variant flex items-center gap-1.5 bg-amber-500/10 p-2.5 rounded-lg border border-amber-500/20 text-amber-900">
+            <span class="material-symbols-outlined text-[16px] text-amber-600 shrink-0">lock</span>
+            <span>Zero-Knowledge Rule: Seed phrases or private keys are never pasted or transmitted. All on-chain actions use isolated Web3 hooks or Safe policy enclaves.</span>
+          </div>
+        </div>
+
+        <div class="h-px bg-outline-variant/30"></div>
+
+        <!-- Step 2: Policy & Security Limits -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-5 h-5 rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center">2</span>
+            <span class="text-xs font-semibold text-on-surface uppercase tracking-wider">Deterministic Policy Bounds</span>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex flex-col gap-1">
+              <label class="text-xs font-semibold text-on-surface" for="onboard-recipient">Approved Recipient Address</label>
+              <input id="onboard-recipient" type="text" value="0xe06d8999dcfc16366a7a1c0189c22bb9521940db" class="w-full h-9 px-3 bg-surface-container-lowest border border-outline-variant/60 rounded-lg font-mono text-xs text-on-surface focus:border-primary focus:outline-none" />
+              <span class="text-[11px] text-on-surface-variant">Transfers to addresses outside this allowlist are blocked off-chain before broadcast.</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex flex-col gap-1">
+                <label class="text-xs font-semibold text-on-surface" for="onboard-daily-limit">Daily Limit (USDC)</label>
+                <div class="relative flex items-center">
+                  <span class="absolute left-3 text-xs text-outline font-semibold">$</span>
+                  <input id="onboard-daily-limit" type="number" step="1" value="100" class="w-full h-9 pl-6 pr-3 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-xs font-medium text-on-surface focus:border-primary focus:outline-none" />
+                </div>
+              </div>
+              <div class="flex flex-col gap-1">
+                <label class="text-xs font-semibold text-on-surface" for="onboard-per-tx">Per-Tx Ceiling (USDC)</label>
+                <div class="relative flex items-center">
+                  <span class="absolute left-3 text-xs text-outline font-semibold">$</span>
+                  <input id="onboard-per-tx" type="number" step="1" value="50" class="w-full h-9 pl-6 pr-3 bg-surface-container-lowest border border-outline-variant/60 rounded-lg text-xs font-medium text-on-surface focus:border-primary focus:outline-none" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button id="onboard-complete-btn" type="button" class="btn btn-primary w-full py-2.5 font-semibold text-sm mt-2 cursor-pointer">
+          <span>Complete Setup &amp; Enter Dashboard</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
   <!-- Toast -->
   <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-12 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl shadow-xl border border-outline-variant/40 bg-surface-container-lowest"></div>
 
@@ -1186,19 +1364,32 @@
       }
     }
 
-    /* ─── API ─── */
+    /* ─── Session & API ─── */
     let lastError = null;
+    let authToken = sessionStorage.getItem("sentinel_token") || "";
+    let currentUser = null;
+
     async function api(path, opts = {}) {
       lastError = null;
       try {
+        const headers = { "Content-Type": "application/json", ...opts.headers };
+        if (authToken) {
+          headers["Authorization"] = `Bearer ${authToken}`;
+        }
         const res = await fetch(API + path, {
-          headers: { "Content-Type": "application/json", ...opts.headers },
+          credentials: "include",
           ...opts,
+          headers,
         });
         const text = await res.text();
         let data;
         try { data = JSON.parse(text); } catch { data = text; }
-        if (!res.ok) throw new Error(data.error || data || "Request failed");
+        if (!res.ok) {
+          if (res.status === 401 && !path.startsWith("/api/auth/")) {
+            handleUnauthorized();
+          }
+          throw new Error(data.error || data || "Request failed");
+        }
         return data;
       } catch (err) {
         lastError = err;
@@ -1953,14 +2144,278 @@
       `;
     }
 
+    /* ─── Authentication & Onboarding Controller ─── */
+    const authModal = $("#auth-modal");
+    const onboardingModal = $("#onboarding-modal");
+    let authMode = "login"; // "login" | "register"
+    let selectedOnboardWallet = "0x6cDE0BB1A5fb957d0e55c6E2dcd0a466c06D5123";
+
+    function updateUserUI(user) {
+      if (!user) {
+        $("#user-profile-cluster")?.classList.add("hidden");
+        return;
+      }
+      $("#user-profile-cluster")?.classList.remove("hidden");
+      const emailEl = $("#user-email-display");
+      if (emailEl) emailEl.textContent = user.email || "Operator";
+      const avatarEl = $("#user-avatar");
+      if (avatarEl) avatarEl.textContent = (user.email ? user.email[0] : "O").toUpperCase();
+    }
+
+    function handleUnauthorized() {
+      authToken = "";
+      sessionStorage.removeItem("sentinel_token");
+      currentUser = null;
+      updateUserUI(null);
+      if (authModal && !authModal.open) {
+        showToast("Session expired or unauthorized. Please sign in.", "error");
+        authModal.showModal();
+      }
+    }
+
+    async function checkSession() {
+      try {
+        const res = await api("/api/auth/session");
+        if (res && res.authenticated && res.user) {
+          currentUser = res.user;
+          updateUserUI(currentUser);
+          if (!currentUser.walletSetupCompleted) {
+            onboardingModal?.showModal();
+          }
+          return true;
+        }
+      } catch (err) {
+        // Not authenticated
+      }
+      currentUser = null;
+      updateUserUI(null);
+      authModal?.showModal();
+      return false;
+    }
+
+    function setupAuthHandlers() {
+      const tabLogin = $("#auth-tab-login");
+      const tabRegister = $("#auth-tab-register");
+      const btnText = $("#auth-btn-text");
+      const pwHint = $("#auth-pw-hint");
+      const errBox = $("#auth-error-box");
+      const errMsg = $("#auth-error-msg");
+
+      function setTab(mode) {
+        authMode = mode;
+        errBox.classList.add("hidden");
+        if (mode === "login") {
+          tabLogin.className = "flex-1 py-1.5 rounded-md text-xs font-semibold text-primary bg-white shadow-xs transition-all cursor-pointer";
+          tabRegister.className = "flex-1 py-1.5 rounded-md text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all cursor-pointer";
+          btnText.textContent = "Sign In to Sentinel";
+          pwHint.textContent = "PBKDF2-SHA512 (100k)";
+        } else {
+          tabRegister.className = "flex-1 py-1.5 rounded-md text-xs font-semibold text-primary bg-white shadow-xs transition-all cursor-pointer";
+          tabLogin.className = "flex-1 py-1.5 rounded-md text-xs font-medium text-on-surface-variant hover:text-on-surface transition-all cursor-pointer";
+          btnText.textContent = "Create Operator Account";
+          pwHint.textContent = "Min 8 chars • Strong salt";
+        }
+      }
+
+      tabLogin?.addEventListener("click", () => setTab("login"));
+      tabRegister?.addEventListener("click", () => setTab("register"));
+
+      $("#auth-toggle-pw")?.addEventListener("click", () => {
+        const input = $("#auth-password");
+        const icon = $("#auth-pw-icon");
+        if (input.type === "password") {
+          input.type = "text";
+          icon.textContent = "visibility";
+        } else {
+          input.type = "password";
+          icon.textContent = "visibility_off";
+        }
+      });
+
+      // Hackathon demo button: auto-logs in with seeded operator
+      $("#auth-quick-demo-btn")?.addEventListener("click", async () => {
+        $("#auth-email").value = "operator@sentinel.wallet";
+        $("#auth-password").value = "SentinelDemo2026!";
+        setTab("login");
+        $("#auth-form")?.requestSubmit();
+      });
+
+      $("#auth-form")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errBox.classList.add("hidden");
+        const email = $("#auth-email").value.trim();
+        const password = $("#auth-password").value;
+        const submitBtn = $("#auth-submit-btn");
+        const origText = btnText.textContent;
+        submitBtn.disabled = true;
+        btnText.textContent = "Verifying...";
+
+        try {
+          if (authMode === "register") {
+            const regRes = await api("/api/auth/register", {
+              method: "POST",
+              body: JSON.stringify({ email, password }),
+            });
+            if (!regRes.success) throw new Error(regRes.error || "Registration failed");
+          }
+
+          // Authenticate
+          const loginRes = await api("/api/auth/login", {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (!loginRes.success || !loginRes.token) {
+            throw new Error(loginRes.error || "Authentication failed");
+          }
+
+          authToken = loginRes.token;
+          sessionStorage.setItem("sentinel_token", authToken);
+          currentUser = loginRes.user;
+          updateUserUI(currentUser);
+          authModal?.close();
+
+          showToast("Welcome " + (currentUser.email || "Operator"), "ok");
+
+          // Check if wallet setup is needed
+          if (!currentUser.walletSetupCompleted) {
+            onboardingModal?.showModal();
+          } else {
+            await loadStatus();
+            loadSecurity();
+            loadActivity();
+          }
+        } catch (err) {
+          errBox.classList.remove("hidden");
+          errMsg.textContent = err.message || "Authentication error occurred";
+        } finally {
+          submitBtn.disabled = false;
+          btnText.textContent = origText;
+        }
+      });
+
+      // Logout handler
+      $("#btn-logout")?.addEventListener("click", async () => {
+        try {
+          await api("/api/auth/logout", { method: "POST" });
+        } catch (err) {
+          // ignore
+        }
+        authToken = "";
+        sessionStorage.removeItem("sentinel_token");
+        currentUser = null;
+        updateUserUI(null);
+        showToast("Logged out safely");
+        authModal?.showModal();
+      });
+    }
+
+    function setupOnboardingHandlers() {
+      const btnBrowser = $("#onboard-btn-browser-wallet");
+      const btnSafe = $("#onboard-btn-safe-wallet");
+      const addrDisplay = $("#onboard-selected-addr");
+      const netDisplay = $("#onboard-selected-net");
+
+      function selectWallet(type, addr) {
+        selectedOnboardWallet = addr;
+        if (type === "safe") {
+          btnSafe.className = "p-3.5 rounded-xl border-2 border-primary/40 bg-primary/5 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer";
+          btnBrowser.className = "p-3.5 rounded-xl border border-outline-variant/60 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer bg-white";
+          addrDisplay.textContent = addr;
+          netDisplay.textContent = "Base Sepolia (84532)";
+        } else {
+          btnBrowser.className = "p-3.5 rounded-xl border-2 border-primary/40 bg-primary/5 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer";
+          btnSafe.className = "p-3.5 rounded-xl border border-outline-variant/60 hover:border-primary text-left transition-all flex flex-col justify-between gap-2 cursor-pointer bg-white";
+          addrDisplay.textContent = addr;
+          netDisplay.textContent = "Base Sepolia (84532)";
+        }
+      }
+
+      btnSafe?.addEventListener("click", () => {
+        selectWallet("safe", "0x6cDE0BB1A5fb957d0e55c6E2dcd0a466c06D5123");
+      });
+
+      btnBrowser?.addEventListener("click", async () => {
+        if (typeof window.ethereum !== "undefined") {
+          try {
+            const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+            if (accounts && accounts[0]) {
+              selectWallet("browser", accounts[0]);
+              showToast("Injected wallet connected: " + truncateAddr(accounts[0]), "ok");
+            }
+          } catch (err) {
+            showToast("Wallet connection declined: " + err.message, "error");
+          }
+        } else {
+          showToast("No injected Web3 wallet found. Defaulting to Operator Safe account.", "error");
+          selectWallet("safe", "0x6cDE0BB1A5fb957d0e55c6E2dcd0a466c06D5123");
+        }
+      });
+
+      $("#onboard-complete-btn")?.addEventListener("click", async () => {
+        const btn = $("#onboard-complete-btn");
+        const orig = btn.innerHTML;
+        btn.disabled = true;
+        btn.textContent = "Applying Policy Bounds...";
+
+        try {
+          const recipient = $("#onboard-recipient").value.trim();
+          const daily = Number($("#onboard-daily-limit").value);
+          const perTx = Number($("#onboard-per-tx").value);
+
+          if (!/^0x[0-9a-fA-F]{40}$/.test(recipient)) {
+            throw new Error("Invalid recipient address format");
+          }
+          if (isNaN(daily) || daily <= 0 || isNaN(perTx) || perTx <= 0) {
+            throw new Error("Invalid spending limits");
+          }
+
+          await api("/api/onboarding/complete", {
+            method: "POST",
+            body: JSON.stringify({
+              walletAddress: selectedOnboardWallet,
+              approvedRecipient: recipient,
+              dailyLimitUsdc: daily,
+              perTxCeilingUsdc: perTx,
+            }),
+          });
+
+          if (currentUser) {
+            currentUser.walletSetupCompleted = true;
+          }
+
+          onboardingModal?.close();
+          showToast("Onboarding and Guardian limits verified!", "ok");
+
+          await loadStatus();
+          loadSecurity();
+          loadActivity();
+        } catch (err) {
+          showToast("Setup failed: " + err.message, "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = orig;
+        }
+      });
+    }
+
     /* ─── Init ─── */
     (async function init() {
-      await loadStatus();
-      showView("wallet");
-      loadSecurity();
-      loadActivity();
-      // Refresh status periodically
-      setInterval(loadStatus, 15000);
+      setupAuthHandlers();
+      setupOnboardingHandlers();
+      const authenticated = await checkSession();
+      if (authenticated) {
+        await loadStatus();
+        showView("wallet");
+        loadSecurity();
+        loadActivity();
+      }
+      // Refresh status periodically if authenticated
+      setInterval(async () => {
+        if (currentUser) {
+          await loadStatus().catch(() => {});
+        }
+      }, 15000);
     })();
   </script>
 </body>
