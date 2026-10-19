@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Sentinel Wallet</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#e3e8f7", "outline": "#747686", "surface-container": "#e8eefd", "error": "#ba1a1a", "on-surface-variant": "#444654", "outline-variant": "#c4c5d7", "on-tertiary-fixed": "#341100", "surface-container-lowest": "#ffffff", "background": "#f9f9ff", "on-error": "#ffffff", "inverse-on-surface": "#ecf0ff", "on-error-container": "#93000a", "inverse-primary": "#b9c3ff", "on-secondary-fixed": "#121c28", "on-primary-fixed-variant": "#0035be", "on-secondary-fixed-variant": "#3e4755", "tertiary": "#923e00", "surface-container-highest": "#dde2f1", "on-primary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#d6e0f1", "surface-bright": "#f9f9ff", "surface-variant": "#dde2f1", "surface-dim": "#d4dae9", "inverse-surface": "#2b313c", "on-primary-container": "#f5f3ff", "on-tertiary-container": "#fff2ed", "on-background": "#161c26", "on-tertiary": "#ffffff", "primary-container": "#4263eb", "surface": "#f9f9ff", "on-surface": "#161c26", "tertiary-container": "#b95000", "secondary-fixed": "#d9e3f4", "on-tertiary-fixed-variant": "#783100", "surface-container-low": "#f0f3ff", "primary": "#2248d1", "on-secondary-container": "#596372", "on-primary-fixed": "#001356", "secondary-fixed-dim": "#bdc7d8", "primary-fixed": "#dde1ff", "tertiary-fixed": "#ffdbcb", "tertiary-fixed-dim": "#ffb690", "secondary": "#555f6d", "primary-fixed-dim": "#b9c3ff", "surface-tint": "#2c50d9", "on-secondary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2.5rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "gutter": "1.5rem", "margin": "2rem", "margin-mobile": "1rem", "space-lg": "1.5rem", "space-md": "1rem" }, "fontFamily": { "headline-lg": ["Inter"], "body-md": ["Inter"], "display": ["Inter"], "headline-sm": ["Inter"], "numeric-data": ["Inter"], "body-lg": ["Inter"], "headline-md": ["Inter"], "headline-lg-mobile": ["Inter"], "label-lg": ["Inter"], "display-mobile": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "numeric-data": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "display-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm min-w-max"><div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container shadow-sm"><span class="material-symbols-outlined text-[22px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Sentinel</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold px-1.5 py-0.5 rounded bg-primary-fixed leading-none">Wallet</span></div><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1 hidden sm:block">Policy-governed AI Agent Wallet</span></div></div><div class="hidden md:flex items-center justify-center flex-1"><nav class="flex items-center bg-surface-container-low p-1 rounded-full shadow-inner" data-active-classes="bg-primary-container text-on-primary-container font-label-lg shadow-sm"><a class="px-space-md py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="wallet" href="#">Wallet</a><a class="px-space-md py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="security" href="#">Security</a><a aria-current="page" class="px-space-md py-1.5 rounded-full transition-all bg-primary-container text-on-primary-container font-label-lg shadow-sm" data-path="activity" href="#">Activity</a></nav></div><div class="flex items-center gap-space-sm min-w-max justify-end"><div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span><span class="font-label-sm text-label-sm font-medium text-on-surface-variant">Base Sepolia #84532</span></div><button class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer group" type="button"><span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">token</span><span class="font-numeric-data text-body-sm font-mono text-on-surface font-medium">0x71c9...4b92</span><span class="material-symbols-outlined text-[16px] text-outline group-hover:text-on-surface transition-colors">content_copy</span></button><a class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="settings" href="#" title="Settings"><span class="material-symbols-outlined text-[20px]">settings</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="md:hidden flex items-center justify-center border-t border-outline-variant/30 py-2 bg-surface-container-lowest"><nav class="flex items-center gap-1 bg-surface-container-low p-1 rounded-full" data-active-classes="bg-primary-container text-on-primary-container font-label-md shadow-sm"><a class="px-space-sm py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="wallet" href="#">Wallet</a><a class="px-space-sm py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="security" href="#">Security</a><a aria-current="page" class="px-space-sm py-1 rounded-full transition-all bg-primary-container text-on-primary-container font-label-md shadow-sm" data-path="activity" href="#">Activity</a></nav></div></header><main class="w-full pt-16 bg-background min-h-[calc(100vh-4rem)] flex flex-col"><div class="max-w-7xl w-full mx-auto px-gutter py-space-lg flex-1"><div class="flex flex-col w-full">
+<!-- Top Summary Strip / Metrics -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md mb-space-lg">
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block">Total Evaluated Intents</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-numeric-data text-headline-md text-on-surface">1,482</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">100% audited</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block">Guardian Block Rate</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-numeric-data text-headline-md text-on-surface">1.82%</span>
+<span class="font-label-sm text-label-sm text-tertiary-container font-medium">27 averted</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[20px]">save_as</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block">Off-Chain Gas Spared</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-numeric-data text-headline-md text-on-surface">$142.80</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Zero on-chain fail</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">local_gas_station</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider block">Active Enclave Node</span>
+<div class="flex items-baseline gap-space-xs mt-1">
+<span class="font-numeric-data text-headline-md text-on-surface">sgx-node-04</span>
+<span class="font-label-sm text-label-sm text-primary font-medium">Attested</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">verified_user</span>
+</div>
+</div>
+</div>
+<!-- Page Title & Header Info -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-primary font-bold px-2 py-0.5 rounded-full bg-primary-fixed">Audited Ledger</span>
+<span class="font-label-sm text-label-sm text-outline">• Deterministic Consensus</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Activity &amp; Audit Trail</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mt-1">
+        Cryptographic log of AI agent payment intents, Guardian evaluations, and verified blockchain receipts.
+      </p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors shadow-sm font-label-lg text-label-lg cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">tune</span>
+<span>Date Range: All Time</span>
+</button>
+<button class="inline-flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors shadow-sm font-label-lg text-label-lg cursor-pointer" id="exportBtn" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">download</span>
+<span>Export Audit Log</span>
+</button>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-sm mb-space-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-space-md">
+<!-- Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto p-1 bg-surface-container-low rounded-lg" id="filterContainer">
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all bg-surface-container-lowest text-on-surface shadow-sm font-semibold" data-filter="all" type="button">
+        All (24)
+      </button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="approved" type="button">
+        Approved &amp; Executed (22)
+      </button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="blocked" type="button">
+        Blocked / Rejected (2)
+      </button>
+<button class="filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-filter="pending" type="button">
+        Pending (0)
+      </button>
+</div>
+<!-- Search input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full bg-surface-container-low focus:bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-md font-body-md pl-9 pr-4 py-2 rounded-lg outline-none transition-all shadow-inner focus:shadow-sm" id="searchInput" placeholder="Search by tx hash (0x...), recipient, or intent ID..." type="text"/>
+</div>
+</div>
+<!-- Main Split Layout: Table on Left/Center, Deep Detail View Embedded Below or Interactive -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- Left: Activity Data Table (institutional fintech styling) -->
+<div class="xl:col-span-8 flex flex-col">
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-outline font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md font-semibold">Time</th>
+<th class="py-3 px-space-md font-semibold">Intent ID</th>
+<th class="py-3 px-space-md font-semibold">Asset &amp; Amount</th>
+<th class="py-3 px-space-md font-semibold">Recipient</th>
+<th class="py-3 px-space-md font-semibold">Guardian Decision</th>
+<th class="py-3 px-space-md font-semibold">Execution Status</th>
+<th class="py-3 px-space-md font-semibold text-right">Evidence</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-high/40" id="activityTableBody">
+<!-- Row 1: Selected by default -->
+<tr class="activity-row group hover:bg-surface-container cursor-pointer transition-colors bg-primary-fixed/20" data-intent="INT-9841" data-status="approved">
+<td class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant whitespace-nowrap">
+                  Just now
+                </td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-numeric-data text-body-sm font-mono font-medium text-primary">#INT-9841</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-[#2775ca]/10 text-[#2775ca] flex items-center justify-center font-bold text-[10px]">₮</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">1.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">USDC</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium truncate">Vendor Invoice #481</span>
+<span class="font-numeric-data text-[11px] font-mono text-outline">0x2e9B...a81C</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#059669] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    Approved (10/10)
+                  </span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                    Base Sepolia
+                  </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<a class="inline-flex items-center gap-0.5 text-primary hover:text-on-primary-fixed-variant font-numeric-data font-mono text-body-sm font-medium" href="#">
+                    0x3d82...f92a
+                    <span class="material-symbols-outlined text-[14px]">north_east</span>
+</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="activity-row group hover:bg-surface-container cursor-pointer transition-colors" data-intent="INT-9840" data-status="blocked">
+<td class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant whitespace-nowrap">
+                  15 mins ago
+                </td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-numeric-data text-body-sm font-mono font-medium text-on-surface">#INT-9840</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-[#2775ca]/10 text-[#2775ca] flex items-center justify-center font-bold text-[10px]">₮</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">150.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">USDC</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium truncate">Unknown Actor</span>
+<span class="font-numeric-data text-[11px] font-mono text-outline">0x91a3...77b2</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-error font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                    Blocked (Velocity)
+                  </span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-label-md text-label-md text-outline">Off-chain Thwarted</span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<span class="font-label-sm text-label-sm text-[#059669] font-medium bg-[#10b981]/10 px-2 py-0.5 rounded">Gas Saved ($0.00)</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="activity-row group hover:bg-surface-container cursor-pointer transition-colors" data-intent="INT-9839" data-status="blocked">
+<td class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant whitespace-nowrap">
+                  45 mins ago
+                </td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-numeric-data text-body-sm font-mono font-medium text-on-surface">#INT-9839</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-[#2775ca]/10 text-[#2775ca] flex items-center justify-center font-bold text-[10px]">₮</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">2.50</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">USDC</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium truncate">Unwhitelisted Contract</span>
+<span class="font-numeric-data text-[11px] font-mono text-outline">0x0000...dead</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-error-container text-error font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                    Blocked (Recipient)
+                  </span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-label-md text-label-md text-outline">Off-chain Thwarted</span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<span class="font-label-sm text-label-sm text-[#059669] font-medium bg-[#10b981]/10 px-2 py-0.5 rounded">Gas Saved ($0.00)</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="activity-row group hover:bg-surface-container cursor-pointer transition-colors" data-intent="INT-9838" data-status="approved">
+<td class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant whitespace-nowrap">
+                  2 hours ago
+                </td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-numeric-data text-body-sm font-mono font-medium text-on-surface">#INT-9838</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-[#2775ca]/10 text-[#2775ca] flex items-center justify-center font-bold text-[10px]">₮</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">5.00</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">USDC</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium truncate">Payroll Sub-account</span>
+<span class="font-numeric-data text-[11px] font-mono text-outline">0x4f12...b991</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#059669] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    Approved (10/10)
+                  </span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                    Base Sepolia
+                  </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<a class="inline-flex items-center gap-0.5 text-primary hover:text-on-primary-fixed-variant font-numeric-data font-mono text-body-sm font-medium" href="#">
+                    0x7a11...04cc
+                    <span class="material-symbols-outlined text-[14px]">north_east</span>
+</a>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="activity-row group hover:bg-surface-container cursor-pointer transition-colors" data-intent="INT-9837" data-status="approved">
+<td class="py-3.5 px-space-md font-label-md text-label-md text-on-surface-variant whitespace-nowrap">
+                  Yesterday
+                </td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-numeric-data text-body-sm font-mono font-medium text-on-surface">#INT-9837</span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="w-5 h-5 rounded-full bg-[#2775ca]/10 text-[#2775ca] flex items-center justify-center font-bold text-[10px]">₮</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">0.50</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">USDC</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col min-w-[140px]">
+<span class="font-label-sm text-label-sm text-on-surface font-medium truncate">Cloud Compute API</span>
+<span class="font-numeric-data text-[11px] font-mono text-outline">0x8c22...14de</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#059669] font-label-sm text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    Approved (10/10)
+                  </span>
+</td>
+<td class="py-3.5 px-space-md whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+                    Base Sepolia
+                  </span>
+</td>
+<td class="py-3.5 px-space-md text-right whitespace-nowrap">
+<a class="inline-flex items-center gap-0.5 text-primary hover:text-on-primary-fixed-variant font-numeric-data font-mono text-body-sm font-medium" href="#">
+                    0x1b94...88ef
+                    <span class="material-symbols-outlined text-[14px]">north_east</span>
+</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="p-space-md bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface-variant">
+            Showing <span class="font-semibold text-on-surface">1 - 5</span> of <span class="font-semibold text-on-surface">24</span> ledger events
+          </span>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors disabled:opacity-40" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center bg-primary-container text-on-primary-container font-label-md text-label-md font-semibold">
+              1
+            </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-colors">
+              2
+            </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-colors">
+              3
+            </button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Execution Pipeline Visualization -->
+<div class="mt-space-lg bg-surface-container-lowest p-space-lg rounded-xl shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">account_tree</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">Zero-Failure Agentic Pipeline</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Formal Invariant Flow</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-sm relative">
+<!-- Step 1 -->
+<div class="p-space-sm bg-surface-container-low rounded-lg relative">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-mono text-outline">STAGE 01</span>
+<span class="material-symbols-outlined text-[16px] text-primary">smart_toy</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block">Agent Prompt Intent</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Autonomous LLM parses context and drafts calldata.</p>
+</div>
+<!-- Step 2 -->
+<div class="p-space-sm bg-surface-container-low rounded-lg relative">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-mono text-outline">STAGE 02</span>
+<span class="material-symbols-outlined text-[16px] text-tertiary">security</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block">Guardian Enclave</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">TPDR engine evaluates 10 strict security invariants.</p>
+</div>
+<!-- Step 3 -->
+<div class="p-space-sm bg-surface-container-low rounded-lg relative">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-mono text-outline">STAGE 03</span>
+<span class="material-symbols-outlined text-[16px] text-primary">edit_document</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block">Dual Quorum Co-sign</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Agent ECDSA + Guardian enclave attestations merged.</p>
+</div>
+<!-- Step 4 -->
+<div class="p-space-sm bg-surface-container-high rounded-lg relative">
+<div class="flex items-center justify-between mb-1">
+<span class="font-label-sm text-label-sm font-mono text-primary font-bold">STAGE 04</span>
+<span class="material-symbols-outlined text-[16px] text-[#059669]">check_circle</span>
+</div>
+<span class="font-label-md text-label-md font-semibold text-on-surface block">ERC-4337 Settlement</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Base Sepolia UserOp executes cleanly. Zero gas wasted.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Selected Transaction Detail Drawer / Card (Inspect #INT-9841) -->
+<div class="xl:col-span-4 flex flex-col gap-space-md">
+<div class="bg-surface-container-lowest p-space-lg rounded-xl shadow-md sticky top-20">
+<!-- Drawer Header -->
+<div class="flex items-start justify-between pb-space-md mb-space-md border-b border-surface-container-high">
+<div>
+<div class="flex items-center gap-space-xs mb-1">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider font-semibold">Intent Inspection</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-[#10b981]/15 text-[#059669] font-semibold">Verified On-Chain</span>
+</div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface" id="detailDrawerTitle">#INT-9841</h2>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Base Sepolia UserOperation #0x3d82...f92a</span>
+</div>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</div>
+</div>
+<!-- Section A: Synthesized Intent -->
+<div class="mb-space-md">
+<div class="flex items-center gap-1.5 mb-2">
+<span class="material-symbols-outlined text-[16px] text-primary">data_object</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">1. Synthesized Intent</h3>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg space-y-2 font-body-sm text-body-sm">
+<div class="flex justify-between items-center">
+<span class="text-outline">Action</span>
+<span class="font-medium text-on-surface">ERC-20 Transfer</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Asset</span>
+<span class="font-medium text-on-surface flex items-center gap-1">Circle USDC <span class="text-outline-variant">•</span> USD Coin</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Amount</span>
+<span class="font-numeric-data text-body-md font-semibold text-on-surface tabular-nums">1.000000 USDC ($1.00)</span>
+</div>
+<div class="flex flex-col gap-0.5 pt-1">
+<span class="text-outline">Recipient Target</span>
+<div class="p-1.5 rounded bg-surface-container-lowest font-mono text-[11px] text-on-surface break-all select-all">
+                0x2e9B41d8b671Fb7772c29c8e23971946394ea81C
+              </div>
+<span class="text-[11px] text-[#059669] font-medium mt-0.5">Whitelisted Treasury Vendor #481</span>
+</div>
+<div class="flex justify-between items-center pt-1 border-t border-surface-container-high/60">
+<span class="text-outline">Intent Router</span>
+<span class="font-label-sm text-label-sm font-mono text-on-surface">Mini-FreeLLM + Regex IR</span>
+</div>
+</div>
+</div>
+<!-- Section B: Guardian & TPDR Verdict -->
+<div class="mb-space-md">
+<div class="flex items-center gap-1.5 mb-2">
+<span class="material-symbols-outlined text-[16px] text-primary">gavel</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">2. Guardian &amp; TPDR Verdict</h3>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg space-y-2 font-body-sm text-body-sm">
+<div class="flex justify-between items-center">
+<span class="text-outline">Invariants Passed</span>
+<span class="inline-flex items-center gap-1 text-[#059669] font-semibold">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                10 / 10 Passed
+              </span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Calculated Risk Score</span>
+<div class="flex items-center gap-1.5">
+<div class="w-16 h-1.5 rounded-full bg-surface-container-high overflow-hidden">
+<div class="w-1/12 h-full bg-[#059669]"></div>
+</div>
+<span class="font-numeric-data text-body-sm font-medium text-on-surface">0.02 (Safe)</span>
+</div>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Calldata Hash Match</span>
+<span class="font-label-sm text-label-sm font-mono text-primary font-medium">Bit-perfect (SHA-256)</span>
+</div>
+<div class="flex flex-col gap-1 pt-1">
+<span class="text-outline">Multi-Sig Quorum</span>
+<div class="flex items-center gap-1.5 text-[11px]">
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface font-mono">Agent Signed</span>
+<span class="text-outline">+</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-mono font-semibold">Guardian Enclave</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section C: Blockchain Receipt -->
+<div class="mb-space-lg">
+<div class="flex items-center gap-1.5 mb-2">
+<span class="material-symbols-outlined text-[16px] text-primary">link</span>
+<h3 class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant font-bold">3. Blockchain Receipt</h3>
+</div>
+<div class="p-space-sm bg-surface-container-low rounded-lg space-y-2 font-body-sm text-body-sm">
+<div class="flex justify-between items-center">
+<span class="text-outline">Network</span>
+<span class="font-medium text-on-surface">Base Sepolia (Chain ID 84532)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Block Number</span>
+<span class="font-numeric-data text-body-sm font-mono font-medium text-on-surface">#14,892,104</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Gas Used / Cost</span>
+<span class="font-numeric-data text-body-sm font-medium text-on-surface tabular-nums">48,210 ($0.002)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-outline">Smart Account</span>
+<span class="font-numeric-data text-body-sm font-mono text-outline">0x71c9...4b92</span>
+</div>
+</div>
+</div>
+<!-- Action CTA -->
+<div class="flex flex-col gap-2">
+<a class="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg transition-colors shadow-sm" href="#">
+<span>View on BaseScan</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+<button class="w-full flex items-center justify-center gap-1.5 py-2 px-4 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">receipt</span>
+<span>Download Signed Cryptographic Proof (.json)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty state container (hidden by default, toggled via JS filter) -->
+<div class="hidden flex-col items-center justify-center p-12 bg-surface-container-lowest rounded-xl shadow-sm text-center my-space-lg" id="emptyState">
+<div class="w-14 h-14 rounded-full bg-surface-container-low flex items-center justify-center text-outline mb-space-sm">
+<span class="material-symbols-outlined text-[28px]">search_off</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-1">No matching transactions found</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-sm mb-space-md">
+      There are currently no items matching your criteria. Try adjusting your query or resetting filter state.
+    </p>
+<button class="px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md cursor-pointer" id="resetFiltersBtn" type="button">
+      Reset All Filters
+    </button>
+</div>
+</div>
+<script>
+  // Simple client-side micro-interactions: filters, search, and row inspect
+  const filterTabs = document.querySelectorAll('.filter-tab');
+  const rows = document.querySelectorAll('.activity-row');
+  const searchInput = document.getElementById('searchInput');
+  const emptyState = document.getElementById('emptyState');
+  const tableBody = document.getElementById('activityTableBody');
+  const resetBtn = document.getElementById('resetFiltersBtn');
+  let currentFilter = 'all';
+
+  function applyFilters() {
+    const term = searchInput.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    rows.forEach(row => {
+      const status = row.getAttribute('data-status');
+      const text = row.innerText.toLowerCase();
+      const matchesFilter = (currentFilter === 'all') || (currentFilter === status);
+      const matchesSearch = !term || text.includes(term);
+
+      if (matchesFilter && matchesSearch) {
+        row.style.display = '';
+        visibleCount++;
+      } else {
+        row.style.display = 'none';
+      }
+    });
+
+    if (visibleCount === 0) {
+      emptyState.classList.remove('hidden');
+      emptyState.classList.add('flex');
+      tableBody.parentElement.parentElement.classList.add('hidden');
+    } else {
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+      tableBody.parentElement.parentElement.classList.remove('hidden');
+    }
+  }
+
+  filterTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      filterTabs.forEach(t => {
+        t.className = 'filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high';
+      });
+      tab.className = 'filter-tab px-space-md py-1.5 rounded-md font-label-md text-label-md transition-all bg-surface-container-lowest text-on-surface shadow-sm font-semibold';
+      currentFilter = tab.getAttribute('data-filter');
+      applyFilters();
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilters);
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      currentFilter = 'all';
+      filterTabs[0].click();
+    });
+  }
+
+  // Row selection interaction highlight
+  rows.forEach(row => {
+    row.addEventListener('click', () => {
+      rows.forEach(r => r.classList.remove('bg-primary-fixed/20'));
+      row.classList.add('bg-primary-fixed/20');
+      const intentId = row.getAttribute('data-intent');
+      const title = document.getElementById('detailDrawerTitle');
+      if (title) {
+        title.innerText = '#' + intentId;
+      }
+    });
+  });
+
+  // Export button trigger notification
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+      const prevHtml = exportBtn.innerHTML;
+      exportBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] text-[#059669]">check</span><span>Exported CSV</span>';
+      setTimeout(() => {
+        exportBtn.innerHTML = prevHtml;
+      }, 2000);
+    });
+  }
+</script></div></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-gutter py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-xs text-center sm:text-left"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary-container"></span><span class="font-label-md text-label-md text-on-surface-variant">Sentinel Policy Guard v2.4 • Encrypted Autonomous Custody • Base Sepolia Testnet</span></div><div class="font-label-sm text-label-sm text-outline">© 2025 Sentinel AI Trust Architecture. All rights reserved.</div></div></footer></body></html>

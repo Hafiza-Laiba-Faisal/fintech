@@ -58,6 +58,13 @@ export interface PolicyConfig {
 
   /** Whether to treat the wallet as paused (for mock/test scenarios) */
   isPaused?: boolean;
+
+  /**
+   * Optional per-transaction ceiling (token's smallest unit). Enforced as a
+   * separate PRE-FLIGHT check ("per_tx_ceiling") independent from the daily
+   * limit. When unset (undefined / 0) the check passes with an advisory note.
+   */
+  perTxCeilingAmount?: bigint;
 }
 
 // ─── Used Intent IDs (in-memory replay protection) ───────────────────────────
@@ -194,6 +201,28 @@ function checkSpendingLimit(
   };
 }
 
+function checkPerTxCeiling(
+  intent: TransactionIntent,
+  config: PolicyConfig,
+): PolicyCheckResult {
+  const ceiling = config.perTxCeilingAmount ?? 0n;
+  if (ceiling === 0n) {
+    return {
+      check: "per_tx_ceiling",
+      passed: true,
+      detail: "No per-transaction ceiling configured — daily limit governs",
+    };
+  }
+  const passed = intent.amount <= ceiling;
+  return {
+    check: "per_tx_ceiling",
+    passed,
+    detail: passed
+      ? `Amount ${intent.amount} fits within per-transaction ceiling ${ceiling}`
+      : `Amount ${intent.amount} exceeds per-transaction ceiling ${ceiling}`,
+  };
+}
+
 function checkWalletPaused(config: PolicyConfig): PolicyCheckResult {
   const paused = config.isPaused ?? false;
   return {
@@ -267,6 +296,7 @@ export function evaluateIntent(
   checks.push(checkCalldataIntegrity(intent));
   checks.push(checkRecipientAllowlist(intent, config));
   checks.push(checkSpendingLimit(intent, config));
+  checks.push(checkPerTxCeiling(intent, config));
   checks.push(checkWalletPaused(config));
 
   // Find first failure
@@ -274,10 +304,25 @@ export function evaluateIntent(
 
   const now = Math.floor(Date.now() / 1000);
 
+  // ── Deterministic risk level (advisory only) ─────────────────────────────────
+  // Maps the failed check (or approval) to a stable risk tier. This never
+  // overrides status — enforcement is status, not riskLevel.
+  const HIGH_RISK_CHECKS: ReadonlySet<string> = new Set([
+    "recipient_allowlist",
+    "calldata_integrity",
+    "selector_match",
+    "chain_id",
+    "wallet_binding",
+    "intent_id_replay",
+    "wallet_paused",
+    "amount_positive",
+  ]);
+
   if (failed) {
     return {
       intentId: intent.intentId,
       status: "rejected",
+      riskLevel: HIGH_RISK_CHECKS.has(failed.check) ? "high" : "medium",
       reason: failed.detail,
       failedCheck: failed.check as PolicyCheckName,
       checks,
@@ -288,6 +333,7 @@ export function evaluateIntent(
   return {
     intentId: intent.intentId,
     status: "approved",
+    riskLevel: "low",
     reason: `All ${checks.length} policy checks passed`,
     checks,
     decidedAt: now,

@@ -473,11 +473,63 @@ describe("[T8] Wrong Wallet Binding", () => {
       ...validIntent(),
       walletAddress: "0x9999999999999999999999999999999999999999" as Address,
     };
+  const record = await manager.executeIntent(intent);
 
-    const record = await manager.executeIntent(intent);
+  expect(record.decision.status).toBe("rejected");
+  expect(record.decision.failedCheck).toBe("wallet_binding");
+  console.log(`    [T8] Rejected: ${record.decision.reason}`);
+});
+});
 
+// ─── [S1] State & Reliability: concurrent duplicate submission ───────────────
+
+describe("[S1] Concurrent duplicate submission — replay protection under race", () => {
+  it("only ONE of two parallel submissions of the same intent is approved", async () => {
+    const intent = validIntent();
+
+    // Two identical submissions fired in the same tick: the manager marks
+    // the intent used synchronously before the first await, so the second
+    // evaluation must see it as used regardless of interleaving.
+    const [a, b] = await Promise.all([
+      manager.executeIntent(intent),
+      manager.executeIntent(intent),
+    ]);
+
+    const approvedOuts = [a, b].filter((r) => r.decision.status === "approved");
+    const replayOuts = [a, b].filter(
+      (r) => r.decision.status === "rejected" && r.decision.failedCheck === "intent_id_replay",
+    );
+
+    expect(approvedOuts.length).toBe(1);
+    expect(replayOuts.length).toBe(1);
+    expect(approvedOuts[0]!.intent.intentId).toBe(intent.intentId);
+    expect(replayOuts[0]!.decision.reason).toMatch(/replay/i);
+  });
+
+  it("fresh intent IDs do NOT reset the session spending accumulator (no limit bypass)", async () => {
+    // The session accumulator increments only AFTER a confirmed on-chain
+    // success. The mock EVM may not confirm ERC-20 transfers, so we simulate
+    // three CONFIRMED 10-USDC spends explicitly (the exact state update the
+    // manager performs after a real confirmation), then attempt 80 USDC.
+    for (let i = 0; i < 3; i++) {
+      const intent = validIntent();
+      const r = await manager.executeIntent(intent);
+      expect(r.decision.status).toBe("approved");
+      manager.addSpentAmount(parseUnits("10", 6)); // = post-confirmation accounting path
+    }
+    expect(manager.getSpentSoFar()).toBe(parseUnits("30", 6));
+
+    const oversized = buildTransferIntent({
+      chainId: CHAIN_ID,
+      walletAddress: mockWallet.address,
+      tokenAddress: TOKEN,
+      recipient: APPROVED,
+      amount: parseUnits("80", 6),
+      amountHuman: "80 USDC",
+    });
+    const record = await manager.executeIntent(oversized);
     expect(record.decision.status).toBe("rejected");
-    expect(record.decision.failedCheck).toBe("wallet_binding");
-    console.log(`    [T8] Rejected: ${record.decision.reason}`);
+    expect(record.decision.failedCheck).toBe("spending_limit");
+    expect(record.decision.reason).toMatch(/exceeds remaining limit/i);
   });
 });

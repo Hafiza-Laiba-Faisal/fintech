@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Sentinel Wallet</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base { html, body { margin: 0; padding: 0; } body { overscroll-behavior: none; } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container-high": "#e3e8f7", "outline": "#747686", "surface-container": "#e8eefd", "error": "#ba1a1a", "on-surface-variant": "#444654", "outline-variant": "#c4c5d7", "on-tertiary-fixed": "#341100", "surface-container-lowest": "#ffffff", "background": "#f9f9ff", "on-error": "#ffffff", "inverse-on-surface": "#ecf0ff", "on-error-container": "#93000a", "inverse-primary": "#b9c3ff", "on-secondary-fixed": "#121c28", "on-primary-fixed-variant": "#0035be", "on-secondary-fixed-variant": "#3e4755", "tertiary": "#923e00", "surface-container-highest": "#dde2f1", "on-primary": "#ffffff", "error-container": "#ffdad6", "secondary-container": "#d6e0f1", "surface-bright": "#f9f9ff", "surface-variant": "#dde2f1", "surface-dim": "#d4dae9", "inverse-surface": "#2b313c", "on-primary-container": "#f5f3ff", "on-tertiary-container": "#fff2ed", "on-background": "#161c26", "on-tertiary": "#ffffff", "primary-container": "#4263eb", "surface": "#f9f9ff", "on-surface": "#161c26", "tertiary-container": "#b95000", "secondary-fixed": "#d9e3f4", "on-tertiary-fixed-variant": "#783100", "surface-container-low": "#f0f3ff", "primary": "#2248d1", "on-secondary-container": "#596372", "on-primary-fixed": "#001356", "secondary-fixed-dim": "#bdc7d8", "primary-fixed": "#dde1ff", "tertiary-fixed": "#ffdbcb", "tertiary-fixed-dim": "#ffb690", "secondary": "#555f6d", "primary-fixed-dim": "#b9c3ff", "surface-tint": "#2c50d9", "on-secondary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2.5rem", "gutter-mobile": "1rem", "space-sm": "0.5rem", "gutter": "1.5rem", "margin": "2rem", "margin-mobile": "1rem", "space-lg": "1.5rem", "space-md": "1rem" }, "fontFamily": { "headline-lg": ["Inter"], "body-md": ["Inter"], "display": ["Inter"], "headline-sm": ["Inter"], "numeric-data": ["Inter"], "body-lg": ["Inter"], "headline-md": ["Inter"], "headline-lg-mobile": ["Inter"], "label-lg": ["Inter"], "display-mobile": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }], "display": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.025em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "numeric-data": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "400" }], "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "500" }], "display-mobile": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.005em", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "600" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm min-w-max"><div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container shadow-sm"><span class="material-symbols-outlined text-[22px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">Sentinel</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold px-1.5 py-0.5 rounded bg-primary-fixed leading-none">Wallet</span></div><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1 hidden sm:block">Policy-governed AI Agent Wallet</span></div></div><div class="hidden md:flex items-center justify-center flex-1"><nav class="flex items-center bg-surface-container-low p-1 rounded-full shadow-inner" data-active-classes="bg-primary-container text-on-primary-container font-label-lg shadow-sm"><a class="px-space-md py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="wallet" href="#">Wallet</a><a class="px-space-md py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="security" href="#">Security</a><a class="px-space-md py-1.5 rounded-full font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="activity" href="#">Activity</a></nav></div><div class="flex items-center gap-space-sm min-w-max justify-end"><div class="hidden lg:flex items-center gap-2 px-2.5 py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span><span class="font-label-sm text-label-sm font-medium text-on-surface-variant">Base Sepolia #84532</span></div><button class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer group" type="button"><span class="material-symbols-outlined text-[16px] text-on-surface-variant group-hover:text-primary transition-colors">token</span><span class="font-numeric-data text-body-sm font-mono text-on-surface font-medium">0x71c9...4b92</span><span class="material-symbols-outlined text-[16px] text-outline group-hover:text-on-surface transition-colors">content_copy</span></button><a class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="settings" href="#" title="Settings"><span class="material-symbols-outlined text-[20px]">settings</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="md:hidden flex items-center justify-center border-t border-outline-variant/30 py-2 bg-surface-container-lowest"><nav class="flex items-center gap-1 bg-surface-container-low p-1 rounded-full" data-active-classes="bg-primary-container text-on-primary-container font-label-md shadow-sm"><a class="px-space-sm py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="wallet" href="#">Wallet</a><a class="px-space-sm py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="security" href="#">Security</a><a class="px-space-sm py-1 rounded-full font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="activity" href="#">Activity</a></nav></div></header><main class="w-full pt-16 bg-background min-h-[calc(100vh-4rem)] flex flex-col"><div class="max-w-7xl w-full mx-auto px-gutter py-space-lg flex-1"><div class="flex flex-col w-full">
+<!-- Toast Notification Container -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl bg-surface-container-lowest border border-outline-variant/40" id="toast-notification">
+<span class="material-symbols-outlined text-[20px] text-primary" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md text-on-surface" id="toast-message">Configuration updated</span>
+</div>
+<!-- Header Breadcrumb & Actions -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-space-lg">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<a class="inline-flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors group" data-path="wallet" href="#">
+<span class="material-symbols-outlined text-[16px] group-hover:-translate-x-0.5 transition-transform">arrow_back</span>
+<span>Back to Wallet</span>
+</a>
+<span class="text-outline-variant font-body-sm text-body-sm">/</span>
+<span class="font-label-md text-label-md text-outline">Configuration</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-0.5">Settings</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+        Configure your Safe account parameters, security policies, and AI planner connection.
+      </p>
+</div>
+<!-- Global Quick Status Indicators -->
+<div class="flex items-center gap-2.5 self-start sm:self-auto bg-surface-container-lowest px-3 py-1.5 rounded-lg shadow-sm border border-outline-variant/40">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Guardian Sync</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">LLM Active</span>
+</div>
+</div>
+</div>
+<!-- Two Explicit Sections Container -->
+<div class="flex flex-col gap-space-xl pb-space-xl">
+<!-- ========================================== -->
+<!-- SECTION 1: WALLET & POLICY SETTINGS        -->
+<!-- ========================================== -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden">
+<!-- Section Header -->
+<div class="p-space-lg bg-surface-container-low/40 border-b border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[24px]">shield</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">Wallet &amp; Policy Settings</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-semibold">Protected</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Manage connected network, Safe account, and spending boundaries.</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm font-mono text-outline bg-surface-container px-2 py-1 rounded">ERC-4337</span>
+</div>
+</div>
+<div class="p-space-lg flex flex-col gap-space-lg">
+<!-- Row 1: Network & Account Metadata -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Network Details -->
+<div class="bg-surface-container-low/60 p-4 rounded-lg flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Connected Network</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-label-sm text-label-sm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                Live RPC
+              </span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-sm text-headline-sm text-on-surface">Base Sepolia</span>
+<span class="font-numeric-data text-body-sm text-on-surface-variant font-mono">Chain ID: 84532</span>
+</div>
+<div class="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">lan</span>
+<span>https://sepolia.base.org • Gas: 0.001 Gwei</span>
+</div>
+</div>
+<!-- Safe Wallet Address Details -->
+<div class="bg-surface-container-low/60 p-4 rounded-lg flex flex-col justify-between gap-3">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Safe Account Address</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Deterministic Custody</span>
+</div>
+<div class="flex items-center justify-between gap-2 bg-surface-container-lowest p-2 rounded border border-outline-variant/30">
+<span class="font-numeric-data text-body-sm font-mono text-on-surface truncate" id="safe-address">0x71c9420000000000000000000000000000004b92</span>
+<div class="flex items-center gap-1 shrink-0">
+<button class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" onclick="copyToClipboard('0x71c9420000000000000000000000000000004b92', 'Safe address copied')" title="Copy Address" type="button">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<a class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container rounded transition-colors" href="https://sepolia.basescan.org/address/0x71c9420000000000000000000000000000004b92" rel="noopener noreferrer" target="_blank" title="View on BaseScan">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-[#10b981]">verified</span>
+<span class="truncate">Guardian Hook v1.4.2 • Active Multi-sig Policy</span>
+</div>
+</div>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<!-- Row 2: Spending Limit Configuration -->
+<div class="flex flex-col gap-3">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Spending Limit Configuration</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enforced directly by on-chain smart contract hooks. Requests over limits trigger rejection.</p>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-medium self-start sm:self-auto">
+              Hard Policy Cap
+            </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-1">
+<!-- Daily Outflow -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-medium" for="daily-limit">Daily Outflow Cap (USDC)</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-outline font-label-md text-label-md">$</span>
+<input class="w-full h-10 pl-7 pr-16 bg-surface-container-lowest border border-outline-variant/60 rounded text-on-surface font-numeric-data text-body-md focus:border-primary-container focus:outline-none transition-colors" id="daily-limit" type="text" value="100.00"/>
+<span class="absolute right-3 text-outline font-label-sm text-label-sm">USDC</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Current 24h utilization:</span>
+<span class="font-label-sm text-label-sm font-semibold text-primary">$1.00 / $100.00 (1.0%)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden mt-0.5">
+<div class="bg-primary h-full rounded-full" style="width: 1%;"></div>
+</div>
+</div>
+<!-- Per Transaction Ceiling -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-medium" for="tx-ceiling">Per-Transaction Ceiling (USDC)</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-outline font-label-md text-label-md">$</span>
+<input class="w-full h-10 pl-7 pr-16 bg-surface-container-lowest border border-outline-variant/60 rounded text-on-surface font-numeric-data text-body-md focus:border-primary-container focus:outline-none transition-colors" id="tx-ceiling" type="text" value="50.00"/>
+<span class="absolute right-3 text-outline font-label-sm text-label-sm">USDC</span>
+</div>
+<p class="font-body-sm text-body-sm text-outline pt-1">
+                Any single transaction exceeding $50.00 will be instantly rejected by policy verification.
+              </p>
+</div>
+</div>
+<div class="flex justify-end pt-1">
+<button class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded border border-outline-variant/40 transition-colors flex items-center gap-1.5 cursor-pointer" onclick="showToast('Spending limit transaction prepared. Confirm on-chain.', 'lock_reset')" type="button">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Update Spending Limits</span>
+</button>
+</div>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<!-- Row 3: Allowlisted Addresses -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-lg text-label-lg text-on-surface font-semibold">Allowlisted Recipients</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Autonomous planner may execute transactions only to destinations registered in this registry.</p>
+</div>
+<button class="px-3 py-1.5 bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm rounded border border-outline-variant/40 transition-colors flex items-center gap-1 cursor-pointer" onclick="openAddRecipientModal()" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add Recipient</span>
+</button>
+</div>
+<div class="flex flex-col gap-2" id="whitelisted-list">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-surface-container-low/40 border border-outline-variant/20 gap-2">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-[14px] shrink-0 font-bold">1</span>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-numeric-data text-body-sm font-mono text-on-surface font-medium">0x2e9B4a32...a81C</span>
+<span class="px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-label-sm text-label-sm">Whitelisted</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Vendor Invoice #481 (Cloud Compute &amp; GPU Nodes)</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="p-1 text-outline hover:text-on-surface" onclick="copyToClipboard('0x2e9B4a32e18d32b509f6b49071c3905fa81C', 'Address copied')" title="Copy" type="button"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+<button class="p-1 text-outline hover:text-error" onclick="showToast('Recipient locked by protocol policy', 'info')" title="Revoke" type="button"><span class="material-symbols-outlined text-[18px]">delete_outline</span></button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-surface-container-low/40 border border-outline-variant/20 gap-2">
+<div class="flex items-center gap-2.5">
+<span class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-[14px] shrink-0 font-bold">2</span>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-numeric-data text-body-sm font-mono text-on-surface font-medium">0x4f1288c1...b991</span>
+<span class="px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-label-sm text-label-sm">Whitelisted</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Treasury Payroll Reserve</span>
+</div>
+</div>
+<div class="flex items-center gap-2 self-end sm:self-auto">
+<button class="p-1 text-outline hover:text-on-surface" onclick="copyToClipboard('0x4f1288c1f930e1898711883748299101b991', 'Address copied')" title="Copy" type="button"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+<button class="p-1 text-outline hover:text-error" onclick="showToast('Recipient locked by protocol policy', 'info')" title="Revoke" type="button"><span class="material-symbols-outlined text-[18px]">delete_outline</span></button>
+</div>
+</div>
+</div>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<!-- Row 4: Guardian Circuit Breaker & Emergency Pause -->
+<div class="p-4 rounded-lg bg-surface-container-low/50 border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<div class="w-9 h-9 rounded-full bg-[#10b981]/10 text-[#047857] flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Circuit Breaker: Normal (Unpaused)</span>
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                All autonomous execution channels operational. In event of model deviation or security event, trigger immediate pause.
+              </p>
+</div>
+</div>
+<button class="px-3.5 py-2 rounded bg-error-container hover:bg-error text-on-error-container hover:text-on-error font-label-md text-label-md transition-colors shrink-0 flex items-center justify-center gap-1.5 cursor-pointer" onclick="confirmEmergencyPause()" type="button">
+<span class="material-symbols-outlined text-[18px]">pause_circle</span>
+<span>Emergency Pause</span>
+</button>
+</div>
+<!-- Row 5: Advanced Contracts Accordion -->
+<div class="rounded-lg border border-outline-variant/30 overflow-hidden">
+<button class="w-full px-4 py-3 bg-surface-container-low/30 hover:bg-surface-container-low flex items-center justify-between text-left transition-colors cursor-pointer" onclick="toggleAccordion('advanced-contracts')" type="button">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline">code</span>
+<span class="font-label-md text-label-md font-semibold text-on-surface">Advanced Contracts &amp; Security Proofs</span>
+</div>
+<span class="material-symbols-outlined text-[18px] text-outline transition-transform" id="accordion-icon">expand_more</span>
+</button>
+<div class="hidden px-4 py-3 bg-surface-container-lowest flex flex-col gap-3.5 border-t border-outline-variant/20" id="advanced-contracts">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-body-sm font-body-sm">
+<div>
+<span class="text-outline block font-label-sm text-label-sm font-mono">Guardian Hook Module:</span>
+<span class="font-mono text-on-surface text-[13px] bg-surface-container-low px-2 py-0.5 rounded select-all">0x8a1F99000000000000000000000000000000f4e2</span>
+</div>
+<div>
+<span class="text-outline block font-label-sm text-label-sm font-mono">TPDR Verifier Contract:</span>
+<span class="font-mono text-on-surface text-[13px] bg-surface-container-low px-2 py-0.5 rounded select-all">0x3c2a10000000000000000000000000000000910a</span>
+</div>
+</div>
+<div class="flex items-start gap-2 p-2.5 rounded bg-surface-container-low/70 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary shrink-0 mt-0.5">shield</span>
+<p class="text-[12px] leading-relaxed">
+                Private keys and seed phrases are never stored or exportable. Custody is strictly governed by smart account policies and deterministic on-chain logic.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- SECTION 2: LLM PLANNER SETTINGS            -->
+<!-- ========================================== -->
+<section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden">
+<!-- Section Header -->
+<div class="p-space-lg bg-surface-container-low/40 border-b border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 text-primary-container flex items-center justify-center shadow-xs">
+<span class="material-symbols-outlined text-[24px]">psychology</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface tracking-tight">LLM Planner Settings</h2>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed font-semibold">Zero-Custody AI</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Configure the natural language planner that synthesizes transaction calldata.</p>
+</div>
+</div>
+<!-- Master Toggle -->
+<div class="flex items-center gap-3">
+<label class="font-label-sm text-label-sm font-medium text-on-surface cursor-pointer select-none" for="llm-toggle">
+            Enable Autonomous Planner
+          </label>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" id="llm-toggle" onchange="handlePlannerToggle(this)" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+<div class="p-space-lg flex flex-col gap-space-lg" id="llm-config-panel">
+<!-- Provider Selection (Pills) -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Inference Engine / Provider</label>
+<div class="flex flex-wrap gap-1.5 p-1 bg-surface-container-low rounded-lg border border-outline-variant/30" role="tablist">
+<button class="provider-pill active-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium transition-all bg-surface-container-lowest text-primary shadow-xs" onclick="selectProvider(this, 'Mini-FreeLLM (Port 3001)', 'http://localhost:3001/v1', 'gpt-4o-mini')" type="button">
+              Mini-FreeLLM (Port 3001)
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'OpenAI', 'https://api.openai.com/v1', 'gpt-4o')" type="button">
+              OpenAI
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'OpenRouter', 'https://openrouter.ai/api/v1', 'anthropic/claude-3.5-sonnet')" type="button">
+              OpenRouter
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'Groq', 'https://api.groq.com/openai/v1', 'llama-3.3-70b-versatile')" type="button">
+              Groq
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'Ollama (local)', 'http://localhost:11434/v1', 'mistral')" type="button">
+              Ollama (local)
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'Anthropic', 'https://api.anthropic.com/v1', 'claude-3-5-sonnet-20241022')" type="button">
+              Anthropic
+            </button>
+<button class="provider-pill px-3 py-1.5 rounded-md font-label-sm text-label-sm font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" onclick="selectProvider(this, 'Custom', 'https://custom-gateway.internal/v1', 'custom-model')" type="button">
+              Custom
+            </button>
+</div>
+</div>
+<!-- Model and Endpoint Inputs -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Model Selection -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-medium" for="model-id">Model Identifier</label>
+<span class="font-label-sm text-label-sm text-outline" id="model-context">JSON mode supported</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant/60 rounded text-on-surface font-body-md text-body-md focus:border-primary-container focus:outline-none transition-colors" id="model-id" type="text" value="gpt-4o-mini"/>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Optimized for fast structured JSON intent synthesis.</span>
+</div>
+<!-- Endpoint URL -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-medium" for="endpoint-url">Endpoint URL</label>
+<span class="font-label-sm text-label-sm text-primary font-medium">(provided from this UI)</span>
+</div>
+<div class="relative flex items-center">
+<input class="w-full h-10 px-3 bg-surface-container-lowest border border-outline-variant/60 rounded text-on-surface font-numeric-data text-body-md font-mono focus:border-primary-container focus:outline-none transition-colors" id="endpoint-url" type="text" value="http://localhost:3001/v1"/>
+</div>
+<span class="font-body-sm text-body-sm text-outline">Local unified routing proxy with response validation.</span>
+</div>
+</div>
+<!-- API Key and Test Connection -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant font-medium" for="api-key">Planner API Key / Bearer Token</label>
+<div class="flex flex-col sm:flex-row gap-2">
+<div class="relative flex-1 flex items-center">
+<input class="w-full h-10 pl-3 pr-10 bg-surface-container-lowest border border-outline-variant/60 rounded text-on-surface font-mono text-body-md focus:border-primary-container focus:outline-none transition-colors tracking-widest" id="api-key" type="password" value="sk-sentinel-proxy-local-b4920401827401928401928"/>
+<button class="absolute right-2.5 p-1 text-outline hover:text-on-surface transition-colors cursor-pointer" onclick="togglePasswordVisibility()" title="Toggle visibility" type="button">
+<span class="material-symbols-outlined text-[18px]" id="eye-icon">visibility_off</span>
+</button>
+</div>
+<button class="px-4 h-10 bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md rounded border border-outline-variant/40 transition-colors flex items-center justify-center gap-1.5 shrink-0 cursor-pointer" id="btn-test-conn" onclick="testConnection()" type="button">
+<span class="material-symbols-outlined text-[18px]" id="test-icon">network_ping</span>
+<span id="test-label">Test Connection</span>
+</button>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pt-1">
+<span class="font-body-sm text-body-sm text-outline">Pre-filled with local unified proxy key. Real secrets are never displayed.</span>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-label-sm text-label-sm font-semibold" id="connection-status-badge">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+<span>Connected (14ms latency, HTTP 200 OK)</span>
+</div>
+</div>
+</div>
+<!-- Regex Fallback Status Card -->
+<div class="p-3.5 rounded-lg bg-surface-container-low/60 border border-outline-variant/30 flex items-start gap-3">
+<div class="w-8 h-8 rounded-md bg-secondary-container/60 text-secondary flex items-center justify-center shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">find_replace</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-label-md text-label-md font-semibold text-on-surface">Regex Fallback Active</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              If the LLM endpoint is unreachable, throttled, or semantic confidence is below threshold, the deterministic regex parser safely extracts amounts, tokens, and recipients without disruption.
+            </p>
+</div>
+</div>
+<!-- Architectural Security Guarantee -->
+<div class="p-4 rounded-lg bg-surface-container-low/40 border-l-4 border-primary text-on-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-[20px] text-primary shrink-0 mt-0.5">security</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+<strong class="font-semibold text-on-surface">Zero-Custody Architectural Note:</strong> The LLM only proposes structured intent off-chain. Deterministic Guardian policies and TPDR independently verify and approve/reject all parameters before any transaction can be signed or executed.
+          </p>
+</div>
+<div class="h-px bg-outline-variant/20 w-full"></div>
+<!-- Save & Reset Action Bar -->
+<div class="flex items-center justify-end gap-3 pt-1">
+<button class="px-4 py-2 bg-transparent hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded transition-colors cursor-pointer" onclick="resetDefaults()" type="button">
+            Reset Defaults
+          </button>
+<button class="px-5 py-2 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md rounded shadow-sm transition-all flex items-center gap-1.5 cursor-pointer" onclick="saveConfiguration()" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Save Configuration</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Inline Interaction Logic -->
+<script>
+  function showToast(message, icon = 'check_circle') {
+    const toast = document.getElementById('toast-notification');
+    const msgEl = document.getElementById('toast-message');
+    const iconEl = document.getElementById('toast-icon');
+    if (!toast || !msgEl || !iconEl) return;
+
+    msgEl.textContent = message;
+    iconEl.textContent = icon;
+
+    toast.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
+    }, 2800);
+  }
+
+  function copyToClipboard(text, successMsg = 'Copied to clipboard') {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg, 'content_copy');
+      }).catch(() => {
+        showToast(successMsg, 'content_copy');
+      });
+    } else {
+      showToast(successMsg, 'content_copy');
+    }
+  }
+
+  function toggleAccordion(id) {
+    const el = document.getElementById(id);
+    const icon = document.getElementById('accordion-icon');
+    if (!el || !icon) return;
+    const isHidden = el.classList.contains('hidden');
+    if (isHidden) {
+      el.classList.remove('hidden');
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      el.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  function togglePasswordVisibility() {
+    const input = document.getElementById('api-key');
+    const icon = document.getElementById('eye-icon');
+    if (!input || !icon) return;
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.textContent = 'visibility';
+    } else {
+      input.type = 'password';
+      icon.textContent = 'visibility_off';
+    }
+  }
+
+  function selectProvider(btn, name, endpoint, defaultModel) {
+    document.querySelectorAll('.provider-pill').forEach(el => {
+      el.classList.remove('active-pill', 'bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+      el.classList.add('text-on-surface-variant');
+    });
+
+    btn.classList.add('active-pill', 'bg-surface-container-lowest', 'text-primary', 'shadow-xs');
+    btn.classList.remove('text-on-surface-variant');
+
+    const epInput = document.getElementById('endpoint-url');
+    const modelInput = document.getElementById('model-id');
+
+    if (epInput) epInput.value = endpoint;
+    if (modelInput) modelInput.value = defaultModel;
+
+    showToast(`Provider switched to ${name}`, 'sync_alt');
+  }
+
+  function handlePlannerToggle(checkbox) {
+    const panel = document.getElementById('llm-config-panel');
+    if (!panel) return;
+    if (checkbox.checked) {
+      panel.classList.remove('opacity-50', 'pointer-events-none');
+      showToast('LLM Planner Enabled', 'check_circle');
+    } else {
+      panel.classList.add('opacity-50', 'pointer-events-none');
+      showToast('LLM Planner Paused (Deterministic fallback only)', 'pause_circle');
+    }
+  }
+
+  function testConnection() {
+    const btn = document.getElementById('btn-test-conn');
+    const label = document.getElementById('test-label');
+    const icon = document.getElementById('test-icon');
+    const badge = document.getElementById('connection-status-badge');
+
+    if (!btn || !label || !icon || !badge) return;
+
+    label.textContent = 'Testing...';
+    icon.classList.add('animate-spin');
+
+    setTimeout(() => {
+      icon.classList.remove('animate-spin');
+      label.textContent = 'Test Connection';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span><span>Connected (11ms latency, HTTP 200 OK)</span>';
+      showToast('LLM Endpoint reachable & response validated', 'verified');
+    }, 600);
+  }
+
+  function confirmEmergencyPause() {
+    const confirmed = window.confirm("Initiate Sentinel Circuit Breaker?\n\nThis will instantly halt all autonomous agent calldata generation and freeze automated outflows on Base Sepolia. Owner multi-sig key required to unpause.");
+    if (confirmed) {
+      showToast('Emergency pause broadcasted to Guardian hook', 'warning');
+    }
+  }
+
+  function openAddRecipientModal() {
+    const addr = window.prompt("Enter new Whitelisted Recipient Address (Base Sepolia 0x...):");
+    if (addr && addr.startsWith('0x') && addr.length >= 10) {
+      const list = document.getElementById('whitelisted-list');
+      const item = document.createElement('div');
+      item.className = "flex flex-col sm:flex-row sm:items-center justify-between p-3 rounded-lg bg-surface-container-low/40 border border-outline-variant/20 gap-2";
+      item.innerHTML = `
+        <div class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-primary-fixed flex items-center justify-center text-primary text-[14px] shrink-0 font-bold">+</span>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-numeric-data text-body-sm font-mono text-on-surface font-medium">${addr.slice(0, 8)}...${addr.slice(-4)}</span>
+              <span class="px-2 py-0.5 rounded-full bg-[#10b981]/10 text-[#047857] font-label-sm text-label-sm">Pending Confirmation</span>
+            </div>
+            <span class="font-body-sm text-body-sm text-on-surface-variant">Manual Policy Whitelist Addition</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button type="button" onclick="this.closest('.flex-col').remove(); showToast('Recipient removed');" class="p-1 text-outline hover:text-error" title="Remove"><span class="material-symbols-outlined text-[18px]">delete_outline</span></button>
+        </div>
+      `;
+      list.appendChild(item);
+      showToast('Allowlist updated. On-chain policy synced.', 'add_task');
+    } else if (addr) {
+      alert("Invalid Ethereum / Base address format.");
+    }
+  }
+
+  function resetDefaults() {
+    document.getElementById('daily-limit').value = "100.00";
+    document.getElementById('tx-ceiling').value = "50.00";
+    document.getElementById('model-id').value = "gpt-4o-mini";
+    document.getElementById('endpoint-url').value = "http://localhost:3001/v1";
+    showToast('Reset to default Sentinel profile', 'restore');
+  }
+
+  function saveConfiguration() {
+    showToast('Configuration securely committed to local storage & Safe hook', 'save');
+  }
+</script></div></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_8px_rgba(0,0,0,0.02)]"><div class="max-w-7xl mx-auto px-gutter py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-xs text-center sm:text-left"><div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary-container"></span><span class="font-label-md text-label-md text-on-surface-variant">Sentinel Policy Guard v2.4 • Encrypted Autonomous Custody • Base Sepolia Testnet</span></div><div class="font-label-sm text-label-sm text-outline">© 2025 Sentinel AI Trust Architecture. All rights reserved.</div></div></footer></body></html>

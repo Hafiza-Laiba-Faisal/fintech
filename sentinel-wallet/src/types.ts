@@ -75,6 +75,15 @@ export interface PolicyDecision {
   /** The intent this decision applies to */
   intentId: string;
 
+  /**
+   * Deterministic advisory risk level (master prompt §3B):
+   *   approved → "low"
+   *   rejected → mapped from the failed check's severity.
+   * This is INFORMATIONAL ONLY — a risk score never overrides the hard
+   * status. A rejected intent stays rejected regardless of riskLevel.
+   */
+  riskLevel: "low" | "medium" | "high";
+
   /** Whether the intent was approved or rejected */
   status: PolicyDecisionStatus;
 
@@ -98,6 +107,7 @@ export type PolicyCheckName =
   | "intent_id_replay"
   | "recipient_allowlist"
   | "spending_limit"
+  | "per_tx_ceiling"
   | "wallet_paused"
   | "calldata_integrity"
   | "amount_positive"

@@ -10,7 +10,7 @@
 | Claim | Status | Evidence |
 |-------|--------|---------|
 | 83 unit tests pass | ✅ **Verified** | `npm test` Exit 0 |
-| Policy engine (10 checks) works | ✅ **Verified** | 29 unit tests |
+| Policy engine (11 checks) works | ✅ **Verified** | 29+ unit tests |
 | TPDR calldata comparison works | ✅ **Verified** | 12 unit tests |
 | Hook contracts deployed on Base Sepolia | ✅ **Verified** | Bytecode at block 48213472 via public RPC |
 | Hooks installed on a specific wallet | ❌ **Unverified** | No wallet deployed — testnet ETH unavailable |
@@ -97,7 +97,7 @@ User Request
          ▼
 ┌────────────────────┐
 │   Policy Engine    │  src/policy.ts
-│   OFF-CHAIN        │  10 deterministic checks
+│   OFF-CHAIN        │  11 deterministic checks
 │   Pre-flight only  │  chain_id, wallet_binding, expiry,
 └────────┬───────────┘  replay, allowlist, limit, paused...
          │ APPROVED
@@ -164,7 +164,7 @@ See [docs/security-model.md](docs/security-model.md) for full threat model and k
 | File | Tests | What it verifies |
 |------|-------|-----------------|
 | `intent.test.ts` | 12 | Intent builder, deterministic calldata, ID uniqueness |
-| `policy.test.ts` | 25 | All 10 policy checks pass/fail conditions |
+| `policy.test.ts` | 25+ | All 11 policy checks pass/fail conditions |
 | `integrity.test.ts` | 12 | TPDR calldata/target/chain/wallet tamper detection |
 | `planner.test.ts` | 8 | Planner parsing, validation, ID uniqueness |
 | `llm-planner.test.ts` | 19 | LLM endpoint call, output validation, schema enforcement, no-intent-on-failure, regex fallback |

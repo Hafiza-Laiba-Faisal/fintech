@@ -337,6 +337,10 @@ export class SentinelWalletManager {
     return [...this.tpdrLog];
   }
 
+  addTPDRRecord(record: TPDRRecord): void {
+    this.tpdrLog.push(record);
+  }
+
   /** Update policy's pause state (for sync with on-chain state) */
   setPausedState(paused: boolean): void {
     this.policyConfig.isPaused = paused;
@@ -476,8 +480,26 @@ export class MockSentinelWalletManager {
     this.spentThisSession += amount;
   }
 
+  /** Spent amount tracked in-memory this session (for status UI). */
+  getSpentSoFar(): bigint {
+    return this.spentThisSession;
+  }
+
+  /**
+   * Update runtime policy config — used by the Settings UI so that spending
+   * limits, allowlist, and pause state take effect on the same manager that
+   * executes transactions. Enforcement stays in the policy engine + on-chain hooks.
+   */
+  updatePolicyConfig(updates: Partial<PolicyConfig>): void {
+    this.policyConfig = { ...this.policyConfig, ...updates };
+  }
+
   getTPDRLog(): TPDRRecord[] {
     return [...this.tpdrLog];
+  }
+
+  addTPDRRecord(record: TPDRRecord): void {
+    this.tpdrLog.push(record);
   }
 
   getWalletAddress(): Address | null {

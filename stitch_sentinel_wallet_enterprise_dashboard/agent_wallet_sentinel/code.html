@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Sentinel Wallet</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-fixed":"#001356","on-tertiary-container":"#fff2ed","outline-variant":"#c4c5d7","outline":"#747686","background":"#f9f9ff","error":"#ba1a1a","on-primary":"#ffffff","secondary-fixed-dim":"#bdc7d8","on-tertiary":"#ffffff","tertiary-container":"#b95000","surface-tint":"#2c50d9","primary-container":"#4263eb","on-background":"#161c26","on-tertiary-fixed-variant":"#783100","on-surface":"#161c26","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#3e4755","surface-container-high":"#e3e8f7","on-secondary-fixed":"#121c28","secondary":"#555f6d","tertiary-fixed-dim":"#ffb690","surface-container-highest":"#dde2f1","secondary-fixed":"#d9e3f4","on-primary-fixed-variant":"#0035be","inverse-surface":"#2b313c","tertiary":"#923e00","primary-fixed-dim":"#b9c3ff","on-secondary":"#ffffff","on-error-container":"#93000a","surface-dim":"#d4dae9","surface-bright":"#f9f9ff","on-tertiary-fixed":"#341100","primary-fixed":"#dde1ff","surface-container":"#e8eefd","surface-variant":"#dde2f1","surface-container-low":"#f0f3ff","on-error":"#ffffff","primary":"#2248d1","surface":"#f9f9ff","inverse-on-surface":"#ecf0ff","error-container":"#ffdad6","on-primary-container":"#f5f3ff","tertiary-fixed":"#ffdbcb","on-surface-variant":"#444654","inverse-primary":"#b9c3ff","secondary-container":"#d6e0f1","on-secondary-container":"#596372"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter":"1.5rem","gutter-mobile":"1rem","space-xs":"0.25rem","space-lg":"1.5rem","space-sm":"0.5rem","margin":"2rem","margin-mobile":"1rem","space-xl":"2.5rem","space-md":"1rem"},fontFamily:{"label-md":["Inter"],"label-sm":["Inter"],"label-lg":["Inter"],"body-sm":["Inter"],"numeric-data":["Inter"],"headline-md":["Inter"],"headline-lg-mobile":["Inter"],"display-mobile":["Inter"],"display":["Inter"],"body-md":["Inter"],"headline-sm":["Inter"],"headline-lg":["Inter"],"body-lg":["Inter"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.01em",fontWeight:"500"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.02em",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"500"}],"body-sm":["12px",{lineHeight:"16px",letterSpacing:"0.005em",fontWeight:"400"}],"numeric-data":["20px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-lg-mobile":["24px",{lineHeight:"32px",letterSpacing:"-0.015em",fontWeight:"600"}],"display-mobile":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"display":["48px",{lineHeight:"56px",letterSpacing:"-0.025em",fontWeight:"600"}],"body-md":["14px",{lineHeight:"20px",letterSpacing:"0em",fontWeight:"400"}],"headline-sm":["18px",{lineHeight:"26px",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-lg":["32px",{lineHeight:"40px",letterSpacing:"-0.02em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"400"}]}}}};</script></head><body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 left-0 right-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 max-w-7xl mx-auto px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-[20px]">shield</span></div><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">Sentinel</span><span class="font-body-md text-body-md text-secondary font-medium">Wallet</span></div><span class="font-label-sm text-label-sm text-secondary -mt-0.5 tracking-normal">Policy-governed AI Agent Wallet</span></div></div><div class="hidden md:flex items-center"><nav class="flex items-center p-1 bg-surface-container rounded-lg" data-active-classes="bg-surface-container-lowest text-on-surface shadow-[0_1px_3px_0_rgba(32,38,49,0.06)] font-semibold"><a aria-current="page" class="px-space-md py-1.5 rounded transition-all bg-surface-container-lowest text-on-surface shadow-[0_1px_3px_0_rgba(32,38,49,0.06)] font-semibold" data-path="wallet" href="#">Wallet</a><a class="px-space-md py-1.5 rounded text-on-surface-variant font-label-lg text-label-lg hover:text-on-surface transition-all" data-path="security" href="#">Security</a><a class="px-space-md py-1.5 rounded text-on-surface-variant font-label-lg text-label-lg hover:text-on-surface transition-all" data-path="activity" href="#">Activity</a></nav></div><div class="flex items-center gap-space-sm"><div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-surface-container-lowest rounded-full shadow-[0_1px_2px_rgba(32,38,49,0.04)]"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><span class="font-label-sm text-label-sm text-on-surface font-medium">Base Sepolia</span><span class="material-symbols-outlined text-[14px] text-secondary hover:text-on-surface cursor-pointer transition-colors">content_copy</span></div><div class="flex items-center gap-2 pl-2 pr-1 py-1 bg-surface-container-lowest rounded-full shadow-[0_1px_2px_rgba(32,38,49,0.04)]"><span class="font-numeric-data text-body-sm text-on-surface font-mono tracking-tight">0x71c9...4b92</span><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full flex-1 pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto px-gutter py-space-xl flex flex-col gap-space-xl">
+<!-- Top Section - Page Header -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Agent Wallet</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-label-sm text-secondary font-medium">v2.4-Sepolia</span>
+</div>
+<p class="font-body-lg text-body-lg text-secondary">Review and control AI-proposed transactions.</p>
+</div>
+<div class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-surface-container-lowest shadow-sm">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+</span>
+<span class="font-label-sm text-label-sm text-on-surface font-mono tracking-tight">Guardian Enclave 0x8a1F...f4e2</span>
+<span class="font-label-sm text-label-sm text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm text-secondary">Zero-gas pre-flight active</span>
+</div>
+</section>
+<!-- Exactly Three Compact Status Cards -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<!-- Card 1 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider font-semibold uppercase">Wallet Status</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Active</span>
+<span class="font-body-sm text-body-sm text-secondary">ERC-4337 Smart Account</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">verified_user</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider font-semibold uppercase">Security Policy</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">10 Invariants</span>
+<span class="font-body-sm text-body-sm text-secondary">Zero-Gas Guard Enforced</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">gavel</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-space-lg rounded-xl bg-surface-container-lowest shadow-sm flex items-start justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary tracking-wider font-semibold uppercase">Latest Transaction</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold font-mono">#INT-9841</span>
+<span class="font-body-sm text-body-sm text-secondary">1.00 USDC • Confirmed</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[22px]">receipt_long</span>
+</div>
+</div>
+</section>
+<!-- Main Transaction Card (The Visual Focal Point) -->
+<section class="rounded-xl bg-surface-container-lowest shadow-md p-space-lg md:p-space-xl flex flex-col gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-1">
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold">What would you like to do?</h2>
+<p class="font-body-sm text-body-sm text-secondary">The autonomous agent translates natural language instructions into verifiable calldata.</p>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container self-start sm:self-auto">
+<span class="material-symbols-outlined text-[16px] text-primary">psychology</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">LLM Planner: gpt-4o-mini</span>
+</div>
+</div>
+<!-- Natural language input container -->
+<div class="rounded-xl bg-surface p-space-md flex flex-col gap-space-md shadow-xs">
+<label class="sr-only" for="promptInput">Natural Language Prompt</label>
+<textarea class="w-full bg-transparent border-0 resize-none font-body-lg text-body-lg text-on-surface focus:outline-none focus:ring-0 placeholder:text-secondary" id="promptInput" placeholder="Type prompt (e.g., Send 1 USDC to my approved recipient...)" rows="2">Send 1 USDC to my approved recipient for invoice 481.</textarea>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-space-md pt-2">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-surface-container-lowest shadow-xs font-label-sm text-label-sm text-on-surface font-medium">
+<span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+              Strict Whitelist Active
+            </span>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-surface-container-lowest shadow-xs font-label-sm text-label-sm text-on-surface font-medium">
+<span class="material-symbols-outlined text-[14px] text-secondary">speed</span>
+              Daily Cap: $100.00
+            </span>
+</div>
+<button class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-lg text-label-lg font-medium shadow-sm hover:bg-primary transition-all active:scale-[0.99] cursor-pointer" id="analyzeBtn">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+            Analyze request
+          </button>
+</div>
+</div>
+<!-- 3-Minute Hackathon Demo Scenarios pill bar directly below -->
+<div class="flex flex-col sm:flex-row sm:items-center gap-space-sm pt-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold shrink-0">Interactive Demo Modes:</span>
+<div class="flex flex-wrap items-center gap-2">
+<button class="scenario-btn px-3 py-1.5 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-semibold transition-all shadow-xs cursor-pointer flex items-center gap-1" id="scenarioValid">
+<span>✓ Scenario 1: Valid Transfer (1 USDC)</span>
+</button>
+<button class="scenario-btn px-3 py-1.5 rounded-full bg-error-container/60 text-error font-label-sm text-label-sm font-medium hover:bg-error-container transition-all cursor-pointer flex items-center gap-1" id="scenarioVelocity">
+<span>• Scenario 2: Velocity Limit Attack (150 USDC)</span>
+</button>
+<button class="scenario-btn px-3 py-1.5 rounded-full bg-error-container/60 text-error font-label-sm text-label-sm font-medium hover:bg-error-container transition-all cursor-pointer flex items-center gap-1" id="scenarioRecipient">
+<span>• Scenario 3: Unapproved Recipient Attack</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-full bg-surface-container text-secondary hover:text-on-surface font-label-sm text-label-sm font-medium transition-all cursor-pointer flex items-center gap-0.5">
+<span>More Scenarios</span>
+<span class="material-symbols-outlined text-[14px]">expand_more</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Linear Stage 2 — Transaction Analysis & Guardian Decision (Clean 2-Column Side-by-Side Card) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+<!-- Left Column: Parsed Intent -->
+<div class="lg:col-span-5 rounded-xl bg-surface-container-lowest shadow-sm p-space-lg flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-2">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Parsed Intent</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Off-Chain Synthesis</span>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container font-label-sm text-label-sm text-primary font-mono font-medium">
+<span class="material-symbols-outlined text-[14px]">sync_alt</span>
+              Structured IR
+            </span>
+</div>
+<div class="flex flex-col gap-3 font-body-sm text-body-sm">
+<div class="flex items-center justify-between py-2 bg-surface rounded-lg px-3">
+<span class="text-secondary font-medium">Asset &amp; Token</span>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<span class="font-medium text-on-surface" id="intentToken">USDC (Circle Base Sepolia)</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-2 bg-surface rounded-lg px-3">
+<span class="text-secondary font-medium">Parsed Amount</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-data text-body-lg text-on-surface font-semibold" id="intentAmount">1.00 USDC</span>
+<span class="text-secondary font-normal text-label-sm" id="intentAmountUSD">($1.00 USD)</span>
+</div>
+</div>
+<div class="flex items-center justify-between py-2 bg-surface rounded-lg px-3">
+<span class="text-secondary font-medium">Target Recipient</span>
+<div class="text-right">
+<div class="font-mono text-on-surface font-medium text-label-md" id="intentRecipient">0x2e9B...a81C</div>
+<div class="font-label-sm text-label-sm text-emerald-700" id="intentVendorStatus">Vendor Invoice #481 • Whitelisted ✓</div>
+</div>
+</div>
+<div class="flex items-center justify-between py-2 bg-surface rounded-lg px-3">
+<span class="text-secondary font-medium">Execution Network</span>
+<span class="font-medium text-on-surface font-mono">Base Sepolia (84532)</span>
+</div>
+</div>
+</div>
+<div class="rounded-lg bg-surface-container-low p-3 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary uppercase font-semibold">Calldata Preview</span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-medium" id="calldataStatus">Valid ERC-20 transfer</span>
+</div>
+<code class="font-mono text-label-sm text-on-surface-variant break-all select-all" id="calldataHex">
+            0xa9059cbb0000000000000000000000002e9b04c86b2450893a20bf7a81c000000000000000000000000000000000000000000000000000000000000f4240
+          </code>
+</div>
+</div>
+<!-- Right Column: Guardian Security Decision -->
+<div class="lg:col-span-7 rounded-xl bg-surface-container-lowest shadow-sm p-space-lg flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-2">
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold">Guardian Security Decision</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Independent Rust Enclave Evaluation</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary font-mono">Latency: 12ms</span>
+</div>
+<!-- Decision Status Banner -->
+<div class="p-4 rounded-xl bg-emerald-50 text-emerald-950 flex flex-col gap-2 transition-colors" id="decisionCard">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-700 text-[24px]" id="decisionIcon">verified</span>
+<span class="font-headline-sm text-headline-sm font-semibold tracking-tight text-emerald-800" id="decisionBadgeText">APPROVED • 10/10 Invariants Passed</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-200/60 font-label-sm text-label-sm text-emerald-900 font-semibold font-mono" id="invariantPill">POLICY MATCH: 100%</span>
+</div>
+<p class="font-body-md text-body-md text-emerald-900 leading-relaxed" id="decisionExplanation">
+              Target address is on the institutional approved whitelist and 1.00 USDC is well within the 100.00 USDC daily velocity threshold. No malicious patterns detected.
+            </p>
+</div>
+<!-- Metrics Strip -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+<div class="p-3 rounded-lg bg-surface flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Daily Velocity</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-data text-body-lg text-on-surface font-semibold" id="velocityValue">$1.00</span>
+<span class="text-secondary text-label-sm font-medium">/ $100</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 mt-1 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" id="velocityBar" style="width: 1%"></div>
+</div>
+</div>
+<div class="p-3 rounded-lg bg-surface flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Risk Score</span>
+<div class="flex items-baseline gap-1">
+<span class="font-numeric-data text-body-lg text-emerald-700 font-semibold" id="riskScoreValue">0.02</span>
+<span class="text-secondary text-label-sm font-medium">(Safe)</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary mt-1">Normal baseline</span>
+</div>
+<div class="p-3 rounded-lg bg-surface flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">TPDR Match</span>
+<span class="font-numeric-data text-body-lg text-on-surface font-semibold" id="tpdrScore">100.0%</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">Bit-perfect ABI</span>
+</div>
+<div class="p-3 rounded-lg bg-surface flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold">Gas Overhead</span>
+<span class="font-numeric-data text-body-lg text-primary font-semibold">$0.00</span>
+<span class="font-label-sm text-label-sm text-secondary mt-1">Free pre-flight</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-2 pt-2">
+<button class="w-full py-3 px-4 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold shadow-sm hover:bg-primary transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer" id="executeBtn">
+<span class="material-symbols-outlined text-[20px]">send_money</span>
+            Execute On-Chain via ERC-4337
+          </button>
+<div class="flex items-center justify-center gap-1.5 text-center">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified_user</span>
+<span class="font-label-sm text-label-sm text-secondary font-medium">Requires Agent + Guardian Multi-Sig Quorum</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Collapsible Security Checks Section -->
+<section class="rounded-xl bg-surface-container-lowest shadow-sm p-space-lg flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2.5">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Security Checks</h3>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-semibold" id="checksScoreBadge">10/10 Invariants Passed</span>
+<span class="hidden sm:inline-flex px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-label-sm text-label-sm font-mono">TPDR Bit-Perfect</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Deterministic off-chain pre-flight stops malicious execution before transaction compilation.</p>
+</div>
+<button class="inline-flex items-center gap-1 text-primary hover:text-on-primary-fixed-variant font-label-md text-label-md font-semibold cursor-pointer self-start sm:self-auto py-1" id="toggleChecksBtn">
+<span id="toggleChecksText">View details</span>
+<span class="material-symbols-outlined text-[18px]" id="toggleChecksIcon">expand_more</span>
+</button>
+</div>
+<!-- Expanded Checklist Container (collapsible) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md pt-2 border-t border-surface-container" id="checksDetailContainer">
+<!-- Check 1 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">1. Recipient Whitelist Verification</span>
+<span class="font-body-sm text-body-sm text-secondary">0x2e9B...a81C strictly matches pre-authorized treasury vendor roster.</span>
+</div>
+</div>
+<!-- Check 2 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">2. Daily Cumulative Velocity</span>
+<span class="font-body-sm text-body-sm text-secondary">Rolling 24h outflow ($1.00) remains well below the $100.00 hard limit.</span>
+</div>
+</div>
+<!-- Check 3 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">3. Per-Transaction Ceiling</span>
+<span class="font-body-sm text-body-sm text-secondary">Transaction value is $1.00, beneath individual threshold cap ($50.00).</span>
+</div>
+</div>
+<!-- Check 4 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">4. Canonical Token Contract Match</span>
+<span class="font-body-sm text-body-sm text-secondary">Target address is verified canonical Circle USDC on Base Sepolia.</span>
+</div>
+</div>
+<!-- Check 5 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">5. Monotonic Account Nonce</span>
+<span class="font-body-sm text-body-sm text-secondary">Smart account nonce index validated against live mempool state.</span>
+</div>
+</div>
+<!-- Check 6 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">6. ABI Structure &amp; Conformance</span>
+<span class="font-body-sm text-body-sm text-secondary">4-byte selector 0xa9059cbb conforms strictly to ERC-20 transfer standard.</span>
+</div>
+</div>
+<!-- Check 7 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">7. Gas Limit &amp; Max Deviation</span>
+<span class="font-body-sm text-body-sm text-secondary">UserOperation gas boundaries match canonical ERC-4337 bundler simulation.</span>
+</div>
+</div>
+<!-- Check 8 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">8. Agent Delegation Scope</span>
+<span class="font-body-sm text-body-sm text-secondary">ECDSA session key granted permissions strictly within payment bounds.</span>
+</div>
+</div>
+<!-- Check 9 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">9. Time-Lock Window Validation</span>
+<span class="font-body-sm text-body-sm text-secondary">Valid block range strictly within ±300 seconds of current block.timestamp.</span>
+</div>
+</div>
+<!-- Check 10 -->
+<div class="p-3 rounded-lg bg-surface flex items-start gap-3">
+<span class="material-symbols-outlined text-emerald-700 text-[20px] shrink-0">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">10. Autonomous Circuit Breaker</span>
+<span class="font-body-sm text-body-sm text-secondary">Global emergency kill-switch is inactive; zero anomaly flags tripped.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Stage 3 — Recent Activity & Blockchain Evidence -->
+<section class="rounded-xl bg-surface-container-lowest shadow-sm p-space-lg flex flex-col gap-space-lg">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-1">
+<div class="flex flex-col gap-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Recent Activity</h3>
+<p class="font-body-sm text-body-sm text-secondary">Real-time audit log of synthetic agent operations and guardian responses.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-secondary font-mono">Real-time sync</span>
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+</div>
+</div>
+<!-- Clean, crisp table with generous whitespace -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm border-collapse">
+<thead>
+<tr class="border-b border-surface-container font-label-sm text-label-sm text-secondary uppercase font-semibold">
+<th class="py-3 px-4">Time</th>
+<th class="py-3 px-4">Intent ID</th>
+<th class="py-3 px-4">Amount &amp; Asset</th>
+<th class="py-3 px-4">Guardian Decision</th>
+<th class="py-3 px-4 text-right">BaseScan Evidence</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-4 px-4 text-secondary font-label-md text-label-md whitespace-nowrap">Just now</td>
+<td class="py-4 px-4 font-mono font-semibold text-primary">#INT-9841</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-semibold">1.00 USDC</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">check</span>
+                  Approved &amp; Executed
+                </span>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap">
+<a class="inline-flex items-center gap-1 font-mono text-label-md text-label-md text-primary hover:text-on-primary-fixed-variant transition-colors" href="https://sepolia.basescan.org" rel="noopener noreferrer" target="_blank">
+<span>0x3d82...f92a</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</a>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-4 px-4 text-secondary font-label-md text-label-md whitespace-nowrap">15 mins ago</td>
+<td class="py-4 px-4 font-mono font-semibold text-secondary">#INT-9840</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-semibold">150.00 USDC</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                  Blocked (Off-Chain Velocity)
+                </span>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap font-label-sm text-label-sm font-medium text-emerald-700">
+                Gas Saved ($0.00)
+              </td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface transition-colors">
+<td class="py-4 px-4 text-secondary font-label-md text-label-md whitespace-nowrap">45 mins ago</td>
+<td class="py-4 px-4 font-mono font-semibold text-secondary">#INT-9839</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span class="font-semibold">2.50 USDC</span>
+</div>
+</td>
+<td class="py-4 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                  Blocked (Unapproved Target)
+                </span>
+</td>
+<td class="py-4 px-4 text-right whitespace-nowrap font-label-sm text-label-sm font-medium text-emerald-700">
+                Gas Saved ($0.00)
+              </td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Collapsed accordion at the bottom: Technical Details -->
+<div class="pt-2">
+<details class="group rounded-xl bg-surface p-space-md transition-all">
+<summary class="flex items-center justify-between cursor-pointer list-none font-label-lg text-label-lg font-semibold text-on-surface">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">terminal</span>
+<span>Technical Details &amp; Contract Deployments</span>
+</div>
+<span class="material-symbols-outlined transition-transform duration-200 group-open:rotate-180 text-secondary">expand_more</span>
+</summary>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 mt-3 border-t border-surface-container font-body-sm text-body-sm">
+<div class="flex flex-col gap-1 p-3 rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">ERC-4337 Account</span>
+<span class="font-mono text-on-surface text-label-sm break-all">0x71c93a207bf7a81c00004b928192a83f1201</span>
+<span class="text-secondary text-label-sm">Base Sepolia Standard Kernel v2</span>
+</div>
+<div class="flex flex-col gap-1 p-3 rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Guardian Hook Module</span>
+<span class="font-mono text-on-surface text-label-sm break-all">0x8a1fe48c902781bcf704e2849102ab819034f4e2</span>
+<span class="text-secondary text-label-sm">Rust Enclave Co-Signer v2.4</span>
+</div>
+<div class="flex flex-col gap-1 p-3 rounded-lg bg-surface-container-lowest">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">TPDR Verifier Suite</span>
+<span class="font-mono text-on-surface text-label-sm break-all">0x4b78912a78e21bc08912ef34aa98124b89123891</span>
+<span class="text-secondary text-label-sm">Zero-Gas Pre-Flight Validator</span>
+</div>
+</div>
+</details>
+</div>
+</section>
+</div>
+</div>
+<script>
+  (function () {
+    const promptInput = document.getElementById('promptInput');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const scenarioValid = document.getElementById('scenarioValid');
+    const scenarioVelocity = document.getElementById('scenarioVelocity');
+    const scenarioRecipient = document.getElementById('scenarioRecipient');
+    const toggleChecksBtn = document.getElementById('toggleChecksBtn');
+    const toggleChecksText = document.getElementById('toggleChecksText');
+    const toggleChecksIcon = document.getElementById('toggleChecksIcon');
+    const checksDetailContainer = document.getElementById('checksDetailContainer');
+
+    const intentAmount = document.getElementById('intentAmount');
+    const intentAmountUSD = document.getElementById('intentAmountUSD');
+    const intentRecipient = document.getElementById('intentRecipient');
+    const intentVendorStatus = document.getElementById('intentVendorStatus');
+    const calldataStatus = document.getElementById('calldataStatus');
+    const calldataHex = document.getElementById('calldataHex');
+
+    const decisionCard = document.getElementById('decisionCard');
+    const decisionIcon = document.getElementById('decisionIcon');
+    const decisionBadgeText = document.getElementById('decisionBadgeText');
+    const invariantPill = document.getElementById('invariantPill');
+    const decisionExplanation = document.getElementById('decisionExplanation');
+    const velocityValue = document.getElementById('velocityValue');
+    const velocityBar = document.getElementById('velocityBar');
+    const riskScoreValue = document.getElementById('riskScoreValue');
+    const executeBtn = document.getElementById('executeBtn');
+
+    // Scenarios data
+    const scenarios = {
+      valid: {
+        prompt: "Send 1 USDC to my approved recipient for invoice 481.",
+        amount: "1.00 USDC",
+        amountUSD: "($1.00 USD)",
+        recipient: "0x2e9B...a81C",
+        vendor: "Vendor Invoice #481 • Whitelisted ✓",
+        vendorClass: "text-emerald-700",
+        calldataStatus: "Valid ERC-20 transfer",
+        calldataStatusClass: "text-emerald-700",
+        calldata: "0xa9059cbb0000000000000000000000002e9b04c86b2450893a20bf7a81c00000000000000000000000000000000000000000000000000000000000f4240",
+        approved: true,
+        badgeText: "APPROVED • 10/10 Invariants Passed",
+        invariantPill: "POLICY MATCH: 100%",
+        explanation: "Target address is on the institutional approved whitelist and 1.00 USDC is well within the 100.00 USDC daily velocity threshold. No malicious patterns detected.",
+        velocity: "$1.00",
+        velocityPct: "1%",
+        risk: "0.02 (Safe)",
+        riskColor: "text-emerald-700",
+        btnText: "Execute On-Chain via ERC-4337",
+        btnDisabled: false
+      },
+      velocity: {
+        prompt: "Transfer 150 USDC to Vendor #481 right now to settle upcoming balance.",
+        amount: "150.00 USDC",
+        amountUSD: "($150.00 USD)",
+        recipient: "0x2e9B...a81C",
+        vendor: "Vendor Invoice #481 • Whitelisted ✓",
+        vendorClass: "text-emerald-700",
+        calldataStatus: "Calldata structurally valid",
+        calldataStatusClass: "text-on-surface-variant",
+        calldata: "0xa9059cbb0000000000000000000000002e9b04c86b2450893a20bf7a81c0000000000000000000000000000000000000000000000000000000008f0d180",
+        approved: false,
+        badgeText: "BLOCKED • Invariant #2 Breached",
+        invariantPill: "HARD CEILING EXCEEDED",
+        explanation: "Guardian policy strictly caps daily cumulative velocity at $100.00. The requested $150.00 outflow breaches the threshold by $50.00. Transaction rejected off-chain before signing.",
+        velocity: "$151.00",
+        velocityPct: "100%",
+        risk: "0.89 (Critical Velocity)",
+        riskColor: "text-error",
+        btnText: "Execution Denied by Policy",
+        btnDisabled: true
+      },
+      recipient: {
+        prompt: "Send 2.5 USDC to promotional airdrop claim address 0x93FA...112e.",
+        amount: "2.50 USDC",
+        amountUSD: "($2.50 USD)",
+        recipient: "0x93FA...112E",
+        vendor: "Target Not Whitelisted ✗ (Untrusted Contract)",
+        vendorClass: "text-error",
+        calldataStatus: "Untrusted destination",
+        calldataStatusClass: "text-error",
+        calldata: "0xa9059cbb00000000000000000000000093fa889218bc112ea09b2319f30200000000000000000000000000000000000000000000000000000000002625a0",
+        approved: false,
+        badgeText: "BLOCKED • Invariant #1 Breached",
+        invariantPill: "ZERO-TRUST FILTER",
+        explanation: "Target recipient 0x93FA...112E is absent from the cryptographic whitelist. Agent possesses zero authority to route assets to unverified endpoints. Execution dropped.",
+        velocity: "$1.00",
+        velocityPct: "1%",
+        risk: "0.98 (Phishing / Unknown)",
+        riskColor: "text-error",
+        btnText: "Execution Denied by Policy",
+        btnDisabled: true
+      }
+    };
+
+    function applyScenario(key) {
+      const data = scenarios[key];
+      promptInput.value = data.prompt;
+      intentAmount.textContent = data.amount;
+      intentAmountUSD.textContent = data.amountUSD;
+      intentRecipient.textContent = data.recipient;
+      intentVendorStatus.textContent = data.vendor;
+      intentVendorStatus.className = "font-label-sm text-label-sm " + data.vendorClass;
+      calldataStatus.textContent = data.calldataStatus;
+      calldataStatus.className = "font-label-sm text-label-sm font-medium " + data.calldataStatusClass;
+      calldataHex.textContent = data.calldata;
+
+      velocityValue.textContent = data.velocity;
+      velocityBar.style.width = data.velocityPct;
+      riskScoreValue.textContent = data.risk;
+      riskScoreValue.className = "font-numeric-data text-body-lg font-semibold " + data.riskColor;
+
+      decisionBadgeText.textContent = data.badgeText;
+      invariantPill.textContent = data.invariantPill;
+      decisionExplanation.textContent = data.explanation;
+      executeBtn.textContent = data.btnText;
+
+      // Update button styling and pills
+      [scenarioValid, scenarioVelocity, scenarioRecipient].forEach(b => {
+        b.classList.remove('bg-primary-fixed', 'text-on-primary-fixed', 'font-semibold');
+      });
+
+      if (key === 'valid') {
+        scenarioValid.classList.add('bg-primary-fixed', 'text-on-primary-fixed', 'font-semibold');
+        decisionCard.className = "p-4 rounded-xl bg-emerald-50 text-emerald-950 flex flex-col gap-2 transition-colors";
+        decisionIcon.className = "material-symbols-outlined text-emerald-700 text-[24px]";
+        decisionIcon.textContent = "verified";
+        decisionBadgeText.className = "font-headline-sm text-headline-sm font-semibold tracking-tight text-emerald-800";
+        invariantPill.className = "px-2.5 py-0.5 rounded-full bg-emerald-200/60 font-label-sm text-label-sm text-emerald-900 font-semibold font-mono";
+        decisionExplanation.className = "font-body-md text-body-md text-emerald-900 leading-relaxed";
+        executeBtn.className = "w-full py-3 px-4 rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold shadow-sm hover:bg-primary transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer";
+        executeBtn.disabled = false;
+      } else {
+        if (key === 'velocity') scenarioVelocity.classList.add('bg-primary-fixed', 'text-on-primary-fixed', 'font-semibold');
+        if (key === 'recipient') scenarioRecipient.classList.add('bg-primary-fixed', 'text-on-primary-fixed', 'font-semibold');
+
+        decisionCard.className = "p-4 rounded-xl bg-error-container text-on-error-container flex flex-col gap-2 transition-colors";
+        decisionIcon.className = "material-symbols-outlined text-error text-[24px]";
+        decisionIcon.textContent = "gpp_bad";
+        decisionBadgeText.className = "font-headline-sm text-headline-sm font-semibold tracking-tight text-error";
+        invariantPill.className = "px-2.5 py-0.5 rounded-full bg-error/20 font-label-sm text-label-sm text-error font-semibold font-mono";
+        decisionExplanation.className = "font-body-md text-body-md text-on-surface leading-relaxed";
+        executeBtn.className = "w-full py-3 px-4 rounded-xl bg-surface-container text-secondary font-label-lg text-label-lg font-semibold cursor-not-allowed flex items-center justify-center gap-2 opacity-75";
+        executeBtn.disabled = true;
+      }
+    }
+
+    scenarioValid.addEventListener('click', () => applyScenario('valid'));
+    scenarioVelocity.addEventListener('click', () => applyScenario('velocity'));
+    scenarioRecipient.addEventListener('click', () => applyScenario('recipient'));
+
+    analyzeBtn.addEventListener('click', () => {
+      const val = promptInput.value.toLowerCase();
+      if (val.includes('150') || val.includes('velocity')) {
+        applyScenario('velocity');
+      } else if (val.includes('claim') || val.includes('airdrop') || val.includes('unapproved')) {
+        applyScenario('recipient');
+      } else {
+        applyScenario('valid');
+      }
+    });
+
+    // Toggle checks section
+    let checksOpen = true;
+    toggleChecksBtn.addEventListener('click', () => {
+      checksOpen = !checksOpen;
+      if (checksOpen) {
+        checksDetailContainer.classList.remove('hidden');
+        toggleChecksText.textContent = "Hide details";
+        toggleChecksIcon.textContent = "expand_less";
+      } else {
+        checksDetailContainer.classList.add('hidden');
+        toggleChecksText.textContent = "View details";
+        toggleChecksIcon.textContent = "expand_more";
+      }
+    });
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest py-space-lg shadow-[0_-1px_6px_rgba(0,0,0,0.02)] mt-auto"><div class="max-w-7xl mx-auto px-gutter flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center sm:text-left"><div class="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1 font-body-sm text-body-sm text-secondary"><span class="font-medium text-on-surface-variant">Sentinel Policy Guard v2.4</span><span>•</span><span>Encrypted Autonomous Custody</span><span>•</span><span class="text-primary font-medium">Base Sepolia Testnet</span></div><div class="font-body-sm text-body-sm text-secondary">© 2025 Sentinel Systems. All rights reserved.</div></div></footer></body></html>

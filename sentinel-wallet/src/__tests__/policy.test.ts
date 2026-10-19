@@ -68,9 +68,9 @@ describe("evaluateIntent — happy path", () => {
     expect(decision.checks.every((c) => c.passed)).toBe(true);
   });
 
-  it("decision contains all 10 check results", () => {
+  it("decision contains all 11 check results", () => {
     const decision = evaluateIntent(makeIntent(), makePolicy());
-    expect(decision.checks).toHaveLength(10);
+    expect(decision.checks).toHaveLength(11);
   });
 
   it("approved decision has a decidedAt timestamp", () => {
@@ -329,6 +329,140 @@ describe("check: spending_limit", () => {
     const decision = evaluateIntent(makeIntent(), makePolicy({ spentSoFar: 0n }));
     const check = decision.checks.find((c) => c.check === "spending_limit");
     expect(check?.passed).toBe(true);
+  });
+});
+
+// ─── per_tx_ceiling ───────────────────────────────────────────────────────
+
+describe("check: per_tx_ceiling", () => {
+  it("rejects when amount exceeds the per-transaction ceiling", () => {
+    const decision = evaluateIntent(
+      makeIntent(), // 10 USDC
+      makePolicy({ perTxCeilingAmount: parseUnits("5", 6) }),
+    );
+    expect(decision.status).toBe("rejected");
+    expect(decision.failedCheck).toBe("per_tx_ceiling");
+    expect(decision.riskLevel).toBe("medium");
+    expect(decision.reason).toMatch(/per-transaction ceiling/i);
+  });
+
+  it("approves when amount fits within the ceiling", () => {
+    const decision = evaluateIntent(
+      makeIntent(),
+      makePolicy({ perTxCeilingAmount: parseUnits("50", 6) }),
+    );
+    const check = decision.checks.find((c) => c.check === "per_tx_ceiling");
+    expect(check?.passed).toBe(true);
+  });
+
+  it("approves with advisory note when no ceiling is configured", () => {
+    const decision = evaluateIntent(makeIntent(), makePolicy());
+    const check = decision.checks.find((c) => c.check === "per_tx_ceiling");
+    expect(check?.passed).toBe(true);
+    expect(check?.detail).toMatch(/no per-transaction ceiling configured/i);
+  });
+
+  it("enforces the ceiling even when the daily limit would allow more", () => {
+    // Daily limit 100 allows 10, but a per-tx ceiling of 2 blocks it first
+    const decision = evaluateIntent(
+      makeIntent(),
+      makePolicy({ perTxCeilingAmount: parseUnits("2", 6) }),
+    );
+    expect(decision.status).toBe("rejected");
+    expect(decision.failedCheck).toBe("per_tx_ceiling");
+    const spendingCheck = decision.checks.find((c) => c.check === "spending_limit");
+    expect(spendingCheck?.passed).toBe(true); // daily limit fine; ceiling is stricter
+  });
+
+  it("approves an amount EXACTLY equal to the ceiling (<= boundary)", () => {
+    const decision = evaluateIntent(
+      makeIntent(), // 10 USDC
+      makePolicy({ perTxCeilingAmount: parseUnits("10", 6) }),
+    );
+    const check = decision.checks.find((c) => c.check === "per_tx_ceiling");
+    expect(check?.passed).toBe(true);
+    expect(decision.status).toBe("approved");
+  });
+
+  it("enforces token-unit precision: 1 wei above the ceiling is rejected", () => {
+    // Ceiling = 5.000000 USDC; attempt 5.000001 USDC (smallest-unit step)
+    const intent = makeIntent({ amount: 5_000001n });
+    // Re-encode calldata so calldata_integrity does not fail first —
+    // isolating the ceiling boundary itself
+    const selector = TRANSFER_SELECTOR.slice(2);
+    const recipientPadded = RECIPIENT.slice(2).toLowerCase().padStart(64, "0");
+    const calldata = ("0x" + selector + recipientPadded + 5000001n.toString(16).padStart(64, "0")) as Hex;
+    const decision = evaluateIntent(
+      { ...intent, amount: 5000001n, calldata },
+      makePolicy({ perTxCeilingAmount: 5_000000n }),
+    );
+    expect(decision.failedCheck).toBe("per_tx_ceiling");
+  });
+
+  it("amount checked by policy is the amount bound to execution", () => {
+    // The intent amount is embedded in deterministic calldata; the
+    // calldata_integrity check ties them: change one without the other
+    // and the intent is rejected before execution.
+    const intent = makeIntent();
+    // Attempt to swap a bigger amount into calldata while leaving intent.amount intact
+    const selector = TRANSFER_SELECTOR.slice(2);
+    const recipientPadded = RECIPIENT.slice(2).toLowerCase().padStart(64, "0");
+    const tamperedCalldata = ("0x" + selector + recipientPadded + parseUnits("999", 6).toString(16).padStart(64, "0")) as Hex;
+    const decision = evaluateIntent(
+      { ...intent, calldata: tamperedCalldata },
+      makePolicy({ perTxCeilingAmount: parseUnits("50", 6) }), // ceiling would allow 999's per-tx? no—but daily allows too
+    );
+    expect(decision.failedCheck).toBe("calldata_integrity");
+    expect(decision.status).toBe("rejected");
+  });
+});
+
+// ─── riskLevel (advisory, deterministic) ─────────────────────────────────────────
+
+describe("riskLevel — advisory risk tiers", () => {
+  it("approved decisions always carry riskLevel 'low'", () => {
+    const decision = evaluateIntent(makeIntent(), makePolicy());
+    expect(decision.status).toBe("approved");
+    expect(decision.riskLevel).toBe("low");
+  });
+
+  it("hard security rejections map to 'high'", () => {
+    const cases: Array<Partial<TransactionIntent> | null> = [
+      { recipient: BLOCKED }, // recipient_allowlist
+      { functionSelector: "0x00000000" as Hex }, // selector_match
+    ];
+    for (const override of cases) {
+      if (!override) continue;
+      const base = buildTransferIntent({
+        chainId: CHAIN_ID,
+        walletAddress: WALLET,
+        tokenAddress: TOKEN,
+        recipient: override.recipient ?? RECIPIENT,
+        amount: AMOUNT,
+        amountHuman: "10 USDC",
+      });
+      const intent: TransactionIntent = { ...base, ...override };
+      const decision = evaluateIntent(intent, makePolicy());
+      expect(decision.status).toBe("rejected");
+      expect(decision.riskLevel).toBe("high");
+    }
+  });
+
+  it("limit-type rejections map to 'medium'", () => {
+    const decision = evaluateIntent(
+      makeIntent(),
+      makePolicy({ spentSoFar: parseUnits("95", 6) }),
+    );
+    expect(decision.failedCheck).toBe("spending_limit");
+    expect(decision.riskLevel).toBe("medium");
+  });
+
+  it("riskLevel never overrides a rejection or an approval", () => {
+    // A deterministic invariant: status is the sole enforcement signal.
+    const approved = evaluateIntent(makeIntent(), makePolicy());
+    expect(approved.status).toBe("approved"); // low risk does not mean auto-allow change
+    const rejected = evaluateIntent(makeIntent({ chainId: 1 }), makePolicy());
+    expect(rejected.status).toBe("rejected"); // advisory risk cannot revive a rejected intent
   });
 });
 

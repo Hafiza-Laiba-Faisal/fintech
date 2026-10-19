@@ -268,7 +268,7 @@ async function main() {
 
   pass(`AI Agent formed Intent: ${planResult.parsedAction} (${planResult.planner} planner)`);
   info(`Intent ID: ${planResult.intent.intentId}`);
-  info(`Independent Security Guardian: Evaluating 10 deterministic security rules...`);
+  info(`Independent Security Guardian: Evaluating 11 deterministic security rules...`);
 
   const t1Start = Date.now();
   const t1Record = await manager.executeIntent(planResult.intent);
@@ -422,7 +422,7 @@ async function main() {
      - Agent has NO private key custody or direct signing authority.
      - Agent can only propose strictly typed TransferIntents.
   2. ${GREEN}✔${RESET} Multi-Layer Defense:
-     - Layer 1 (Off-Chain Guardian): 10 deterministic checks filter invalid requests before broadcast (saves gas).
+     - Layer 1 (Off-Chain Guardian): 11 deterministic checks filter invalid requests before broadcast (saves gas).
      - Layer 2 (TPDR Verifier): Verifies calldata hex matches approved intent byte-for-byte.
      - Layer 3 (On-Chain Hooks): SpendingLimitHook, AllowlistHook, EmergencyPauseHook installed on Safe Smart Account.
   3. ${GREEN}✔${RESET} Live Blockchain Proof:

@@ -138,6 +138,16 @@ The agent's session key is scoped to specific target+selector pairs and expires 
 
 ---
 
+## Enforcement Boundary — per-transaction ceiling vs daily limit
+
+Important distinction (do not overstate in demos or docs):
+
+- **Daily spending limit** — enforced ON-CHAIN by `SpendingLimitHook` (authoritative). Even if the off-chain Guardian were compromised or bypassed, the hook rejects over-limit UserOps at the EVM level.
+- **Per-transaction ceiling (`per_tx_ceiling`)** — enforced ONLY OFF-CHAIN by the deterministic policy engine (`src/policy.ts`, pre-flight before UserOp construction). It is a **server-side, advisory pre-flight control**. There is NO on-chain hook for a per-tx ceiling in the current deployment. A compromised execution path (e.g., someone signing UserOps directly with the owner key) is NOT stopped by the per-tx ceiling — it IS still stopped by the on-chain daily limit.
+- The amount checked by the policy engine is the same amount that reaches execution: `intent.amount` is deterministically encoded into `intent.calldata` (bound by `calldata_integrity`), and `verifyIntegrity()` re-compares calldata immediately before submission.
+
+---
+
 ## On-Chain Contract Addresses (Base Sepolia, verified)
 
 | Contract | Address |

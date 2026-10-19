@@ -8,6 +8,8 @@
     "demo": "tsx src/demo.ts",
     "demo:mock": "tsx src/demo.ts --mock",
     "demo:llm": "tsx src/demo.ts --mock --llm",
+    "dev": "tsx src/server.ts",
+    "start": "tsx src/server.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "verify:onchain": "node node_modules/tsx/dist/cli.mjs scripts/verify-onchain.ts",
