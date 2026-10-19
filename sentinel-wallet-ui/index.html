@@ -13,39 +13,42 @@
       theme: {
         extend: {
           colors: {
-            surface: "#F7F8FC",
-            "surface-dim": "#E5E9F2",
-            "surface-bright": "#FFFFFF",
-            "surface-container-lowest": "#FFFFFF",
-            "surface-container-low": "#F0F3FA",
-            "surface-container": "#E8EDF7",
-            "surface-container-high": "#DDE4F0",
-            "surface-container-highest": "#D2DAE9",
-            "on-surface": "#172033",
-            "on-surface-variant": "#687386",
-            "inverse-surface": "#2B3548",
-            outline: "#9AA3B2",
-            "outline-variant": "#E5E9F2",
-            "surface-tint": "#4F46E5",
-            primary: "#4F46E5",
-            "on-primary": "#FFFFFF",
-            "primary-container": "#EEF2FF",
-            "on-primary-container": "#3730A3",
-            secondary: "#64748B",
-            "secondary-container": "#F1F5F9",
-            "on-secondary-container": "#475569",
-            tertiary: "#B45309",
-            error: "#DC4545",
-            "on-error": "#FFFFFF",
-            "error-container": "#FEF2F2",
-            "on-error-container": "#991B1B",
-            success: "#0F8A69",
-            "on-success": "#FFFFFF",
-            "success-container": "#F0FDF4",
-            "on-success-container": "#065F46",
+            surface: "#f9f9ff",
+            "surface-dim": "#d4dae9",
+            "surface-bright": "#f9f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f0f3ff",
+            "surface-container": "#e8eefd",
+            "surface-container-high": "#e3e8f7",
+            "surface-container-highest": "#dde2f1",
+            "on-surface": "#161c26",
+            "on-surface-variant": "#444654",
+            "inverse-surface": "#2b313c",
+            outline: "#747686",
+            "outline-variant": "#c4c5d7",
+            "surface-tint": "#2c50d9",
+            primary: "#2248d1",
+            "on-primary": "#ffffff",
+            "primary-container": "#4263eb",
+            "on-primary-container": "#f5f3ff",
+            "primary-fixed": "#dde1ff",
+            "primary-fixed-dim": "#b9c3ff",
+            "on-primary-fixed": "#001356",
+            secondary: "#555f6d",
+            "secondary-container": "#d6e0f1",
+            "on-secondary-container": "#596372",
+            tertiary: "#923e00",
+            error: "#ba1a1a",
+            "on-error": "#ffffff",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            success: "#059669",
+            "on-success": "#ffffff",
+            "success-container": "#ecfdf5",
+            "on-success-container": "#065f46",
           },
           borderRadius: {
-            DEFAULT: "6px", sm: "4px", md: "8px", lg: "10px", xl: "14px", "2xl": "18px", full: "9999px"
+            DEFAULT: "8px", sm: "6px", md: "10px", lg: "12px", xl: "16px", "2xl": "20px", full: "9999px"
           },
           spacing: {
             gutter: "28px", "gutter-mobile": "16px",
@@ -54,12 +57,12 @@
           fontFamily: { sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"] },
           fontWeight: { medium: "500", semibold: "600", bold: "700" },
           boxShadow: {
-            xs: "0 1px 2px 0 rgba(0,0,0,0.04)",
-            sm: "0 1px 4px 0 rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.03)",
-            DEFAULT: "0 2px 8px 0 rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.03)",
-            md: "0 4px 16px 0 rgba(0,0,0,0.09), 0 0 0 1px rgba(0,0,0,0.03)",
-            lg: "0 8px 32px 0 rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.03)",
-            xl: "0 16px 48px 0 rgba(0,0,0,0.15)",
+            xs: "0 1px 2px 0 rgba(16,24,40,0.04)",
+            sm: "0 1px 3px 0 rgba(16,24,40,0.06), 0 1px 2px 0 rgba(16,24,40,0.04)",
+            DEFAULT: "0 4px 8px -2px rgba(16,24,40,0.06), 0 2px 4px -2px rgba(16,24,40,0.04)",
+            md: "0 12px 16px -4px rgba(16,24,40,0.08), 0 4px 6px -2px rgba(16,24,40,0.03)",
+            lg: "0 20px 24px -4px rgba(16,24,40,0.08), 0 8px 8px -4px rgba(16,24,40,0.03)",
+            xl: "0 24px 48px -12px rgba(16,24,40,0.14)",
           },
           animation: {
             ping: "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
@@ -80,46 +83,46 @@
     body {
       overscroll-behavior: none;
       font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
-      background-color: #F7F8FC;
-      color: #172033;
+      background-color: #f9f9ff;
+      color: #161c26;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #C8CDD8; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #9AA3B2; }
+    ::-webkit-scrollbar-thumb { background: #c4c5d7; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #747686; }
 
     /* ── Navigation ── */
     .nav-item {
       position: relative;
       display: inline-flex;
       align-items: center;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
       font-size: 0.875rem;
       font-weight: 500;
-      color: #687386;
+      color: #555f6d;
       background: transparent;
       border: none;
       cursor: pointer;
       transition: color 0.15s, background 0.15s;
       white-space: nowrap;
     }
-    .nav-item:hover { color: #172033; background: #F0F3FA; }
-    .nav-item.active { color: #4F46E5; background: #EEF2FF; font-weight: 600; }
-    .nav-item:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+    .nav-item:hover { color: #161c26; background: #e8eefd; }
+    .nav-item.active { color: #2248d1; background: #dde2f1; font-weight: 600; }
+    .nav-item:focus-visible { outline: 2px solid rgba(34,72,209,0.4); outline-offset: 2px; }
 
     /* ── Cards ── */
     .card {
-      background: #FFFFFF;
-      border: 1px solid #E5E9F2;
+      background: #ffffff;
+      border: 1px solid #dde2f1;
       border-radius: 14px;
-      box-shadow: 0 1px 4px 0 rgba(0,0,0,0.05);
+      box-shadow: 0 1px 3px 0 rgba(16,24,40,0.04), 0 1px 2px 0 rgba(16,24,40,0.02);
     }
     .card-section {
-      background: #FFFFFF;
-      border: 1px solid #E5E9F2;
+      background: #ffffff;
+      border: 1px solid #dde2f1;
       border-radius: 14px;
       overflow: hidden;
     }
@@ -130,8 +133,8 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      padding: 9px 16px;
-      border-radius: 8px;
+      padding: 9px 18px;
+      border-radius: 9px;
       font-size: 0.875rem;
       font-weight: 600;
       border: none;
@@ -140,23 +143,30 @@
       white-space: nowrap;
       line-height: 1.25;
     }
-    .btn:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+    .btn:focus-visible { outline: 2px solid rgba(34,72,209,0.4); outline-offset: 2px; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
-    .btn-primary { background: #4F46E5; color: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
-    .btn-primary:hover { background: #4338CA; }
-    .btn-primary:active { background: #3730A3; }
-    .btn-outline {
-      background: transparent;
-      color: #172033;
-      border: 1px solid #E5E9F2;
+    .btn-primary {
+      background: linear-gradient(135deg, #2248d1 0%, #1d3db7 100%);
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(34,72,209,0.3);
     }
-    .btn-outline:hover { background: #F0F3FA; border-color: #9AA3B2; }
-    .btn-outline:active { background: #E8EDF7; }
-    .btn-ghost { background: transparent; color: #687386; border: none; }
-    .btn-ghost:hover { color: #172033; background: #F0F3FA; }
-    .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 6px; }
-    .btn-danger { background: #FEF2F2; color: #DC4545; border: 1px solid rgba(220,69,69,0.2); }
-    .btn-danger:hover { background: #DC4545; color: #FFFFFF; }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d3db7 0%, #17339d 100%);
+      box-shadow: 0 2px 6px rgba(34,72,209,0.4);
+    }
+    .btn-primary:active { background: #17339d; }
+    .btn-outline {
+      background: #ffffff;
+      color: #161c26;
+      border: 1px solid #c4c5d7;
+    }
+    .btn-outline:hover { background: #f0f3ff; border-color: #747686; }
+    .btn-outline:active { background: #e8eefd; }
+    .btn-ghost { background: transparent; color: #555f6d; border: none; }
+    .btn-ghost:hover { color: #161c26; background: #f0f3ff; }
+    .btn-sm { padding: 6px 12px; font-size: 0.75rem; border-radius: 7px; }
+    .btn-danger { background: #ffdad6; color: #ba1a1a; border: 1px solid rgba(186,26,26,0.2); }
+    .btn-danger:hover { background: #ba1a1a; color: #ffffff; }
 
     /* ── Chips / badges ── */
     .chip {
@@ -170,11 +180,11 @@
       white-space: nowrap;
       line-height: 1.4;
     }
-    .chip-ok { background: #F0FDF4; color: #0F8A69; border: 1px solid rgba(15,138,105,0.2); }
-    .chip-error { background: #FEF2F2; color: #DC4545; border: 1px solid rgba(220,69,69,0.2); }
-    .chip-neutral { background: #E8EDF7; color: #687386; border: 1px solid #E5E9F2; }
-    .chip-primary { background: #EEF2FF; color: #4F46E5; border: 1px solid rgba(79,70,229,0.2); }
-    .chip-warning { background: #FFFBEB; color: #B45309; border: 1px solid rgba(180,83,9,0.2); }
+    .chip-ok { background: #ecfdf5; color: #059669; border: 1px solid rgba(5,150,105,0.25); }
+    .chip-error { background: #ffdad6; color: #ba1a1a; border: 1px solid rgba(186,26,26,0.25); }
+    .chip-neutral { background: #f0f3ff; color: #444654; border: 1px solid #dde2f1; }
+    .chip-primary { background: #e8eefd; color: #2248d1; border: 1px solid rgba(34,72,209,0.25); }
+    .chip-warning { background: #fff2ed; color: #923e00; border: 1px solid rgba(146,62,0,0.25); }
 
     /* ── Status chips (header) ── */
     .status-chip {
@@ -182,11 +192,11 @@
       align-items: center;
       padding: 3px 10px;
       border-radius: 9999px;
-      background: #F0F3FA;
-      color: #687386;
+      background: #f0f3ff;
+      color: #444654;
       font-size: 0.75rem;
       font-weight: 500;
-      border: 1px solid #E5E9F2;
+      border: 1px solid #dde2f1;
     }
 
     /* ── Scenario chips ── */
@@ -194,60 +204,60 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 12px;
-      border-radius: 8px;
+      padding: 6px 13px;
+      border-radius: 9px;
       font-size: 0.75rem;
       font-weight: 500;
-      border: 1px solid #E5E9F2;
+      border: 1px solid #dde2f1;
       cursor: pointer;
       transition: all 0.15s;
-      background: #FFFFFF;
-      color: #687386;
+      background: #ffffff;
+      color: #444654;
     }
-    .scenario-chip:hover { box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+    .scenario-chip:hover { box-shadow: 0 2px 5px rgba(0,0,0,0.06); border-color: #c4c5d7; }
     .scenario-chip:active { transform: scale(0.98); }
-    .scenario-chip:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
-    .scenario-chip.chip-primary { background: #EEF2FF; color: #4F46E5; border-color: rgba(79,70,229,0.25); }
-    .scenario-chip.chip-primary:hover { background: #E0E7FF; }
-    .scenario-chip.chip-error { background: #FFFFFF; color: #687386; border-color: #E5E9F2; }
-    .scenario-chip.chip-error:hover { background: #FEF2F2; color: #DC4545; border-color: rgba(220,69,69,0.3); }
+    .scenario-chip:focus-visible { outline: 2px solid rgba(34,72,209,0.4); outline-offset: 2px; }
+    .scenario-chip.chip-primary { background: #e8eefd; color: #2248d1; border-color: rgba(34,72,209,0.3); font-weight: 600; }
+    .scenario-chip.chip-primary:hover { background: #dde2f1; }
+    .scenario-chip.chip-error { background: #ffffff; color: #555f6d; border-color: #dde2f1; }
+    .scenario-chip.chip-error:hover { background: #ffdad6; color: #ba1a1a; border-color: rgba(186,26,26,0.35); }
 
     /* ── Filter tabs ── */
     .filter-tab {
       display: inline-flex;
       align-items: center;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 8px;
       font-size: 0.75rem;
       font-weight: 500;
-      color: #687386;
+      color: #555f6d;
       border: 1px solid transparent;
       background: transparent;
       cursor: pointer;
       transition: all 0.15s;
     }
-    .filter-tab:hover { background: #F0F3FA; color: #172033; }
+    .filter-tab:hover { background: #f0f3ff; color: #161c26; }
     .filter-tab.active {
-      background: #FFFFFF;
-      color: #172033;
-      border-color: #E5E9F2;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      background: #ffffff;
+      color: #2248d1;
+      border-color: #dde2f1;
+      box-shadow: 0 1px 3px rgba(32,38,49,0.06);
       font-weight: 600;
     }
-    .filter-tab:focus-visible { outline: 2px solid rgba(79,70,229,0.4); outline-offset: 2px; }
+    .filter-tab:focus-visible { outline: 2px solid rgba(34,72,209,0.4); outline-offset: 2px; }
 
     /* ── Modal ── */
     .modal {
-      background: #FFFFFF;
-      border: 1px solid #E5E9F2;
+      background: #ffffff;
+      border: 1px solid #dde2f1;
       border-radius: 18px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+      box-shadow: 0 20px 48px -12px rgba(16,24,40,0.18);
       padding: 0;
       max-height: 90vh;
       overflow-y: auto;
     }
     .modal::backdrop {
-      background: rgba(23, 32, 51, 0.35);
+      background: rgba(22, 28, 38, 0.45);
       backdrop-filter: blur(4px);
     }
 
@@ -257,7 +267,7 @@
     /* ── Textarea ── */
     .prompt-textarea {
       width: 100%;
-      min-height: 88px;
+      min-height: 90px;
       padding: 12px 14px;
       background: #FFFFFF;
       border: 1px solid #E5E9F2;
@@ -358,7 +368,7 @@
       <div class="max-w-6xl mx-auto px-gutter h-14 flex items-center gap-4">
         <!-- Logo + brand -->
         <div class="flex items-center gap-2.5 shrink-0">
-          <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs tracking-tight">S</div>
+          <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-xs tracking-tight shadow-xs">S</div>
           <div class="flex flex-col leading-none">
             <span class="font-semibold text-on-surface text-sm tracking-tight">Sentinel Wallet</span>
             <span class="text-[11px] text-on-surface-variant hidden sm:block">Policy-Governed AI Agent • Base Sepolia</span>
@@ -372,7 +382,7 @@
         </nav>
         <!-- Right cluster -->
         <div class="ml-auto flex items-center gap-2">
-          <button id="btn-toggle-proofs" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border cursor-pointer transition-all" style="color:#4F46E5;border-color:rgba(79,70,229,0.25);background:#EEF2FF;" type="button">
+          <button id="btn-toggle-proofs" class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border cursor-pointer transition-all" style="color:#2248d1;border-color:rgba(34,72,209,0.25);background:#e8eefd;" type="button">
             <span class="material-symbols-outlined" style="font-size:13px;">verified</span>
             <span>On-Chain Proofs</span>
             <span class="material-symbols-outlined transition-transform" style="font-size:12px;" id="proofs-icon">expand_more</span>
@@ -383,23 +393,23 @@
         </div>
       </div>
       <!-- Status strip -->
-      <div class="max-w-6xl mx-auto px-gutter pb-2 flex flex-wrap items-center justify-between gap-2" style="border-top:1px solid #F0F3FA;">
+      <div class="max-w-6xl mx-auto px-gutter pb-2 flex flex-wrap items-center justify-between gap-2" style="border-top:1px solid #dde2f1;">
         <div class="flex items-center gap-2 flex-wrap">
-          <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#F0FDF4;color:#0F8A69;">
-            <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Connected
+          <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold" style="background:#ecfdf5;color:#059669;border:1px solid rgba(5,150,105,0.2);">
+            <span class="w-1.5 h-1.5 rounded-full" style="background:#059669;"></span> Connected
           </span>
           <span class="status-chip" id="chip-network">Base Sepolia</span>
           <span class="status-chip" id="chip-guardian">Guardian active</span>
           <span class="status-chip" id="chip-llm">LLM planner</span>
           <!-- Mobile proofs button -->
-          <button id="btn-toggle-proofs-mobile" class="sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border cursor-pointer" style="color:#4F46E5;border-color:rgba(79,70,229,0.25);background:#EEF2FF;" type="button">
+          <button id="btn-toggle-proofs-mobile" class="sm:hidden inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border cursor-pointer" style="color:#2248d1;border-color:rgba(34,72,209,0.25);background:#e8eefd;" type="button">
             <span class="material-symbols-outlined" style="font-size:12px;">verified</span> Proofs
           </button>
         </div>
         <div class="text-xs text-on-surface-variant flex items-center gap-2.5">
           <span id="chip-limit">Daily: $100 USDC</span>
           <span class="text-outline-variant">|</span>
-          <span id="chip-ceiling" style="color:#9AA3B2;">Per-tx: $50 USDC</span>
+          <span id="chip-ceiling" style="color:#747686;">Per-tx: $50 USDC</span>
         </div>
       </div>
 
@@ -657,13 +667,13 @@
                 <div class="text-xl font-semibold text-on-surface mt-1" id="sec-guardian-status">Active</div>
                 <div class="text-sm text-on-surface-variant mt-0.5">Zero-gas pre-flight engaged</div>
               </div>
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#F0F3FA;color:#4F46E5;">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#f0f3ff;color:#2248d1;">
                 <span class="material-symbols-outlined" style="font-size:20px;">security</span>
               </div>
             </div>
             <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
               <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Pre-flight hook engaged
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#059669;"></span> Pre-flight hook engaged
               </span>
               <span class="text-xs font-mono text-on-surface-variant" id="sec-latency">— ms</span>
             </div>
@@ -675,13 +685,13 @@
                 <div class="text-xl font-semibold text-on-surface mt-1" id="sec-policy-status">11 / 11 active</div>
                 <div class="text-sm text-on-surface-variant mt-0.5">All deterministic checks enabled</div>
               </div>
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#EEF2FF;color:#4F46E5;">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#e8eefd;color:#2248d1;">
                 <span class="material-symbols-outlined" style="font-size:20px;">policy</span>
               </div>
             </div>
             <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
               <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
-                <span class="material-symbols-outlined" style="font-size:12px;color:#0F8A69;">task_alt</span> 0 anomalies
+                <span class="material-symbols-outlined" style="font-size:12px;color:#059669;">task_alt</span> 0 anomalies
               </span>
               <span class="text-xs text-on-surface-variant">All checks clean</span>
             </div>
@@ -693,41 +703,41 @@
                 <div class="text-xl font-semibold text-on-surface mt-1" id="sec-pause-status">Normal / unpaused</div>
                 <div class="text-sm text-on-surface-variant mt-0.5">All execution channels operational</div>
               </div>
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#F0F3FA;color:#687386;">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:#f0f3ff;color:#555f6d;">
                 <span class="material-symbols-outlined" style="font-size:20px;">power_settings_new</span>
               </div>
             </div>
             <div class="pt-3 border-t border-outline-variant flex items-center justify-between">
               <span class="text-xs text-on-surface-variant flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full" style="background:#0F8A69;"></span> Routing nominal
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#059669;"></span> Routing nominal
               </span>
-              <button id="sec-pause-btn" class="text-xs font-semibold flex items-center gap-1 transition-colors" style="color:#DC4545;background:none;border:none;cursor:pointer;" type="button">
+              <button id="sec-pause-btn" class="text-xs font-semibold flex items-center gap-1 transition-colors" style="color:#ba1a1a;background:none;border:none;cursor:pointer;" type="button">
                 Trigger pause <span class="material-symbols-outlined" style="font-size:12px;">arrow_forward</span>
               </button>
             </div>
           </div>
         </div>
         <!-- Latest blocked alert (conditional) -->
-        <div id="sec-alert-banner" class="hidden card p-5 relative overflow-hidden border-l-4" style="border-left-color:#DC4545;">
+        <div id="sec-alert-banner" class="hidden card p-5 relative overflow-hidden border-l-4" style="border-left-color:#ba1a1a;">
           <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             <div class="flex items-start gap-3.5">
-              <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#FEF2F2;color:#DC4545;">
+              <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style="background:#ffdad6;color:#ba1a1a;">
                 <span class="material-symbols-outlined" style="font-size:20px;">block</span>
               </div>
               <div class="flex flex-col">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <span class="text-xs font-bold uppercase tracking-wider" style="color:#DC4545;">Latest blocked request</span>
-                  <span class="text-xs font-mono px-2 py-0.5 rounded" style="background:#F0F3FA;color:#172033;">#INT-pending</span>
-                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#FEF2F2;color:#DC4545;">
+                  <span class="text-xs font-bold uppercase tracking-wider" style="color:#ba1a1a;">Latest blocked request</span>
+                  <span class="text-xs font-mono px-2 py-0.5 rounded" style="background:#f0f3ff;color:#161c26;">#INT-pending</span>
+                  <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold" style="background:#ffdad6;color:#ba1a1a;">
                     <span class="material-symbols-outlined" style="font-size:12px;">block</span> Off-chain pre-flight block
                   </span>
                 </div>
                 <p id="sec-alert-detail" class="text-sm text-on-surface mt-1 leading-snug"></p>
                 <div class="flex items-center gap-3 mt-2 text-xs font-medium text-on-surface-variant flex-wrap">
-                  <span class="flex items-center gap-1" style="color:#0F8A69;">
+                  <span class="flex items-center gap-1" style="color:#059669;">
                     <span class="material-symbols-outlined" style="font-size:14px;">savings</span> <span id="sec-alert-gas">$0.00 gas spent</span>
                   </span>
-                  <span style="color:#9AA3B2;">•</span>
+                  <span style="color:#747686;">•</span>
                   <span class="font-mono text-xs" style="color:#9AA3B2;">Rule: spending limit</span>
                 </div>
               </div>
