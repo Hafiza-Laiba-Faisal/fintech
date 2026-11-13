@@ -42,7 +42,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const REPO_ROOT = join(__dirname, "..", "..");
 const UI_PATH = join(REPO_ROOT, "sentinel-wallet-ui", "index.html");
-const PORT = Number(process.env.PORT ?? 3000);
+// Guard: some host environments export PORT=0, which would make the server
+// silently bind a random ephemeral port. Fall back to the documented 3000.
+const PORT =
+  Number(process.env.PORT) > 0 ? Number(process.env.PORT) : 3000;
 
 // ─── Constants (match the repo demo / .env) ─────────────────────────────────
 
@@ -250,9 +253,13 @@ function readBody(req: IncomingMessage): Promise<unknown> {
 
 // ─── Policy config built from per-user settings (enforcement-relevant) ────────
 
-const userSettingsMap: Map<string, AppSettings> = new Map();
+export const userSettingsMap: Map<string, AppSettings> = new Map();
 
-function getSettingsForUser(userId?: string): AppSettings {
+export function _resetUserSettingsForTest(): void {
+  userSettingsMap.clear();
+}
+
+export function getSettingsForUser(userId?: string): AppSettings {
   const id = userId || "default";
   let s = userSettingsMap.get(id);
   if (!s) {
@@ -272,7 +279,7 @@ function getSettingsForUser(userId?: string): AppSettings {
   return s;
 }
 
-function policyConfigForUser(userId: string, walletAddress: Address): PolicyConfig {
+export function policyConfigForUser(userId: string, walletAddress: Address): PolicyConfig {
   const uSettings = getSettingsForUser(userId);
   return {
     chainId: CHAIN_ID,
@@ -338,10 +345,85 @@ function extractSessionId(req: IncomingMessage): string | undefined {
   return undefined;
 }
 
-function requireSession(
+// ─── IP & Proxy Trust ────────────────────────────────────────────────────────
+
+/**
+ * Normalizes IP strings (e.g. stripping IPv6 prefix ::ffff:).
+ */
+export function normalizeIp(ip?: string | null): string {
+  if (!ip) return "unknown";
+  if (ip.startsWith("::ffff:")) return ip.slice(7);
+  return ip;
+}
+
+/**
+ * Safely extracts client IP address.
+ * Blindly trusting arbitrary X-Forwarded-For allows attackers to rotate headers
+ * and bypass rate limiting. Only trust X-Forwarded-For when the immediate socket
+ * connection originates from an explicitly configured trusted proxy.
+ */
+export function getClientIp(req: IncomingMessage): string {
+  const socketAddress = normalizeIp(req.socket.remoteAddress);
+  const trustedProxiesEnv = process.env.TRUSTED_PROXIES;
+
+  if (trustedProxiesEnv) {
+    const trustedProxies = trustedProxiesEnv
+      .split(",")
+      .map((p) => normalizeIp(p.trim()))
+      .filter(Boolean);
+    if (trustedProxies.includes(socketAddress)) {
+      const forwarded = req.headers["x-forwarded-for"];
+      if (typeof forwarded === "string" && forwarded.trim().length > 0) {
+        const parts = forwarded.split(",");
+        const clientIp = parts[0]?.trim();
+        if (clientIp) {
+          return normalizeIp(clientIp);
+        }
+      }
+    }
+  }
+
+  return socketAddress || "local";
+}
+
+export function isAllowedOrigin(origin?: string): boolean {
+  if (!origin || origin === "null") return false; // reject missing or null origin
+  try {
+    const parsed = new URL(origin);
+    const host = parsed.hostname;
+    if (host === "localhost" || host === "127.0.0.1") return true;
+    if (process.env.ALLOWED_ORIGINS) {
+      const allowed = process.env.ALLOWED_ORIGINS.split(",").map((o) => o.trim());
+      if (allowed.includes(origin)) return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+export function requireSession(
   req: IncomingMessage,
   res: ServerResponse,
 ): { valid: boolean; user?: { id: string; email: string; walletSetupCompleted: boolean } } {
+  const authHeader = req.headers.authorization;
+  const isBearer = Boolean(authHeader && authHeader.startsWith("Bearer "));
+
+  // CSRF Defense: For cookie-authenticated state-changing requests (POST without Bearer token),
+  // strictly require an allowed Origin header. Reject missing, "null", or disallowed origins.
+  // Bearer tokens are kept separate as non-ambient credentials.
+  if (req.method === "POST" && !isBearer) {
+    const origin = req.headers.origin as string | undefined;
+    if (!origin || origin === "null" || !isAllowedOrigin(origin)) {
+      sendError(
+        res,
+        "Forbidden: CSRF check failed (Valid Origin header required for cookie-authenticated requests)",
+        403,
+      );
+      return { valid: false };
+    }
+  }
+
   const sessionId = extractSessionId(req);
   const session = validateSession(sessionId);
   if (!session.valid || !session.user) {
@@ -352,12 +434,13 @@ function requireSession(
 }
 
 // POST /api/auth/register
-addRoute("POST", "/api/auth/register", async (_req, res, body) => {
+addRoute("POST", "/api/auth/register", async (req, res, body) => {
   const { email, password } = body as { email?: string; password?: string };
   if (!email || !password) {
     return sendError(res, "Email and password are required", 400);
   }
-  const result = registerUser(email, password);
+  const clientIp = getClientIp(req);
+  const result = registerUser(email, password, clientIp);
   if (!result.success) {
     return sendError(res, result.error || "Registration failed", 400);
   }
@@ -370,7 +453,7 @@ addRoute("POST", "/api/auth/login", async (req, res, body) => {
   if (!email || !password) {
     return sendError(res, "Email and password are required", 400);
   }
-  const clientIp = (req.headers["x-forwarded-for"] as string) || req.socket.remoteAddress || "local";
+  const clientIp = getClientIp(req);
   const result = authenticateUser(email, password, clientIp);
   if (!result.success || !result.session) {
     return sendError(res, result.error || "Authentication failed", 401);
@@ -391,6 +474,19 @@ addRoute("POST", "/api/auth/login", async (req, res, body) => {
 
 // POST /api/auth/logout
 addRoute("POST", "/api/auth/logout", async (req, res) => {
+  const authHeader = req.headers.authorization;
+  const isBearer = Boolean(authHeader && authHeader.startsWith("Bearer "));
+  if (!isBearer) {
+    const origin = req.headers.origin as string | undefined;
+    if (!origin || origin === "null" || !isAllowedOrigin(origin)) {
+      return sendError(
+        res,
+        "Forbidden: CSRF check failed (Valid Origin header required for cookie-authenticated requests)",
+        403,
+      );
+    }
+  }
+
   const sessionId = extractSessionId(req);
   terminateSession(sessionId);
   res.setHeader(
@@ -587,7 +683,8 @@ addRoute("POST", "/api/execute", async (req, res, body) => {
   }
 
   const walletAddress = intent.walletAddress;
-  const preDecision = evaluateIntent(intent, policyConfigForUser(auth.user.id, walletAddress));
+  const userPolicy = policyConfigForUser(auth.user.id, walletAddress);
+  const preDecision = evaluateIntent(intent, userPolicy);
   if (preDecision.status === "rejected") {
     const record: TPDRRecord = {
       intent,
@@ -597,6 +694,19 @@ addRoute("POST", "/api/execute", async (req, res, body) => {
     manager.addTPDRRecord(record);
     return sendJson(res, { success: false, record, blockedOffChain: true });
   }
+
+  // Synchronize manager policy with this user's specific policy before execution
+  const configUpdate: Partial<PolicyConfig> = {
+    dailyLimitAmount: userPolicy.dailyLimitAmount,
+    approvedRecipients: userPolicy.approvedRecipients,
+  };
+  if (userPolicy.perTxCeilingAmount !== undefined) {
+    configUpdate.perTxCeilingAmount = userPolicy.perTxCeilingAmount;
+  }
+  if (userPolicy.isPaused !== undefined) {
+    configUpdate.isPaused = userPolicy.isPaused;
+  }
+  manager.updatePolicyConfig(configUpdate);
 
   const record = await manager.executeIntent(intent);
   sendJson(res, { success: true, record });
@@ -615,7 +725,6 @@ addRoute("POST", "/api/pause", async (req, res) => {
   if (!auth.valid || !auth.user) return;
   const userSettings = getSettingsForUser(auth.user.id);
   userSettings.wallet.isPaused = true;
-  manager.setPausedState(true);
   sendJson(res, { ok: true, isPaused: true });
 });
 
@@ -625,7 +734,6 @@ addRoute("POST", "/api/unpause", async (req, res) => {
   if (!auth.valid || !auth.user) return;
   const userSettings = getSettingsForUser(auth.user.id);
   userSettings.wallet.isPaused = false;
-  manager.setPausedState(false);
   sendJson(res, { ok: true, isPaused: false });
 });
 
@@ -672,7 +780,6 @@ addRoute("POST", "/api/settings", async (req, res, body) => {
     }
     if (typeof updates.wallet.isPaused === "boolean") {
       userSettings.wallet.isPaused = updates.wallet.isPaused;
-      manager.setPausedState(updates.wallet.isPaused);
     }
   }
   if (updates.llm) {
@@ -692,7 +799,10 @@ addRoute("POST", "/api/settings", async (req, res, body) => {
 });
 
 // POST /api/llm/test — server-side connection test (key never leaves the server)
-addRoute("POST", "/api/llm/test", async (_req, res) => {
+addRoute("POST", "/api/llm/test", async (req, res) => {
+  const auth = requireSession(req, res);
+  if (!auth.valid || !auth.user) return;
+
   const config = getLLMConfigFromEnv();
   if (!config) {
     return sendJson(
@@ -751,7 +861,7 @@ addRoute("POST", "/api/llm/test", async (_req, res) => {
 
 // ─── HTTP server ─────────────────────────────────────────────────────────────
 
-async function handleRequest(
+export async function handleRequest(
   req: IncomingMessage,
   res: ServerResponse,
 ): Promise<void> {
@@ -759,11 +869,26 @@ async function handleRequest(
   const pathname = url.split("?")[0];
   const method = req.method ?? "GET";
 
-  // CORS (allows the UI to be reached from file:// or other origins during dev)
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // CORS & Origin Validation
+  const reqOrigin = req.headers.origin as string | undefined;
+  const isAllowed = isAllowedOrigin(reqOrigin);
+
+  if (reqOrigin && isAllowed) {
+    res.setHeader("Access-Control-Allow-Origin", reqOrigin);
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+  } else if (!reqOrigin) {
+    // Direct server-to-server or same-origin
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+
   if (method === "OPTIONS") {
+    if (reqOrigin && !isAllowed) {
+      res.writeHead(403, { "Content-Type": "text/plain" });
+      res.end("CORS origin not allowed");
+      return;
+    }
     res.writeHead(204);
     res.end();
     return;
@@ -798,6 +923,8 @@ async function handleRequest(
   res.end("Not found");
 }
 
+export { initializeManager };
+
 async function main(): Promise<void> {
   await initializeManager();
   const server = createServer(handleRequest);
@@ -811,8 +938,12 @@ async function main(): Promise<void> {
   });
 }
 
-main().catch((err: Error) => {
-  // eslint-disable-next-line no-console
-  console.error("Failed to start server:", err.message);
-  process.exit(1);
-});
+const isTestEnv = Boolean(process.env.VITEST || process.env.NODE_ENV === "test");
+
+if (!isTestEnv) {
+  main().catch((err: Error) => {
+    // eslint-disable-next-line no-console
+    console.error("Failed to start server:", err.message);
+    process.exit(1);
+  });
+}

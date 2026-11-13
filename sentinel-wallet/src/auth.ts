@@ -41,6 +41,11 @@ const sessions: Map<string, UserSession> = new Map();
 // Rate limiting store: ip -> { attempts: number, lockUntil: number }
 const loginRateLimit: Map<string, { attempts: number; lockUntil: number }> = new Map();
 
+// Registration rate limiting store: ip -> { count: number, windowStart: number }
+const registerRateLimit: Map<string, { count: number; windowStart: number }> = new Map();
+const MAX_REGISTRATIONS_PER_WINDOW = 5;
+const REGISTRATION_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+
 const SESSION_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_PERIOD_MS = 5 * 60 * 1000; // 5 minutes
@@ -50,9 +55,29 @@ function hashPassword(password: string, salt: string): string {
 }
 
 /**
- * Register a new user account.
+ * Register a new user account with rate limiting.
  */
-export function registerUser(email: string, password: string): { success: boolean; user?: { id: string; email: string; walletSetupCompleted: boolean }; error?: string } {
+export function registerUser(
+  email: string,
+  password: string,
+  clientIp = "local"
+): { success: boolean; user?: { id: string; email: string; walletSetupCompleted: boolean }; error?: string } {
+  // Check registration rate limit
+  if (clientIp !== "internal-seed") {
+    const now = Date.now();
+    const info = registerRateLimit.get(clientIp);
+    if (!info || now - info.windowStart > REGISTRATION_WINDOW_MS) {
+      registerRateLimit.set(clientIp, { count: 1, windowStart: now });
+    } else if (info.count >= MAX_REGISTRATIONS_PER_WINDOW) {
+      return {
+        success: false,
+        error: "Too many accounts registered from this IP. Please wait before creating another account.",
+      };
+    } else {
+      info.count += 1;
+    }
+  }
+
   const normalizedEmail = email.trim().toLowerCase();
   
   if (!normalizedEmail || !normalizedEmail.includes("@")) {
@@ -202,13 +227,45 @@ export function setWalletSetupCompleted(userId: string, completed = true): boole
   return false;
 }
 
-// Seed initial default operator user for seamless demo / test access unless explicitly disabled
-if (process.env.ENABLE_DEMO_ACCOUNT !== "false") {
-  const defaultEmail = process.env.DEMO_OPERATOR_EMAIL || "operator@sentinel.wallet";
-  const defaultPass = process.env.DEMO_OPERATOR_PASSWORD || "SentinelDemo2026!";
-  registerUser(defaultEmail, defaultPass);
-  const u = users.get(defaultEmail);
-  if (u) {
-    u.walletSetupCompleted = true; // default demo user has setup done
+/**
+ * Initialize demo operator account.
+ * Opt-in requirement: DISABLED by default unless ENABLE_DEMO_ACCOUNT === "true".
+ * In production (NODE_ENV=production), DEMO_OPERATOR_PASSWORD MUST be explicitly configured.
+ */
+export function initDemoAccount(force = false): boolean {
+  if (process.env.ENABLE_DEMO_ACCOUNT === "true" || force) {
+    const defaultEmail = (process.env.DEMO_OPERATOR_EMAIL || "operator@sentinel.wallet").trim().toLowerCase();
+    const isProd = process.env.NODE_ENV === "production";
+    const defaultPass = process.env.DEMO_OPERATOR_PASSWORD || (isProd ? undefined : "SentinelDemo2026!");
+    
+    if (!defaultPass) {
+      // eslint-disable-next-line no-console
+      console.warn("[SECURITY WARN] Demo account requested in production without DEMO_OPERATOR_PASSWORD. Refusing to seed default password.");
+      return false;
+    }
+
+    registerUser(defaultEmail, defaultPass, "internal-seed");
+    const u = users.get(defaultEmail);
+    if (u) {
+      u.walletSetupCompleted = true;
+    }
+    return true;
   }
+  return false;
+}
+
+export function isDemoAccountEnabled(): boolean {
+  return process.env.ENABLE_DEMO_ACCOUNT === "true";
+}
+
+export function _clearUsersAndSessionsForTest(): void {
+  users.clear();
+  sessions.clear();
+  loginRateLimit.clear();
+  registerRateLimit.clear();
+}
+
+// Strictly opt-in: disabled by default unless ENABLE_DEMO_ACCOUNT is explicitly "true"
+if (process.env.ENABLE_DEMO_ACCOUNT === "true") {
+  initDemoAccount();
 }

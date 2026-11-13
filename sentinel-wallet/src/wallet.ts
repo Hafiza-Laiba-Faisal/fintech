@@ -49,6 +49,18 @@ export class SentinelWalletManager {
   private policyConfig: PolicyConfig;
   private tpdrLog: TPDRRecord[] = [];
 
+  /**
+   * STRICT SAFE MODE (fail-closed):
+   *   When true (default), a failed Safe/bundler UserOp execution FAILS — it
+   *   never silently falls back to a direct owner-EOA transfer. A transfer
+   *   signed and sent by the owner EOA bypasses the Safe account and its
+   *   on-chain hooks entirely, so presenting it as wallet execution is unsafe.
+   *   Opt out ONLY for demos by setting SENTINEL_STRICT_SAFE=explicit-eoa-fallback
+   *   (the fallback then logs the REAL bundler error and records that the
+   *   execution path was the owner EOA, not the Safe).
+   */
+  private strictSafeMode: boolean;
+
   /** Track in-memory spending for off-chain pre-flight check */
   private spentThisSession: bigint = 0n;
 
@@ -60,9 +72,14 @@ export class SentinelWalletManager {
     approvedRecipient: Address;
     walletAddress: Address;
     dailyLimitAmount: bigint;
+    /** Fail-closed Safe execution (default true). See field docs above. */
+    strictSafeMode?: boolean;
   }) {
     this.ownerKey = params.ownerKey;
     this.rpcUrl = params.rpcUrl;
+    this.strictSafeMode =
+      params.strictSafeMode ??
+      process.env["SENTINEL_STRICT_SAFE"] !== "explicit-eoa-fallback";
 
     this.client = new SmartAgentKitClient({
       chain: baseSepolia,
@@ -98,16 +115,52 @@ export class SentinelWalletManager {
   /**
    * Connect to an existing deployed wallet.
    * Use this when the wallet is already deployed on-chain.
+   *
+   * Reconstructs the full account configuration including:
+   * - Correct owner EOA address (derived from ownerKey)
+   * - Active payment-agent policy hooks (SpendingLimitHook, AllowlistHook, EmergencyPauseHook)
+   * - Synchronization of runtime policyConfig with connected wallet address
    */
   async connectWallet(walletAddress: Address): Promise<AgentWallet> {
     await this.client.connectWallet(walletAddress, this.ownerKey);
 
+    const ownerAccount = privateKeyToAccount(this.ownerKey);
+    this.policyConfig.walletAddress = walletAddress;
+
+    // Preserving the payment-agent preset policy definitions and hook contracts
+    const policies = [
+      {
+        moduleAddress: "0xd67a5E6784A66Ddf4C09EA7bbf81Ab89532624E4" as Address,
+        moduleType: 4, // Hook
+        name: "SpendingLimitHook",
+        config: {
+          dailyLimit: this.policyConfig.dailyLimitAmount,
+        } as any,
+      },
+      {
+        moduleAddress: "0x7899b03386A3874393A3769D637977d947A9Fc66" as Address,
+        moduleType: 4, // Hook
+        name: "AllowlistHook",
+        config: {
+          approvedRecipients: this.policyConfig.approvedRecipients,
+        } as any,
+      },
+      {
+        moduleAddress: "0xAc0cE5672aED1Bfe5549b885f883a770Acd8cAE3" as Address,
+        moduleType: 4, // Hook
+        name: "EmergencyPauseHook",
+        config: {
+          isPaused: this.policyConfig.isPaused,
+        } as any,
+      },
+    ];
+
     this.wallet = {
       address: walletAddress,
-      owner: this.policyConfig.walletAddress,
+      owner: ownerAccount.address,
       chain: baseSepolia,
       isDeployed: true,
-      policies: [],
+      policies,
       sessions: [],
     };
 
@@ -231,10 +284,10 @@ export class SentinelWalletManager {
       );
     }
 
-    let executionResult: ExecutionResult;
+    let executionResult: ExecutionResult | undefined;
 
     try {
-      let txHash: Hex;
+      let txHash: Hex | undefined;
       try {
         txHash = (await this.client.execute(this.wallet, {
           target: executeParams.target,
@@ -242,42 +295,74 @@ export class SentinelWalletManager {
           data: executeParams.calldata,
         })) as Hex;
       } catch (bundlerError: any) {
-        console.warn("\n[INFO] Safe bundler simulation failed (Hook restriction on target/wildcard). Fallback to Direct Guardian Execution on Base Sepolia...");
-        const ownerAccount = privateKeyToAccount(this.ownerKey);
-        const walletClient = createWalletClient({
-          account: ownerAccount,
-          chain: baseSepolia,
-          transport: http(this.rpcUrl),
-        });
-        const publicClient = createPublicClient({
-          chain: baseSepolia,
-          transport: http(this.rpcUrl),
-        });
+        const realError =
+          bundlerError instanceof Error ? bundlerError.message : String(bundlerError);
 
-        // Execute direct ERC20 transfer for genuine on-chain proof
-        txHash = await walletClient.writeContract({
-          address: intent.tokenAddress,
-          abi: ERC20_ABI,
-          functionName: "transfer",
-          args: [intent.recipient, intent.amount],
-        });
+        if (this.strictSafeMode) {
+          // FAIL CLOSED: never route a rejected Safe UserOp through the owner
+          // EOA — that bypasses the Safe account AND all on-chain hooks.
+          console.error(
+            `[SAFE FLOW FAILED] Safe/bundler execution rejected; strict mode forbids owner-EOA fallback.\n  Real error: ${realError.slice(0, 400)}`,
+          );
+          executionResult = {
+            success: false,
+            error: `Safe UserOp execution failed (strict fail-closed): ${realError.slice(0, 300)}`,
+            executedAt: Math.floor(Date.now() / 1000),
+          };
+        } else {
+          // Explicitly NON-default demo fallback. The real bundler error is now
+          // logged (previously it was swallowed behind a hardcoded message).
+          console.warn(
+            `\n[DEMO FALLBACK] Safe/bundler execution failed; using owner-EOA direct ERC-20 transfer (bypasses Safe + hooks).\n  Real error: ${realError.slice(0, 400)}`,
+          );
+          const ownerAccount = privateKeyToAccount(this.ownerKey);
+          const walletClient = createWalletClient({
+            account: ownerAccount,
+            chain: baseSepolia,
+            transport: http(this.rpcUrl),
+          });
+          const publicClient = createPublicClient({
+            chain: baseSepolia,
+            transport: http(this.rpcUrl),
+          });
 
-        await publicClient.waitForTransactionReceipt({ hash: txHash, confirmations: 1 });
+          // Execute direct ERC20 transfer for genuine on-chain proof
+          txHash = await walletClient.writeContract({
+            address: intent.tokenAddress,
+            abi: ERC20_ABI,
+            functionName: "transfer",
+            args: [intent.recipient, intent.amount],
+          });
+
+          await publicClient.waitForTransactionReceipt({ hash: txHash, confirmations: 1 });
+        }
       }
 
-      // Update in-memory spend tracker
-      this.spentThisSession += intent.amount;
-      this.policyConfig.spentSoFar = this.spentThisSession;
+      // A strict-mode Safe failure was already recorded inside the catch —
+      // do NOT overwrite it with a fake success or count the (not-sent) spend.
+      if (!executionResult) {
+        // Update in-memory spend tracker
+        this.spentThisSession += intent.amount;
+        this.policyConfig.spentSoFar = this.spentThisSession;
 
-      executionResult = {
-        success: true,
-        txHash,
-        executedAt: Math.floor(Date.now() / 1000),
-      };
+        executionResult = {
+          success: true,
+          txHash: txHash as Hex,
+          executedAt: Math.floor(Date.now() / 1000),
+        };
+      }
     } catch (error: any) {
       executionResult = {
         success: false,
         error: error instanceof Error ? error.message : String(error),
+        executedAt: Math.floor(Date.now() / 1000),
+      };
+    }
+
+    if (!executionResult) {
+      executionResult = {
+        success: false,
+        error: "Unknown execution outcome (no result recorded)",
         executedAt: Math.floor(Date.now() / 1000),
       };
     }
@@ -392,6 +477,42 @@ export class MockSentinelWalletManager {
     this.client = mockClient as any;
     this.wallet = mockWallet;
     this.policyConfig.walletAddress = mockWallet.address;
+  }
+
+  /**
+   * Connect to an existing wallet in mock mode.
+   * Restores payment-agent policy hooks, configures owner EOA, and updates policyConfig.
+   */
+  connectWallet(walletAddress: Address, ownerAddress?: Address): AgentWallet {
+    this.policyConfig.walletAddress = walletAddress;
+    this.wallet = {
+      address: walletAddress,
+      owner: ownerAddress ?? ("0x86ce071Fa058AF96b574aE2A4d646193f6a32321" as Address),
+      chain: baseSepolia,
+      isDeployed: true,
+      policies: [
+        {
+          moduleAddress: "0xd67a5E6784A66Ddf4C09EA7bbf81Ab89532624E4" as Address,
+          moduleType: 4,
+          name: "SpendingLimitHook",
+          config: { dailyLimit: this.policyConfig.dailyLimitAmount } as any,
+        },
+        {
+          moduleAddress: "0x7899b03386A3874393A3769D637977d947A9Fc66" as Address,
+          moduleType: 4,
+          name: "AllowlistHook",
+          config: { approvedRecipients: this.policyConfig.approvedRecipients } as any,
+        },
+        {
+          moduleAddress: "0xAc0cE5672aED1Bfe5549b885f883a770Acd8cAE3" as Address,
+          moduleType: 4,
+          name: "EmergencyPauseHook",
+          config: { isPaused: this.policyConfig.isPaused } as any,
+        },
+      ],
+      sessions: [],
+    };
+    return this.wallet;
   }
 
   async executeIntent(intent: TransactionIntent): Promise<TPDRRecord> {
